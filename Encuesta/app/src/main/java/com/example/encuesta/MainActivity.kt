@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     private var text:TextView=findViewById(R.id.txtResumen)
 
     fun validar(view:View){
+
         var sisAux:String=""
         var espeAux:String=""
         var nombre:EditText=findViewById(R.id.etxtNombre)
