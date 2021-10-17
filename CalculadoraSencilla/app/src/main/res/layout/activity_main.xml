@@ -125,6 +125,7 @@
                 android:id="@+id/btnComa"
                 android:layout_width="wrap_content"
                 android:layout_height="81dp"
+                android:onClick="coma"
                 android:text="," />
 
             <Button
@@ -159,6 +160,7 @@
             android:id="@+id/btnDEL"
             android:layout_width="match_parent"
             android:layout_height="65.2dp"
+            android:onClick="borrar"
             android:text="DEL" />
 
         <Button

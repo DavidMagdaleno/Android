@@ -74,33 +74,41 @@ class MainActivity : AppCompatActivity() {
         result.setText(result.text.toString()+"/")
         operacion=4
     }
-    fun borrar(view: View){
-
+    fun coma(view: View){
         var result:EditText=findViewById(R.id.etxtResultado)
-        result.setText(result.text.toString()+"")
+        result.setText(result.text.toString()+".")
+    }
+    fun borrar(view: View){
+        var result:EditText=findViewById(R.id.etxtResultado)
+        result.setText("")
 
     }
     fun igual(view: View){
         var result:EditText=findViewById(R.id.etxtResultado)
-        val lstValues: List<String> = result.text .split("+").map { it }
-        Log.i("Values", "value=${result.text.toString()}")
-        //result.text[0].toString()
-        var num:Int=0
+        //Log.i("Values2", "value=${result.text.lines().count()}")
+        var resultAux=result.text.lines()[result.text.lines().count()-1]
+        //Log.i("Values", "value=${resultAux}")
+        var lstValues: List<String> = emptyList()
         when(operacion){
-            1 -> lstValues.forEach { it ->
-                num=num+it.toInt()
-                }
-            2 -> lstValues.forEach { it ->
-                num=num-it.toInt()
-                }
-            3 -> lstValues.forEach { it ->
-                num=num*it.toInt()
-                }
-            4 -> lstValues.forEach { it ->
-                num=num/it.toInt()
-                }
+            1-> lstValues=resultAux .split("+").map { it }
+            2-> lstValues=resultAux .split("-").map { it }
+            3-> lstValues=resultAux .split("x").map { it }
+            4-> lstValues=resultAux .split("/").map { it }
         }
-        result.text.append("\r\n"+num.toString())
+        if(lstValues.size>3){
+            result.text.append("ERROR: Mas de una operacion")
+        }else{
+            //Log.i("Values", "value=${result.text.toString()}")
+            var num:Float= 0F
+            var num2:Float= 0F
+            when(operacion){
+                1 ->  lstValues.forEach { it ->  num=num+it.toFloat()  }
+                2 -> lstValues.forEach { it ->   num=num-it.toFloat()  }
+                3 -> lstValues.forEach { it ->   num=num*it.toFloat()  }
+                4 -> lstValues.forEach { it ->   num=num/it.toFloat()  }
+            }
+            result.text.append("\r\n"+num.toString())
+        }
     }
 
 }
