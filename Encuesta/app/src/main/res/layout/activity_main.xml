@@ -31,9 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
+            android:enabled="true"
             android:inputType="textPersonName"
-            android:minHeight="48dp"
-            tools:text="Tu Nombre" />
+            android:minHeight="48dp" />
 
         <Switch
             android:id="@+id/swAnonimo"

@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         if(anonimo.isChecked){
             nomAux="Anonimo"
+            nombre.isEnabled=false
         }else{
             nomAux=nombre.text.toString()
         }
