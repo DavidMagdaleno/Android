@@ -5,11 +5,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        progresoSeekbar()
     }
     var lista= arrayListOf<Persona>()
 
@@ -45,8 +50,6 @@ class MainActivity : AppCompatActivity() {
         if(espeDAW.isChecked){persona.asig(espeDAW.text.toString())}
 
         var hora:SeekBar=findViewById(R.id.sbHoras)
-        var numHoras:TextView=findViewById(R.id.txtNhoras)
-        numHoras.text= hora.progress.toString()
         persona.setHoras(hora.progress)
 
         //Log.e("David",persona.toString())---para comprobar la salida
@@ -62,6 +65,23 @@ class MainActivity : AppCompatActivity() {
         espeASIR.isChecked=false
         hora.progress=0
 
+    }
+    fun progresoSeekbar(){
+        var hora:SeekBar=findViewById(R.id.sbHoras)
+        var numHoras:TextView=findViewById(R.id.txtNhoras)
+        hora.setOnSeekBarChangeListener(
+            object : OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar,
+                    progress: Int, fromUser: Boolean
+                ) {
+                    numHoras.setText("$progress")
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar) {}
+
+                override fun onStopTrackingTouch(seekBar: SeekBar) {}
+            })
     }
 
     //fun reiniciar(view: View){}
