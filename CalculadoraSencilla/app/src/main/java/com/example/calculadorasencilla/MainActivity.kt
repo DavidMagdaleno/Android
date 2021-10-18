@@ -108,8 +108,18 @@ class MainActivity : AppCompatActivity() {
             var cont:Int=0
             when(operacion){
                 1 ->  lstValues.forEach { it ->  num=num+it.toFloat()  }
-                2 -> lstValues.forEach { it ->   num=num-it.toFloat()  }
-                3 -> lstValues.forEach { it ->   num=num*it.toFloat()  }
+                2 -> lstValues.forEach { it ->   num=it.toFloat()
+                                                if(cont==0){
+                                                    num2=num
+                                                    cont++
+                                                }
+                                                num=num2-num  }
+                3 -> lstValues.forEach { it ->  num=it.toFloat()
+                                                if(cont==0){
+                                                    num2=num
+                                                    cont++
+                                                }
+                                                num=num2*num  }
                 4 -> lstValues.forEach { it ->   try{   num=it.toFloat()
                                                         if(cont==0){
                                                             num2=num
