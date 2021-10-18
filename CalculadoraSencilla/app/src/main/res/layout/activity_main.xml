@@ -157,37 +157,44 @@
         app:layout_constraintVertical_bias="0.019">
 
         <Button
+            android:id="@+id/btnC"
+            android:layout_width="match_parent"
+            android:layout_height="54.33dp"
+            android:onClick="borrar"
+            android:text="C" />
+
+        <Button
             android:id="@+id/btnDEL"
             android:layout_width="match_parent"
-            android:layout_height="65.2dp"
-            android:onClick="borrar"
+            android:layout_height="54.33dp"
+            android:onClick="borrarUltimo"
             android:text="DEL" />
 
         <Button
             android:id="@+id/btnDividir"
             android:layout_width="match_parent"
-            android:layout_height="65.2dp"
+            android:layout_height="54.33dp"
             android:onClick="dividir"
             android:text="/" />
 
         <Button
             android:id="@+id/btnMulti"
             android:layout_width="match_parent"
-            android:layout_height="65.2dp"
+            android:layout_height="54.33dp"
             android:onClick="multiplicar"
             android:text="X" />
 
         <Button
             android:id="@+id/btnResta"
             android:layout_width="match_parent"
-            android:layout_height="65.2dp"
+            android:layout_height="54.33dp"
             android:onClick="resta"
             android:text="-" />
 
         <Button
             android:id="@+id/btnSuma"
             android:layout_width="match_parent"
-            android:layout_height="65.2dp"
+            android:layout_height="54.33dp"
             android:onClick="suma"
             android:text="+" />
     </LinearLayout>

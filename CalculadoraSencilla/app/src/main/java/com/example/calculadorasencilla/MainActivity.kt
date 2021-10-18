@@ -80,10 +80,17 @@ class MainActivity : AppCompatActivity() {
     }
     fun borrar(view: View){
         var result:EditText=findViewById(R.id.etxtResultado)
-        result.setText("")
+        result.text.clear()
+    }
 
+    fun borrarUltimo(view: View){
+        var result:EditText=findViewById(R.id.etxtResultado)
+        var resultAux=result.text.lines()[result.text.lines().count()-1]
+        resultAux=resultAux.removeSuffix(resultAux[resultAux.length-1].toString())
+        result.setText(resultAux)
     }
     fun igual(view: View){
+        var valido:Boolean=true
         var result:EditText=findViewById(R.id.etxtResultado)
         //Log.i("Values2", "value=${result.text.lines().count()}")
         var resultAux=result.text.lines()[result.text.lines().count()-1]
@@ -95,20 +102,38 @@ class MainActivity : AppCompatActivity() {
             3-> lstValues=resultAux .split("x").map { it }
             4-> lstValues=resultAux .split("/").map { it }
         }
-        if(lstValues.size>3){
-            result.text.append("ERROR: Mas de una operacion")
-        }else{
-            //Log.i("Values", "value=${result.text.toString()}")
+        try{
             var num:Float= 0F
             var num2:Float= 0F
+            var cont:Int=0
             when(operacion){
                 1 ->  lstValues.forEach { it ->  num=num+it.toFloat()  }
                 2 -> lstValues.forEach { it ->   num=num-it.toFloat()  }
                 3 -> lstValues.forEach { it ->   num=num*it.toFloat()  }
-                4 -> lstValues.forEach { it ->   num=num/it.toFloat()  }
+                4 -> lstValues.forEach { it ->   try{   num=it.toFloat()
+                                                        if(cont==0){
+                                                            num2=num
+                                                            cont++
+                                                        }
+                                                        if(num>0){num=num2/num}else{
+                                                            result.text.append("\r\n ERROR: division entre 0 \r\n")
+                                                            valido=false
+                                                        }
+                                                    }catch (e: ArithmeticException){ result.text.append("\r\n"+e.message+"\r\n") }
+                                        }
             }
-            result.text.append("\r\n"+num.toString())
+            if(valido){
+                if(result.text.lines().count()>1){
+                    resultAux=result.text.lines()[1]
+                    result.text.clear()
+                    result.text.append(resultAux)
+                }
+                result.text.append("\r\n"+num.toString())
+            }
+        }catch(e: Exception){
+            result.text.append("\r\n ERROR: Mas de una operacion\r\n")
         }
     }
+
 
 }
