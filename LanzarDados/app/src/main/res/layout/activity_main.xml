@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/imgDadojugador"
+    android:id="@+id/idlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="TirarDado"
     tools:context=".MainActivity">
 
     <TextView
@@ -22,6 +23,7 @@
         android:id="@+id/btnDadojugador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="TirarDado"
         android:text="Tirar Dado"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,6 +31,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtDadojugador"
         app:layout_constraintVertical_bias="0.037" />
+
+    <ImageView
+        android:id="@+id/imgDadojugador"
+        android:layout_width="135dp"
+        android:layout_height="123dp"
+        android:layout_marginTop="4dp"
+        android:onClick="TirarDado"
+        app:layout_constraintBottom_toTopOf="@+id/txtDadoPC"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnDadojugador"
+        app:layout_constraintVertical_bias="0.384"
+        app:srcCompat="@drawable/dado" />
 
     <TextView
         android:id="@+id/txtDadoPC"
@@ -40,43 +55,32 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.387" />
+        app:layout_constraintVertical_bias="0.442" />
 
     <ImageView
-        android:id="@+id/imgDadojugador"
+        android:id="@+id/imgDadoPc"
         android:layout_width="135dp"
         android:layout_height="123dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtDadoPC"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnDadojugador"
-        app:layout_constraintVertical_bias="0.384"
-        tools:srcCompat="@drawable/Dado" />
-
-    <ImageView
-        android:id="@+id/imgDadoPC"
-        android:layout_width="138dp"
-        android:layout_height="133dp"
+        android:layout_marginTop="36dp"
+        android:onClick="TirarDado"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtDadoPC"
-        app:layout_constraintVertical_bias="0.098"
-        app:srcCompat="@drawable/Dado" />
+        app:layout_constraintVertical_bias="0.14"
+        app:srcCompat="@drawable/dado" />
 
     <Button
         android:id="@+id/btnJugar"
         android:layout_width="217dp"
         android:layout_height="71dp"
-        android:layout_marginTop="32dp"
         android:enabled="false"
         android:text="Volver a Jugar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgDadoPC"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/imgDadoPc"
+        app:layout_constraintVertical_bias="0.368" />
 
     <TextView
         android:id="@+id/txtGanador"
