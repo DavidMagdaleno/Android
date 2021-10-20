@@ -17,10 +17,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.043" />
+        app:layout_constraintVertical_bias="0.043"
+        style="@style/mistxtview"
+        />
 
     <Button
         android:id="@+id/btnDadojugador"
+        style="@style/misbotones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="TirarDado"
@@ -55,7 +58,9 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.442" />
+        app:layout_constraintVertical_bias="0.442"
+        style="@style/mistxtview"
+        />
 
     <ImageView
         android:id="@+id/imgDadoPc"
@@ -72,9 +77,11 @@
 
     <Button
         android:id="@+id/btnJugar"
+        style="@style/misbotones"
         android:layout_width="217dp"
         android:layout_height="71dp"
         android:enabled="false"
+        android:onClick="volverajugar"
         android:text="Volver a Jugar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,6 +93,7 @@
         android:id="@+id/txtGanador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/txtganador"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
