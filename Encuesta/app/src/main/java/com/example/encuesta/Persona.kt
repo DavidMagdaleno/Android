@@ -1,6 +1,8 @@
 package com.example.encuesta
 
-class Persona {
+import java.io.Serializable
+
+class Persona : Serializable{
     private var nombre:String=""
     private var sistema:String=""
     private var especialidad:String=""

@@ -249,6 +249,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="6dp"
             android:layout_weight="1"
+            android:onClick="reiniciar"
             android:text="REINICIAR"
             android:textSize="12sp" />
 
