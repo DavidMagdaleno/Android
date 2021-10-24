@@ -24,8 +24,10 @@ class MainActivity : AppCompatActivity() {
     var lista= arrayListOf<Persona>()
     lateinit var p:Persona
     lateinit var intentMain: Intent
+    var cont:Int=0
 
     fun validar(view:View){
+
         intentMain=  Intent(this,Resumen::class.java)
         var sisAux:String=""
         var nomAux:String=""
@@ -65,7 +67,11 @@ class MainActivity : AppCompatActivity() {
 
         //Log.e("David",persona.toString())---para comprobar la salida
 
-        intentMain.putExtra("personas",p)
+        intentMain.putExtra(cont.toString(),p)
+        cont++
+
+
+
         //enviar el intent antes de a activar la segunda activity-------------------------------------------------
         //PendingIntent.getActivity(getApplicationContext(),1,intentMain,Intent.FILL_IN_COMPONENT)
 
@@ -100,17 +106,11 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    /*fun reiniciar(view: View){
-        anonimo.isChecked=false
-        nombre.setText("")
-        sisMac.isChecked=false
-        sisWin.isChecked=false
-        sisLin.isChecked=false
-        espeDAM.isChecked=false
-        espeDAW.isChecked=false
-        espeASIR.isChecked=false
-        hora.progress=0
-    }*/
+    fun reiniciar(view: View){
+        var intentActual=Intent()
+        finish()
+        startActivity(intentActual)
+    }
 
     fun cuantas(view:View){
         var texto:TextView=findViewById(R.id.txtResumen)
@@ -118,6 +118,7 @@ class MainActivity : AppCompatActivity() {
         texto.text="Hay "+lista.size.toString()+" personas en la lista"
     }
     fun resumen(view: View){
+        intentMain.putExtra("contador",cont.toString())
         startActivity(intentMain)
         //var texto:TextView=findViewById(R.id.txtResumen)
         //texto.text=""

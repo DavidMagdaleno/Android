@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Carrera">
+
+    <TextView
+        android:id="@+id/lblC1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.053" />
+
+    <TextView
+        android:id="@+id/lblC2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblC1"
+        app:layout_constraintVertical_bias="0.042" />
+
+    <TextView
+        android:id="@+id/lblC3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblC2"
+        app:layout_constraintVertical_bias="0.057" />
+
+    <TextView
+        android:id="@+id/lblC4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.141"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblC3"
+        app:layout_constraintVertical_bias="0.05" />
+
+    <ProgressBar
+        android:id="@+id/pbC1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="182dp"
+        android:layout_height="21dp"
+        android:max="100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.906"
+        app:layout_constraintStart_toEndOf="@+id/lblC1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.053" />
+
+    <ProgressBar
+        android:id="@+id/pbC2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="182dp"
+        android:layout_height="21dp"
+        android:max="100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.906"
+        app:layout_constraintStart_toEndOf="@+id/lblC2"
+        app:layout_constraintTop_toBottomOf="@+id/pbC1"
+        app:layout_constraintVertical_bias="0.036" />
+
+    <ProgressBar
+        android:id="@+id/pbC3"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="182dp"
+        android:layout_height="21dp"
+        android:max="100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.906"
+        app:layout_constraintStart_toEndOf="@+id/lblC2"
+        app:layout_constraintTop_toBottomOf="@+id/pbC2"
+        app:layout_constraintVertical_bias="0.059" />
+
+    <ProgressBar
+        android:id="@+id/pbC4"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="182dp"
+        android:layout_height="21dp"
+        android:max="100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.906"
+        app:layout_constraintStart_toEndOf="@+id/lblC2"
+        app:layout_constraintTop_toBottomOf="@+id/pbC3"
+        app:layout_constraintVertical_bias="0.047" />
+
+    <Button
+        android:id="@+id/btnIniciar"
+        android:layout_width="147dp"
+        android:layout_height="49dp"
+        android:onClick="Iniciar"
+        android:text="Iniciar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblC4"
+        app:layout_constraintVertical_bias="0.49" />
+
+    <Button
+        android:id="@+id/btnVolver"
+        android:layout_width="147dp"
+        android:layout_height="49dp"
+        android:text="Volver"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.564"
+        app:layout_constraintStart_toEndOf="@+id/btnIniciar"
+        app:layout_constraintTop_toBottomOf="@+id/pbC4"
+        app:layout_constraintVertical_bias="0.488" />
+
+    <TextView
+        android:id="@+id/lblPodio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Podio"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pbC4"
+        app:layout_constraintVertical_bias="0.089" />
+
+    <TextView
+        android:id="@+id/txtPodio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblPodio"
+        app:layout_constraintVertical_bias="0.065" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
