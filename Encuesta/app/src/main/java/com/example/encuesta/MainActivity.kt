@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
         //Log.e("David",persona.toString())---para comprobar la salida
 
-        intentMain.putExtra(cont.toString(),p)
+        intentMain.putExtra("personas",p)
         cont++
 
 

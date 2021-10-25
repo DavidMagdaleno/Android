@@ -1,21 +1,34 @@
 package com.example.camellos.Auxiliar
 
 import android.util.Log
+import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.TextView
 import com.example.camellos.Carrera
 import kotlin.random.Random
 
-class HiloC2(var bp: ProgressBar):Thread() {
+class HiloC2(var bp: ProgressBar, var camello: TextView, var podio:EditText):Thread() {
 
-    var llegada:Boolean=false
-
+    var j=Carrera()
     override fun run() {
         while(bp.progress!=bp.max){
             bp.progress+=pasos()
             Thread.sleep(1000)
             if(bp.progress==bp.max){
-                llegada=true
+
                 Podio.podio.add("c2")
+                Log.i("valor2", "ha llegado")
+
+                //for(ani in Podio.podio){
+                    if(Podio.podio.size>=4){
+                        Log.i("valorfinal", Podio.podio.toString())
+
+                        j.ganadores()
+                        Log.i("valor12", "lo ha llamado")
+                        //podio.append(ani + "\r\n")
+                    }
+                //}
+
             }
         }
     }

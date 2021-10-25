@@ -1,5 +1,9 @@
 package com.example.camellos.Auxiliar
 
- object Podio {
+import com.example.camellos.Carrera
+
+object Podio {
     var podio=arrayListOf<String>()
+
+
 }
