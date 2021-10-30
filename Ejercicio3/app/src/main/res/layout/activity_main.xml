@@ -58,79 +58,26 @@
         app:layout_constraintTop_toBottomOf="@+id/txtN1"
         app:layout_constraintVertical_bias="0.153" />
 
-    <Button
-        android:id="@+id/btnPulsar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="alpulsarboton"
-        android:text="PULSAME"
+    <ListView
+        android:id="@+id/lstOperador"
+        android:layout_width="356dp"
+        android:layout_height="160dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.551" />
+        app:layout_constraintTop_toBottomOf="@+id/etxtN2"
+        app:layout_constraintVertical_bias="0.118" />
 
-    <TextView
-        android:id="@+id/txtR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Resultado:"
-        android:visibility="invisible"
+    <Spinner
+        android:id="@+id/spItem"
+        android:layout_width="190dp"
+        android:layout_height="37dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.686" />
-
-    <TextView
-        android:id="@+id/txtResultado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toEndOf="@+id/txtR"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.685" />
-
-    <RadioGroup
-        android:layout_width="419dp"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.426">
-
-        <RadioButton
-            android:id="@+id/rbtnSumar"
-            android:layout_width="102dp"
-            android:layout_height="wrap_content"
-            android:text="+" />
-
-        <RadioButton
-            android:id="@+id/rbtnRestar"
-            android:layout_width="101dp"
-            android:layout_height="wrap_content"
-            android:text="-" />
-
-        <RadioButton
-            android:id="@+id/rbtnMulti"
-            android:layout_width="64dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="X"
-            android:textAlignment="inherit" />
-
-        <RadioButton
-            android:id="@+id/rbtnDivi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="/" />
-
-    </RadioGroup>
+        app:layout_constraintTop_toBottomOf="@+id/lstOperador"
+        app:layout_constraintVertical_bias="0.123" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
