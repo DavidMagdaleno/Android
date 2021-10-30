@@ -73,6 +73,8 @@
         android:id="@+id/spItem"
         android:layout_width="190dp"
         android:layout_height="37dp"
+        android:prompt="@string/titleSpinner"
+        android:spinnerMode="dialog"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
