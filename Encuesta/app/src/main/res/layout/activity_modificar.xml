@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Modificar">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -46,39 +46,28 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/txtSO"
+        android:id="@+id/txtSO3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sistema Operativo Preferido"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintHorizontal_bias="0.046"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.036" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="409dp"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.02" />
+        app:layout_constraintTop_toBottomOf="@+id/divider9"
+        app:layout_constraintVertical_bias="0.026" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="156dp"
-        android:layout_height="144dp"
+        android:layout_width="176dp"
+        android:layout_height="143dp"
+        android:layout_marginBottom="460dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.248"
+        app:layout_constraintHorizontal_bias="0.068"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
-        app:layout_constraintVertical_bias="0.079">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.873">
 
         <RadioButton
             android:id="@+id/rbtnMac"
@@ -100,191 +89,167 @@
     </RadioGroup>
 
     <View
-        android:id="@+id/divider2"
+        android:id="@+id/divider11"
         android:layout_width="409dp"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup"
-        app:layout_constraintVertical_bias="0.019" />
-
-    <TextView
-        android:id="@+id/txtEspe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Especialidad"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.031"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider2"
-        app:layout_constraintVertical_bias="0.031" />
+        app:layout_constraintVertical_bias="0.03" />
 
     <CheckBox
-        android:id="@+id/cbDAM"
+        android:id="@+id/cbASIR3"
         android:layout_width="83dp"
         android:layout_height="48dp"
-        android:text="DAM"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.192"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider2"
-        app:layout_constraintVertical_bias="0.103" />
-
-    <CheckBox
-        android:id="@+id/cbASIR"
-        android:layout_width="83dp"
-        android:layout_height="48dp"
+        android:layout_marginBottom="304dp"
         android:text="ASIR"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.191"
+        app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbDAM"
+        app:layout_constraintTop_toBottomOf="@+id/cbDAM3"
         app:layout_constraintVertical_bias="0.0" />
 
     <CheckBox
-        android:id="@+id/cbDAW"
+        android:id="@+id/cbDAW3"
         android:layout_width="83dp"
         android:layout_height="48dp"
+        android:layout_marginBottom="256dp"
         android:text="DAW"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.192"
+        app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbASIR"
+        app:layout_constraintTop_toBottomOf="@+id/cbASIR3"
         app:layout_constraintVertical_bias="0.0" />
 
+    <TextView
+        android:id="@+id/txtEspe3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="416dp"
+        android:text="Especialidad"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.033"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider11"
+        app:layout_constraintVertical_bias="0.784" />
+
+    <CheckBox
+        android:id="@+id/cbDAM3"
+        android:layout_width="83dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="352dp"
+        android:text="DAM"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.091"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEspe3"
+        app:layout_constraintVertical_bias="0.592" />
+
     <View
-        android:id="@+id/divider3"
+        android:id="@+id/divider12"
         android:layout_width="409dp"
         android:layout_height="4dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbDAW"
-        app:layout_constraintVertical_bias="0.039" />
-
-    <TextView
-        android:id="@+id/txtHoras"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Horas de Estudio"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.031"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider3"
-        app:layout_constraintVertical_bias="0.052" />
-
-    <SeekBar
-        android:id="@+id/sbHoras"
-        android:layout_width="185dp"
-        android:layout_height="20dp"
-        android:max="8"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.174"
-        app:layout_constraintStart_toEndOf="@+id/txtHoras"
-        app:layout_constraintTop_toBottomOf="@+id/divider3"
-        app:layout_constraintVertical_bias="0.053" />
-
-    <TextView
-        android:id="@+id/txtNhoras"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sbHoras"
-        app:layout_constraintTop_toBottomOf="@+id/divider3"
-        app:layout_constraintVertical_bias="0.052" />
-
-    <View
-        android:id="@+id/divider4"
-        android:layout_width="409dp"
-        android:layout_height="1dp"
+        android:layout_marginBottom="240dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sbHoras"
-        app:layout_constraintVertical_bias="0.047" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="412dp"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider4"
-        app:layout_constraintVertical_bias="0.0">
-
-        <Button
-            android:id="@+id/btnValidar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="6dp"
-            android:layout_weight="1"
-            android:lineSpacingExtra="8sp"
-            android:onClick="validar"
-            android:text="Validar"
-            android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/btnReset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="6dp"
-            android:layout_weight="1"
-            android:onClick="reiniciar"
-            android:text="REINICIAR"
-            android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/btnCuantas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="6dp"
-            android:layout_weight="1"
-            android:onClick="cuantas"
-            android:text="CUANTAS"
-            android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/btnResumen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:onClick="resumen"
-            android:text="RESUMEN"
-            android:textSize="12sp" />
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/cbDAW3"
+        app:layout_constraintVertical_bias="0.8" />
 
     <TextView
-        android:id="@+id/txtResumen"
-        android:layout_width="408dp"
-        android:layout_height="157dp"
+        android:id="@+id/txtHoras3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="208dp"
+        android:text="Horas de Estudio"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.423"
+        app:layout_constraintHorizontal_bias="0.036"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.888" />
+        app:layout_constraintTop_toBottomOf="@+id/divider12"
+        app:layout_constraintVertical_bias="0.978" />
 
+    <SeekBar
+        android:id="@+id/sbHoras3"
+        android:layout_width="185dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="208dp"
+        android:max="8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.175"
+        app:layout_constraintStart_toEndOf="@+id/txtHoras3"
+        app:layout_constraintTop_toBottomOf="@+id/divider12"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/txtNhoras2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="208dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/sbHoras3"
+        app:layout_constraintTop_toBottomOf="@+id/divider3"
+        app:layout_constraintVertical_bias="0.052" />
+
+    <View
+        android:id="@+id/divider13"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:layout_marginBottom="188dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sbHoras3"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/btnGuardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="guardar"
+        android:text="Guardar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.215"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider13"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <Button
+        android:id="@+id/btnCancelar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="cancelar"
+        android:text="Cancelar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toEndOf="@+id/btnGuardar"
+        app:layout_constraintTop_toBottomOf="@+id/divider13"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <View
+        android:id="@+id/divider9"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.32" />
 </androidx.constraintlayout.widget.ConstraintLayout>

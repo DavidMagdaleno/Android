@@ -24,11 +24,11 @@ class MainActivity : AppCompatActivity() {
     var lista= arrayListOf<Persona>()
     lateinit var p:Persona
     lateinit var intentMain: Intent
-    var cont:Int=0
 
     fun validar(view:View){
 
-        intentMain=  Intent(this,Resumen::class.java)
+        //intentMain=  Intent(this,Resumen::class.java)--para el ejerccio anterior
+        intentMain=  Intent(this,ResumenListViews::class.java)
         var sisAux:String=""
         var nomAux:String=""
         var anonimo:Switch=findViewById(R.id.swAnonimo)
@@ -67,15 +67,8 @@ class MainActivity : AppCompatActivity() {
 
         //Log.e("David",persona.toString())---para comprobar la salida
 
-        intentMain.putExtra("personas",p)
-        cont++
+        lista.add(p)
 
-
-
-        //enviar el intent antes de a activar la segunda activity-------------------------------------------------
-        //PendingIntent.getActivity(getApplicationContext(),1,intentMain,Intent.FILL_IN_COMPONENT)
-
-        lista.add(p)//lo dejo para poder mostrar el numero de personas
 
         anonimo.isChecked=false
         nombre.setText("")
@@ -118,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         texto.text="Hay "+lista.size.toString()+" personas en la lista"
     }
     fun resumen(view: View){
-        intentMain.putExtra("contador",cont.toString())
+        intentMain.putExtra("Personas",lista)
         startActivity(intentMain)
         //var texto:TextView=findViewById(R.id.txtResumen)
         //texto.text=""

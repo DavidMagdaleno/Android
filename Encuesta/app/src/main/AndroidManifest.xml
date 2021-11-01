@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Encuesta">
         <activity
+            android:name=".Modificar"
+            android:exported="true" />
+        <activity
+            android:name=".ResumenListViews"
+            android:exported="true" />
+        <activity
             android:name=".Resumen"
             android:exported="true" />
         <activity
