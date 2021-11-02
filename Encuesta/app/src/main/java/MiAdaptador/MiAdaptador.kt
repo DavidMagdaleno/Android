@@ -45,8 +45,8 @@ class MiAdaptador : ArrayAdapter<Int> {
         if(view==null){
             if (this.context != null) {
                 view = context.layoutInflater.inflate(this.resource, null)
-                var txtItem: TextView = view.findViewById(R.id.lbllstResumen)
-                var imagen: ImageView = view.findViewById(R.id.imgResumen)
+                holder.txtItem = view.findViewById(R.id.lbllstResumen)
+                holder.imagen = view.findViewById(R.id.imgResumen)
                 view.tag=holder
             }
         }else{
