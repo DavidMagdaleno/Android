@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.example.encuesta.Persona
 import com.example.encuesta.R
 
@@ -40,29 +41,40 @@ class MiAdaptador : ArrayAdapter<Int> {
      */
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var view: View? = convertView
-        if (this.context != null) {
-            view = context.layoutInflater.inflate(this.resource, null)
-            var txtItem: TextView = view.findViewById(R.id.lbllstResumen)
-            var imagen: ImageView = view.findViewById(R.id.imgResumen)
+        var holder = ViewHolder()
+        if(view==null){
+            if (this.context != null) {
+                view = context.layoutInflater.inflate(this.resource, null)
+                var txtItem: TextView = view.findViewById(R.id.lbllstResumen)
+                var imagen: ImageView = view.findViewById(R.id.imgResumen)
+                view.tag=holder
+            }
+        }else{
+            holder=view?.tag as ViewHolder
+        }
             var valor: Persona = this.valores!![position]
-            txtItem.text = valor.getNombre()+"\r\n"
-            txtItem.append(valor.getSistema())
+            holder.txtItem?.text = valor.getNombre()+"\r\n"
+            holder.txtItem?.append(valor.getSistema())
             if (valor.getSistema().equals("Linux")) {
-                with(imagen) {setImageResource(R.drawable.linux)}
+                with(holder.imagen) {this?.setImageResource(R.drawable.linux)}
             }
             if (valor.getSistema().equals("Windows")) {
-                with(imagen) {setImageResource(R.drawable.windows)}
+                with(holder.imagen) {this?.setImageResource(R.drawable.windows)}
             }
             if (valor.getSistema().equals("Mac")) {
-                with(imagen) {setImageResource(R.drawable.mac)}
+                with(holder.imagen) {this?.setImageResource(R.drawable.mac)}
             }
             if (position==seleccionado) {
-                with(txtItem) { setBackgroundResource(R.color.purple_200)}
+                with(holder.txtItem) { this?.setBackgroundResource(R.color.purple_200)}
                 //with(imagen) {
                 //setImageResource(R.drawable.ic_baseline_perm_identity_24)
                 //}
             }
-        }
+
         return view!!
+    }
+    class ViewHolder(){
+        var txtItem:TextView? = null
+        var imagen:ImageView? = null
     }
 }

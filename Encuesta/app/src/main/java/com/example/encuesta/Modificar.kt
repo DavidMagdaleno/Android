@@ -18,6 +18,7 @@ class Modificar : AppCompatActivity() {
         var posicion = intent!!.getIntExtra("posicion",-1)
         var persona=Encuestados.lista[posicion]
 
+
         var anoni:Switch=findViewById(R.id.swAnonimo)
         var nombre:EditText=findViewById(R.id.etxtNombre)
         var sisMac: RadioButton =findViewById(R.id.rbtnMac)
@@ -28,6 +29,7 @@ class Modificar : AppCompatActivity() {
         var espeDAW:CheckBox=findViewById(R.id.cbDAW3)
         var hora: SeekBar =findViewById(R.id.sbHoras3)
         var numHoras:TextView=findViewById(R.id.txtNhoras2)
+
 
         hora.progress=0
 
