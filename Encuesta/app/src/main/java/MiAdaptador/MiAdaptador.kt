@@ -45,7 +45,7 @@ class MiAdaptador : ArrayAdapter<Int> {
             var txtItem: TextView = view.findViewById(R.id.lbllstResumen)
             var imagen: ImageView = view.findViewById(R.id.imgResumen)
             var valor: Persona = this.valores!![position]
-            txtItem.text = valor.getNombre()
+            txtItem.text = valor.getNombre()+"\r\n"
             txtItem.append(valor.getSistema())
             if (valor.getSistema().equals("Linux")) {
                 with(imagen) {setImageResource(R.drawable.linux)}

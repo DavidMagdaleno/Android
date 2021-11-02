@@ -1,5 +1,6 @@
 package com.example.encuesta
 
+import Auxiliar.Encuestados
 import android.app.Activity
 import android.app.PendingIntent
 import android.content.Intent
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         progresoSeekbar()
 
     }
-    var lista= arrayListOf<Persona>()
+    //var lista= arrayListOf<Persona>()
     lateinit var p:Persona
     lateinit var intentMain: Intent
 
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 
         //Log.e("David",persona.toString())---para comprobar la salida
 
-        lista.add(p)
+        Encuestados.lista.add(p)
 
 
         anonimo.isChecked=false
@@ -108,17 +109,11 @@ class MainActivity : AppCompatActivity() {
     fun cuantas(view:View){
         var texto:TextView=findViewById(R.id.txtResumen)
         texto.text=""
-        texto.text="Hay "+lista.size.toString()+" personas en la lista"
+        texto.text="Hay "+Encuestados.lista.size.toString()+" personas en la lista"
     }
     fun resumen(view: View){
-        intentMain.putExtra("Personas",lista)
+        //intentMain.putExtra("Personas",lista)
         startActivity(intentMain)
-        //var texto:TextView=findViewById(R.id.txtResumen)
-        //texto.text=""
-        //for(any in lista){
-               //Log.e("David",any.toString())---para comprobar la salida
-            //texto.append(any.toString()+"\r\n")
-        //}
     }
 
 }

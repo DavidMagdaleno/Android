@@ -1,5 +1,6 @@
 package com.example.encuesta
 
+import Auxiliar.Encuestados
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +14,9 @@ class Modificar : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_modificar)
 
-        var persona = intent.getSerializableExtra("Personas") as Persona
+        //var persona = intent.getSerializableExtra("Personas") as Persona
+        var posicion = intent!!.getIntExtra("posicion",-1)
+        var persona=Encuestados.lista[posicion]
 
         var anoni:Switch=findViewById(R.id.swAnonimo)
         var nombre:EditText=findViewById(R.id.etxtNombre)
@@ -77,6 +80,7 @@ class Modificar : AppCompatActivity() {
     lateinit var p:Persona
 
     fun guardar(view: View){
+        var posicion = intent!!.getIntExtra("posicion",-1)
         var sisAux:String=""
         var nomAux:String=""
         var anonimo:Switch=findViewById(R.id.swAnonimo)
@@ -111,10 +115,15 @@ class Modificar : AppCompatActivity() {
         var hora: SeekBar =findViewById(R.id.sbHoras3)
         p.setHoras(hora.progress)
 
-        val intent = Intent()
+        /*val intent = Intent()
         intent.putExtra("Personas",p)
 
         setResult(Activity.RESULT_OK, intent)
+
+         */
+        Encuestados.lista.removeAt(posicion)
+        Encuestados.lista.add(posicion,p)
+
         finish()
     }
 
