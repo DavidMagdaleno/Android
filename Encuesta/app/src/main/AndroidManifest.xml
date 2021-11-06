@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Encuesta">
         <activity
+            android:name=".Log"
+            android:exported="true" />
+        <activity
             android:name=".Modificar"
             android:exported="true" />
         <activity

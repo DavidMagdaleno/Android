@@ -1,6 +1,7 @@
 package com.example.encuesta
 
 import Auxiliar.Encuestados
+import Auxiliar.Fichero
 import android.app.Activity
 import android.app.PendingIntent
 import android.content.Intent
@@ -20,16 +21,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         progresoSeekbar()
+        var botonReusmen:Button=findViewById(R.id.btnResumen)
+        if(Encuestados.lista.isEmpty()){
+            botonReusmen.isEnabled=false
+        }
 
     }
-    //var lista= arrayListOf<Persona>()
+    var Fichero: Fichero = Fichero(Encuestados.log, this)
     lateinit var p:Persona
     lateinit var intentMain: Intent
 
     fun validar(view:View){
 
-        //intentMain=  Intent(this,Resumen::class.java)--para el ejerccio anterior
         intentMain=  Intent(this,ResumenListViews::class.java)
+
+        var botonReusmen:Button=findViewById(R.id.btnResumen)
+        botonReusmen.isEnabled=true
+
         var sisAux:String=""
         var nomAux:String=""
         var anonimo:Switch=findViewById(R.id.swAnonimo)
@@ -66,9 +74,9 @@ class MainActivity : AppCompatActivity() {
         var hora:SeekBar=findViewById(R.id.sbHoras)
         p.setHoras(hora.progress)
 
-        //Log.e("David",persona.toString())---para comprobar la salida
-
         Encuestados.lista.add(p)
+
+        Fichero.escribirLinea("Se ha validado una Persona",Encuestados.log)
 
 
         anonimo.isChecked=false
@@ -101,19 +109,48 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun reiniciar(view: View){
-        var intentActual=Intent()
-        finish()
-        startActivity(intentActual)
+        Fichero.escribirLinea("Se ha reiniciado la Encuesta",Encuestados.log)
+        var anonimo:Switch=findViewById(R.id.swAnonimo)
+        var nombre:EditText=findViewById(R.id.etxtNombre)
+        var sisMac:RadioButton=findViewById(R.id.rbtnMac)
+        var sisWin:RadioButton=findViewById(R.id.rbtnWindows)
+        var sisLin:RadioButton=findViewById(R.id.rbtnLinux)
+        var espeDAM:CheckBox=findViewById(R.id.cbDAM)
+        var espeASIR:CheckBox=findViewById(R.id.cbASIR)
+        var espeDAW:CheckBox=findViewById(R.id.cbDAW)
+        var hora:SeekBar=findViewById(R.id.sbHoras)
+        anonimo.isChecked=false
+        nombre.setText("")
+        sisMac.isChecked=false
+        sisWin.isChecked=false
+        sisLin.isChecked=false
+        espeDAM.isChecked=false
+        espeDAW.isChecked=false
+        espeASIR.isChecked=false
+        hora.progress=0
+        //var intentActual=Intent()
+        //finish()
+        //startActivity(intentActual)
     }
 
     fun cuantas(view:View){
         var texto:TextView=findViewById(R.id.txtResumen)
         texto.text=""
         texto.text="Hay "+Encuestados.lista.size.toString()+" personas en la lista"
+        Fichero.escribirLinea("Se ha visto el numero de Personas encuestadas",Encuestados.log)
     }
     fun resumen(view: View){
         //intentMain.putExtra("Personas",lista)
+        Fichero.escribirLinea("Se ha pasado a la vista Resumen",Encuestados.log)
         startActivity(intentMain)
+    }
+
+    fun verLog(view: View){
+        //intentMain=  Intent(this,Log::class.java)--no se puede modificar el intent?, que desde el main te puedas dirigir a varias ventanas distintas
+        //startActivity(intentMain)
+        var texto:TextView=findViewById(R.id.txtResumen)
+        Fichero = Fichero(Encuestados.log, this)
+        texto.append(Fichero.leerFichero(Encuestados.log))
     }
 
 }

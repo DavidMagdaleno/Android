@@ -16,12 +16,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        archivos()
     }
     //var lista= arrayListOf<String>()
-    var intentMain: Intent =  Intent(this,verNotas::class.java)
+    lateinit var intentMain: Intent
     override fun onStart() {
         super.onStart()
-        archivos()
+        intentMain =  Intent(this,verNotas::class.java)
+        //archivos()
         var ml: ListView = findViewById(R.id.lstNotas)
         var miAdaptadorModificado: MiAdaptador = MiAdaptador(ventanaactual,R.layout.notas,Notas.lista,seleccionado)
         ml.adapter = miAdaptadorModificado
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         ml.onItemClickListener = object: AdapterView.OnItemClickListener {
 
             override fun onItemClick(parent: AdapterView<*>?, vista: View?, pos: Int, idElemento: Long) {
+
                 var p = Notas.lista.get(pos)
                 Log.e("pasar nota",p)
                 if(pos==seleccionado){
@@ -48,13 +51,12 @@ class MainActivity : AppCompatActivity() {
 
     }
     var existe:Boolean=false
-    var nombre:EditText=findViewById(R.id.etxtNombre)
+
     var seleccionado:Int=-1
     var ventanaactual:MainActivity=this
-    var manejoFichero:Fichero = Fichero(nombre.text.toString(), this)
+
 
     fun archivos(){
-        //Con estas líneas podemos ver los ficheros definidos en la aplicación.
         for(i in 0..this.fileList().size-1)
         {
             Notas.lista.add(this.fileList().get(i))
@@ -62,8 +64,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun crearArchivo(view: View){
+        var nombre:EditText=findViewById(R.id.etxtNombre)
+        var manejoFichero:Fichero = Fichero(nombre.text.toString(), this)
         if(!manejoFichero.existeFichero()){
+            Notas.lista.add(nombre.text.toString())
+            intentMain =  Intent(this,verNotas::class.java)
             intentMain.putExtra("nombreFichero",nombre.text.toString())
+            Log.e("nombre",nombre.text.toString())
             startActivity(intentMain)
         }
     }

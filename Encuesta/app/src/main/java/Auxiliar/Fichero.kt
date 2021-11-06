@@ -24,12 +24,12 @@ class Fichero (var nombreFichero:String = "", var contexto: AppCompatActivity){
             archivo.use { it.write(linea + "\r\n") }
             archivo.close()
         } catch (e: IOException) {
-            Log.e("Fernando",e.toString())
+            Log.e("ERROR",e.toString())
         }
     }
 
-    fun leerFichero():String {
-        val archivo = InputStreamReader(this.contexto.openFileInput(nombreFichero))
+    fun leerFichero(nom:String):String {
+        val archivo = InputStreamReader(this.contexto.openFileInput(nom))
         val br = BufferedReader(archivo)
         var linea = br.readLine()
         val todo = StringBuilder()

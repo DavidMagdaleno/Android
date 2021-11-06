@@ -1,6 +1,7 @@
 package com.example.encuesta
 
 import Auxiliar.Encuestados
+import Auxiliar.Fichero
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -80,7 +81,7 @@ class Modificar : AppCompatActivity() {
             })
     }
     lateinit var p:Persona
-
+    var Fichero: Fichero = Fichero(Encuestados.log, this)
     fun guardar(view: View){
         var posicion = intent!!.getIntExtra("posicion",-1)
         var sisAux:String=""
@@ -125,6 +126,8 @@ class Modificar : AppCompatActivity() {
          */
         Encuestados.lista.removeAt(posicion)
         Encuestados.lista.add(posicion,p)
+
+        Fichero.escribirLinea("Se ha modificado una Persona",Encuestados.log)
 
         finish()
     }
