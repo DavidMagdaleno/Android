@@ -3,6 +3,7 @@ package com.example.encuesta
 import java.io.Serializable
 
 class Persona : Serializable{
+    private var Id:Int=0
     private var nombre:String=""
     private var sistema:String=""
     private var especialidad:String=""
@@ -15,22 +16,27 @@ class Persona : Serializable{
     fun getSistema(): String {
         return sistema
     }
-    fun getEspecialidad(): String {
-        return especialidad
-    }
+
     fun getHoras(): Int {
         return horas
     }
     fun setHoras(h:Int) {
          horas=h
     }
-    constructor(n:String, s:String,e:String,h:Int){
+    fun getId(): Int {
+        return Id
+    }
+    fun setId(i:Int) {
+        Id=i
+    }
+    constructor(i:Int, n: String, s:String, h:Int){
+        this.Id=i
         this.nombre = n
         this.sistema = s
-        this.especialidad = e
         this.horas = h
     }
-    constructor(n:String, s:String){
+    constructor(i:Int,n:String, s:String){
+        this.Id=i
         this.nombre = n
         this.sistema = s
     }

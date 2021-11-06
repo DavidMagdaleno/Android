@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     var Fichero: Fichero = Fichero(Encuestados.log, this)
     lateinit var p:Persona
     lateinit var intentMain: Intent
+    var cont=0;
 
     fun validar(view:View){
 
@@ -74,6 +75,10 @@ class MainActivity : AppCompatActivity() {
         var hora:SeekBar=findViewById(R.id.sbHoras)
         p.setHoras(hora.progress)
 
+        //ultimoID()
+        cont++
+        p.setId(cont)
+
         Encuestados.lista.add(p)
 
         Fichero.escribirLinea("Se ha validado una Persona",Encuestados.log)
@@ -90,6 +95,9 @@ class MainActivity : AppCompatActivity() {
         hora.progress=0
 
     }
+    //fun ultimoID(){ comprobar el ultimo id de la base de datos  }
+
+
     fun progresoSeekbar(){
         var hora:SeekBar=findViewById(R.id.sbHoras)
         var numHoras:TextView=findViewById(R.id.txtNhoras)
