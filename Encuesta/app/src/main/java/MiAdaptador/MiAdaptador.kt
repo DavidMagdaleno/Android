@@ -1,6 +1,9 @@
 package MiAdaptador
 
 import android.app.Activity
+import Auxiliar.Conexion
+import Auxiliar.Encuestados
+import Modelo.Especialidad
 import android.graphics.Color
 import android.util.Log
 import android.view.View
@@ -11,6 +14,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.encuesta.Persona
 import com.example.encuesta.R
+import com.example.encuesta.ResumenListViews
 
 
 class MiAdaptador : ArrayAdapter<Int> {
@@ -18,6 +22,7 @@ class MiAdaptador : ArrayAdapter<Int> {
     private var resource: Int
     private var valores: ArrayList<Persona>
     private var seleccionado: Int
+
 
     constructor(context: Activity, resource: Int, valores: ArrayList<Persona>,seleccionado:Int) : super(context, resource) {
         this.context = context
@@ -34,7 +39,6 @@ class MiAdaptador : ArrayAdapter<Int> {
     override fun getItem(position: Int): Int? {
     return this.valores?.get(position).getHoras()
     }
-
     /**
      * Este método se carga para cada elemento de la lista. Tanta llamada a findviewbyid hace que se pueda
      * ralentizar y que caiga el rendimiento.
@@ -54,7 +58,8 @@ class MiAdaptador : ArrayAdapter<Int> {
         }
             var valor: Persona = this.valores!![position]
             holder.txtItem?.text = valor.getNombre()+"\r\n"
-            holder.txtItem?.append(valor.getSistema())
+            holder.txtItem?.append(Encuestados.listaespe.toString())
+            Log.e("espe",Encuestados.listaespe.toString())
             if (valor.getSistema().equals("Linux")) {
                 with(holder.imagen) {this?.setImageResource(R.drawable.linux)}
             }

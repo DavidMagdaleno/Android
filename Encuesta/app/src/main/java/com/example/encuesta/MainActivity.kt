@@ -1,11 +1,11 @@
 package com.example.encuesta
 
+import Auxiliar.Conexion
 import Auxiliar.Encuestados
 import Auxiliar.Fichero
+import Modelo.Especialidad
 import android.app.Activity
-import android.app.PendingIntent
 import android.content.Intent
-import android.content.IntentSender
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -16,87 +16,104 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 
 
 class MainActivity : AppCompatActivity() {
+    lateinit var sisAux:String
+    lateinit var nomAux:String
+    lateinit var anonimo:Switch
+    lateinit var nombre:EditText
+    lateinit var sisMac:RadioButton
+    lateinit var sisWin:RadioButton
+    lateinit var sisLin:RadioButton
+    lateinit var espeDAM:CheckBox
+    lateinit var espeASIR:CheckBox
+    lateinit var espeDAW:CheckBox
+    lateinit var botonReusmen:Button
+    lateinit var hora:SeekBar
+    lateinit var texto:TextView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        sisAux=""
+        nomAux=""
+        anonimo =findViewById(R.id.swAnonimo)
+        nombre=findViewById(R.id.etxtNombre)
+        sisMac=findViewById(R.id.rbtnMac)
+        sisWin=findViewById(R.id.rbtnWindows)
+        sisLin=findViewById(R.id.rbtnLinux)
+        espeDAM=findViewById(R.id.cbDAM)
+        espeASIR=findViewById(R.id.cbASIR)
+        espeDAW=findViewById(R.id.cbDAW)
+        botonReusmen=findViewById(R.id.btnResumen)
+        hora=findViewById(R.id.sbHoras)
+        texto=findViewById(R.id.txtResumen)
+
+
         progresoSeekbar()
-        var botonReusmen:Button=findViewById(R.id.btnResumen)
-        if(Encuestados.lista.isEmpty()){
+        if(Conexion.numeroPersona(this)==0){
             botonReusmen.isEnabled=false
         }
-
     }
     var Fichero: Fichero = Fichero(Encuestados.log, this)
     lateinit var p:Persona
+    lateinit var espe: Especialidad
     lateinit var intentMain: Intent
-    var cont=0;
+    var Idcont=0;
+    var IdEspeCont=0;
 
     fun validar(view:View){
-
-        intentMain=  Intent(this,ResumenListViews::class.java)
-
-        var botonReusmen:Button=findViewById(R.id.btnResumen)
-        botonReusmen.isEnabled=true
-
-        var sisAux:String=""
-        var nomAux:String=""
-        var anonimo:Switch=findViewById(R.id.swAnonimo)
-        var nombre:EditText=findViewById(R.id.etxtNombre)
-
-
-        var sisMac:RadioButton=findViewById(R.id.rbtnMac)
-        var sisWin:RadioButton=findViewById(R.id.rbtnWindows)
-        var sisLin:RadioButton=findViewById(R.id.rbtnLinux)
-
-        var espeDAM:CheckBox=findViewById(R.id.cbDAM)
-        var espeASIR:CheckBox=findViewById(R.id.cbASIR)
-        var espeDAW:CheckBox=findViewById(R.id.cbDAW)
-
-        if(sisMac.isChecked){sisAux=sisMac.text.toString()}
-        if(sisWin.isChecked){sisAux=sisWin.text.toString()}
-        if(sisLin.isChecked){sisAux=sisLin.text.toString()}
-
-
+        Idcont=Conexion.ultimoID(this)
+        Idcont++
         if(anonimo.isChecked){
             nomAux="Anonimo"
         }else{
             nomAux=nombre.text.toString()
         }
+        if(sisMac.isChecked){sisAux=sisMac.text.toString()}
+        if(sisWin.isChecked){sisAux=sisWin.text.toString()}
+        if(sisLin.isChecked){sisAux=sisLin.text.toString()}
 
-        p=Persona(nomAux,sisAux)
-        //var persona=Persona(nomAux,sisAux)
+        if ((nombre.text.toString().trim().isEmpty() && !anonimo.isChecked) || (!sisMac.isChecked && !sisWin.isChecked && !sisLin.isChecked)
+            || (!espeDAM.isChecked && !espeASIR.isChecked && !espeDAW.isChecked)){
+            Toast.makeText(this, "Campos en blanco", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            p = Persona(Idcont,nomAux,sisAux,hora.progress)
+            Conexion.addPersona(this, p)
 
+            if(espeDAM.isChecked){
+                IdEspeCont=1
+                espe = Especialidad(Idcont,IdEspeCont,espeDAM.text.toString())
+                Conexion.addPersonaEspecialidad(this,espe)
+            }
+            if(espeASIR.isChecked){
+                IdEspeCont=2
+                espe = Especialidad(Idcont,IdEspeCont,espeASIR.text.toString())
+                Conexion.addPersonaEspecialidad(this,espe)
+            }
+            if(espeDAW.isChecked){
+                IdEspeCont=3
+                espe = Especialidad(Idcont,IdEspeCont,espeDAW.text.toString())
+                Conexion.addPersonaEspecialidad(this,espe)
+            }
 
-        if(espeDAM.isChecked){p.asig(espeDAM.text.toString())}
-        if(espeASIR.isChecked){p.asig(espeASIR.text.toString())}
-        if(espeDAW.isChecked){p.asig(espeDAW.text.toString())}
+            Toast.makeText(this, "Persona insertada", Toast.LENGTH_SHORT).show()
+            Fichero.escribirLinea("Se ha validado una Persona",Encuestados.log)
 
-        var hora:SeekBar=findViewById(R.id.sbHoras)
-        p.setHoras(hora.progress)
+            anonimo.isChecked=false
+            nombre.setText("")
+            sisMac.isChecked=false
+            sisWin.isChecked=false
+            sisLin.isChecked=false
+            espeDAM.isChecked=false
+            espeDAW.isChecked=false
+            espeASIR.isChecked=false
+            hora.progress=0
 
-        //ultimoID()
-        cont++
-        p.setId(cont)
-
-        Encuestados.lista.add(p)
-
-        Fichero.escribirLinea("Se ha validado una Persona",Encuestados.log)
-
-
-        anonimo.isChecked=false
-        nombre.setText("")
-        sisMac.isChecked=false
-        sisWin.isChecked=false
-        sisLin.isChecked=false
-        espeDAM.isChecked=false
-        espeDAW.isChecked=false
-        espeASIR.isChecked=false
-        hora.progress=0
-
+            botonReusmen.isEnabled=true
+        }
     }
-    //fun ultimoID(){ comprobar el ultimo id de la base de datos  }
-
 
     fun progresoSeekbar(){
         var hora:SeekBar=findViewById(R.id.sbHoras)
@@ -118,15 +135,6 @@ class MainActivity : AppCompatActivity() {
 
     fun reiniciar(view: View){
         Fichero.escribirLinea("Se ha reiniciado la Encuesta",Encuestados.log)
-        var anonimo:Switch=findViewById(R.id.swAnonimo)
-        var nombre:EditText=findViewById(R.id.etxtNombre)
-        var sisMac:RadioButton=findViewById(R.id.rbtnMac)
-        var sisWin:RadioButton=findViewById(R.id.rbtnWindows)
-        var sisLin:RadioButton=findViewById(R.id.rbtnLinux)
-        var espeDAM:CheckBox=findViewById(R.id.cbDAM)
-        var espeASIR:CheckBox=findViewById(R.id.cbASIR)
-        var espeDAW:CheckBox=findViewById(R.id.cbDAW)
-        var hora:SeekBar=findViewById(R.id.sbHoras)
         anonimo.isChecked=false
         nombre.setText("")
         sisMac.isChecked=false
@@ -142,13 +150,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun cuantas(view:View){
-        var texto:TextView=findViewById(R.id.txtResumen)
+        var num=Conexion.numeroPersona(this)
         texto.text=""
-        texto.text="Hay "+Encuestados.lista.size.toString()+" personas en la lista"
+        texto.text="Hay "+num+" personas en la lista"
         Fichero.escribirLinea("Se ha visto el numero de Personas encuestadas",Encuestados.log)
     }
     fun resumen(view: View){
-        //intentMain.putExtra("Personas",lista)
+        var intentMain: Intent =  Intent(this,ResumenListViews::class.java)
         Fichero.escribirLinea("Se ha pasado a la vista Resumen",Encuestados.log)
         startActivity(intentMain)
     }
@@ -156,7 +164,6 @@ class MainActivity : AppCompatActivity() {
     fun verLog(view: View){
         //intentMain=  Intent(this,Log::class.java)--no se puede modificar el intent?, que desde el main te puedas dirigir a varias ventanas distintas
         //startActivity(intentMain)
-        var texto:TextView=findViewById(R.id.txtResumen)
         Fichero = Fichero(Encuestados.log, this)
         texto.append(Fichero.leerFichero(Encuestados.log))
     }

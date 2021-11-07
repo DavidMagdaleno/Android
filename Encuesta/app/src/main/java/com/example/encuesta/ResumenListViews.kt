@@ -3,6 +3,7 @@ package com.example.encuesta
 import Auxiliar.Encuestados
 import Auxiliar.Fichero
 import MiAdaptador.MiAdaptador
+import Auxiliar.Conexion
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
@@ -28,23 +29,25 @@ var primera:Boolean=true
         super.onStart()
         var intentMain: Intent =  Intent(this,Modificar::class.java)
         var ml: ListView = findViewById(R.id.lstResumen)
-        var miAdaptadorModificado: MiAdaptador = MiAdaptador(ventanaactual,R.layout.resumenxml,Encuestados.lista,seleccionado)
+        var miAdaptadorModificado: MiAdaptador = MiAdaptador(ventanaactual,R.layout.resumenxml,Conexion.obtenerPersonas(this),seleccionado)
         ml.adapter = miAdaptadorModificado
 
         ml.onItemClickListener = object: AdapterView.OnItemClickListener {
 
             override fun onItemClick(parent: AdapterView<*>?, vista: View?, pos: Int, idElemento: Long) {
-                var p = Encuestados.lista.get(pos)
+                var p = Conexion.obtenerPersonas(ventanaactual).get(pos)
                 Log.e("pasar persona",p.toString())
                 if(pos==seleccionado){
                     seleccionado=-1
                 }else{
                     Fichero.escribirLinea("Se ha seleccionado a una Persona",Encuestados.log)
                     seleccionado=pos
+                    var aux=Conexion.obtenerEspecialidad(ventanaactual,p.getId())
+                    Encuestados.listaespe=aux
                     intentMain.putExtra("posicion",pos)
                     startActivity(intentMain)
                 }
-                var miAdaptadorModificado: MiAdaptador = MiAdaptador(ventanaactual,R.layout.resumenxml,Encuestados.lista,seleccionado)
+                var miAdaptadorModificado: MiAdaptador = MiAdaptador(ventanaactual,R.layout.resumenxml,Conexion.obtenerPersonas(ventanaactual),seleccionado)
                 ml.adapter = miAdaptadorModificado
                 //Toast.makeText(applicationContext, texto.toString(), Toast.LENGTH_SHORT).show()
             }

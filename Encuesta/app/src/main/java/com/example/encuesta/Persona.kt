@@ -10,6 +10,10 @@ class Persona : Serializable{
     private var horas:Int=0
     var listaAsig= arrayListOf<String>()
 
+    fun getId(): Int {
+        return Id
+    }
+
     fun getNombre(): String {
         return nombre
     }
@@ -20,15 +24,7 @@ class Persona : Serializable{
     fun getHoras(): Int {
         return horas
     }
-    fun setHoras(h:Int) {
-         horas=h
-    }
-    fun getId(): Int {
-        return Id
-    }
-    fun setId(i:Int) {
-        Id=i
-    }
+
     constructor(i:Int, n: String, s:String, h:Int){
         this.Id=i
         this.nombre = n
@@ -45,7 +41,7 @@ class Persona : Serializable{
     }
 
     override fun toString(): String {
-        return this.getNombre()+","+this.getSistema()+","+this.listaAsig+","+this.getHoras()
+        return this.getId().toString()+","+this.getNombre()+","+this.getSistema()+","+this.getHoras()
     }
 
 }

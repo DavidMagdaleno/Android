@@ -33,7 +33,7 @@ object Conexion {
         registro.put("IdPersona", e.getidPersona())
         registro.put("IdEspecialidad", e.getidEspecialidad())
         registro.put("especialidad",e.getespecialidad())
-        bd.insert("especialidad", null, registro)
+        bd.insert("especiali", null, registro)
         bd.close()
     }
 
@@ -42,10 +42,48 @@ object Conexion {
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
         val cant = bd.delete("personas", "Id='${Id}'", null)
-        val canti = bd.delete("especialidad", "IdPersona='${Id}'", null)
+        val canti = bd.delete("especiali", "IdPersona='${Id}'", null)
         bd.close()
         return cant
     }
+    fun delEspecialiad(contexto: AppCompatActivity, Id: Int, Ide: Int):Int{
+        val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
+        val bd = admin.writableDatabase
+        val canti = bd.delete("especiali", "IdPersona='${Id}' AND  IdEspecialidad='${Ide}'", null)
+        bd.close()
+        return canti
+    }
+
+    fun numeroPersona(contexto: AppCompatActivity):Int{
+        var cantidad:Int=0
+        val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
+        val bd = admin.writableDatabase
+        val fila = bd.rawQuery(
+            "select count(*) from personas",
+            null
+        )
+        while (fila.moveToNext()) {
+            cantidad = fila.getInt(0)
+        }
+        bd.close()
+        return cantidad
+    }
+
+    fun ultimoID(contexto: AppCompatActivity):Int{
+        var cantidad:Int=0
+        val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
+        val bd = admin.writableDatabase
+        val fila = bd.rawQuery(
+            "select Max(Id) from personas",
+            null
+        )
+        while (fila.moveToNext()) {
+            cantidad = fila.getInt(0)
+        }
+        bd.close()
+        return cantidad
+    }
+
 
     fun modPersona(contexto:AppCompatActivity, Id:Int, p:Persona):Int {
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
@@ -65,7 +103,7 @@ object Conexion {
         registro.put("IdPersona", e.getidPersona())
         registro.put("IdEspecialidad", e.getidEspecialidad())
         registro.put("especialidad",e.getespecialidad())
-        val cant = bd.update("especialidad", registro, "IdPersona='${Id}'", null)
+        val cant = bd.update("especiali", registro, "IdPersona='${Id}'", null)
         bd.close()
         return cant
     }
@@ -92,11 +130,28 @@ object Conexion {
         val bd = admin.writableDatabase
         val fila = bd.rawQuery("select Id,nombre,sistema,horas from personas", null)
         while (fila.moveToNext()) {
-            var p:Persona = Persona(fila.getInt(0),fila.getString(0),fila.getString(1),fila.getInt(2))
+            var p:Persona = Persona(fila.getInt(0),fila.getString(1),fila.getString(2),fila.getInt(3))
             personas.add(p)
         }
         bd.close()
         return personas
+    }
+    fun obtenerEspecialidad(contexto: AppCompatActivity,Id:Int):ArrayList<String>{
+        var espe:ArrayList<String> = ArrayList(1)
+
+        val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
+        val bd = admin.writableDatabase
+
+        val fila = bd.rawQuery(
+            "select especialidad from especiali where IdPersona='${Id} '",
+            null
+        )
+        while (fila.moveToNext()) {
+            var e:String = fila.getString(0)
+            espe.add(e)
+        }
+        bd.close()
+        return espe
     }
 
 }
