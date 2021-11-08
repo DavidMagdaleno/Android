@@ -42,8 +42,8 @@ var primera:Boolean=true
                 }else{
                     Fichero.escribirLinea("Se ha seleccionado a una Persona",Encuestados.log)
                     seleccionado=pos
-                    var aux=Conexion.obtenerEspecialidad(ventanaactual,p.getId())
-                    Encuestados.listaespe=aux
+                    //var aux=Conexion.obtenerEspecialidad(ventanaactual,p.getId())
+                    //Encuestados.listaespe=aux
                     intentMain.putExtra("posicion",pos)
                     startActivity(intentMain)
                 }

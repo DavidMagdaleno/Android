@@ -182,6 +182,14 @@ class Modificar : AppCompatActivity() {
     fun cancelar(view:View){
         finish()
     }
+    fun borrarPersona(view: View){
+        var posicion = intent!!.getIntExtra("posicion",-1)
+        var persona=Conexion.obtenerPersonas(this)[posicion]
+        var num=Conexion.delPersona(this,persona.getId())
+        Fichero.escribirLinea("Se ha Eliminado una Persona",Encuestados.log)
+        Toast.makeText(this, "Se han eliminado "+num+" persona", Toast.LENGTH_SHORT).show()
+        finish()
+    }
 
 
 }

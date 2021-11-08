@@ -58,8 +58,9 @@ class MiAdaptador : ArrayAdapter<Int> {
         }
             var valor: Persona = this.valores!![position]
             holder.txtItem?.text = valor.getNombre()+"\r\n"
-            holder.txtItem?.append(Encuestados.listaespe.toString())
-            Log.e("espe",Encuestados.listaespe.toString())
+            holder.txtItem?.append(valor.getSistema())
+            //holder.txtItem?.append(Encuestados.listaespe.toString())
+            //Log.e("espe",Encuestados.listaespe.toString())
             if (valor.getSistema().equals("Linux")) {
                 with(holder.imagen) {this?.setImageResource(R.drawable.linux)}
             }
