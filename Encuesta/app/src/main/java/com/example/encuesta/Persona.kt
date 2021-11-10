@@ -6,7 +6,7 @@ class Persona : Serializable{
     private var Id:Int=0
     private var nombre:String=""
     private var sistema:String=""
-    private var especialidad:String=""
+    private var imagen:String=""
     private var horas:Int=0
     var listaAsig= arrayListOf<String>()
 
@@ -20,15 +20,21 @@ class Persona : Serializable{
     fun getSistema(): String {
         return sistema
     }
-
+    fun getImagen(): String {
+        return imagen
+    }
+    fun setImagen(n:String){
+        imagen=n
+    }
     fun getHoras(): Int {
         return horas
     }
 
-    constructor(i:Int, n: String, s:String, h:Int){
+    constructor(i:Int, n: String, s:String, pi:String, h:Int){
         this.Id=i
         this.nombre = n
         this.sistema = s
+        this.imagen = pi
         this.horas = h
     }
     constructor(i:Int,n:String, s:String){

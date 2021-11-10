@@ -98,7 +98,7 @@ class Modificar : AppCompatActivity() {
         var posicion = intent!!.getIntExtra("posicion",-1)
         var persona=Conexion.obtenerPersonas(this)[posicion]
         var espec=Conexion.obtenerEspecialidad(this,persona.getId())
-
+        var img:String=""
         var sisAux:String=""
         var nomAux:String=""
         var anonimo:Switch=findViewById(R.id.swAnonimo)
@@ -118,16 +118,27 @@ class Modificar : AppCompatActivity() {
         }else{
             nomAux=nombre.text.toString()
         }
-        if(sisMac.isChecked){sisAux=sisMac.text.toString()}
-        if(sisWin.isChecked){sisAux=sisWin.text.toString()}
-        if(sisLin.isChecked){sisAux=sisLin.text.toString()}
+
+        if(sisMac.isChecked){
+            sisAux=sisMac.text.toString()
+            img="mac"
+        }
+        if(sisWin.isChecked){
+            sisAux=sisWin.text.toString()
+            img="windows"
+        }
+        if(sisLin.isChecked){
+            sisAux=sisLin.text.toString()
+            img="linux"
+        }
 
         if ((nombre.text.toString().trim().isEmpty() && !anonimo.isChecked) || (!sisMac.isChecked && !sisWin.isChecked && !sisLin.isChecked)
             || (!espeDAM.isChecked && !espeASIR.isChecked && !espeDAW.isChecked)){
             Toast.makeText(this, "Campos en blanco", Toast.LENGTH_SHORT).show()
         }
         else {
-            p = Persona(persona.getId(),nomAux,sisAux,hora.progress)
+
+            p = Persona(persona.getId(),nomAux,sisAux,img,hora.progress)
             Conexion.modPersona(this,persona.getId(),p)
 
             if(espeDAM.isChecked){

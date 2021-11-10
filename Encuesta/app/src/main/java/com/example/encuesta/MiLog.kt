@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 
-class Log : AppCompatActivity() {
+class MiLog : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log)

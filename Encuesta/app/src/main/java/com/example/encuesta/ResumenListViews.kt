@@ -17,7 +17,7 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 
 class ResumenListViews : AppCompatActivity() {
-var primera:Boolean=true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_resumen_list_views)

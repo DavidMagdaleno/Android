@@ -21,6 +21,7 @@ object Conexion {
         registro.put("Id", p.getId())
         registro.put("Nombre", p.getNombre())
         registro.put("Sistema",p.getSistema())
+        registro.put("Imagen",p.getImagen())
         registro.put("Horas",p.getHoras())
         bd.insert("personas", null, registro)
         bd.close()
@@ -91,6 +92,7 @@ object Conexion {
         val registro = ContentValues()
         registro.put("Nombre", p.getNombre())
         registro.put("Sistema",p.getSistema())
+        registro.put("Imagen",p.getImagen())
         registro.put("Horas",p.getHoras())
         val cant = bd.update("personas", registro, "Id='${Id}'", null)
         bd.close()
@@ -113,11 +115,11 @@ object Conexion {
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
         val fila = bd.rawQuery(
-            "select nombre,sistema,horas from personas where Id='${Id} '",
+            "select nombre,sistema,imagen,horas from personas where Id='${Id} '",
             null
         )
         if (fila.moveToFirst()) {
-            p = Persona(Id, fila.getString(0), fila.getString(1), fila.getInt(2))
+            p = Persona(Id, fila.getString(0), fila.getString(1), fila.getString(2), fila.getInt(3))
         }
         bd.close()
         return p
@@ -128,9 +130,9 @@ object Conexion {
 
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
-        val fila = bd.rawQuery("select Id,nombre,sistema,horas from personas", null)
+        val fila = bd.rawQuery("select Id,nombre,sistema,imagen,horas from personas", null)
         while (fila.moveToNext()) {
-            var p:Persona = Persona(fila.getInt(0),fila.getString(1),fila.getString(2),fila.getInt(3))
+            var p:Persona = Persona(fila.getInt(0),fila.getString(1),fila.getString(2),fila.getString(3),fila.getInt(4))
             personas.add(p)
         }
         bd.close()

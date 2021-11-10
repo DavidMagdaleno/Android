@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var intentMain: Intent
     var Idcont=0;
     var IdEspeCont=0;
-
+    var img:String=""
     fun validar(view:View){
         Idcont=Conexion.ultimoID(this)
         Idcont++
@@ -70,18 +70,27 @@ class MainActivity : AppCompatActivity() {
         }else{
             nomAux=nombre.text.toString()
         }
-        if(sisMac.isChecked){sisAux=sisMac.text.toString()}
-        if(sisWin.isChecked){sisAux=sisWin.text.toString()}
-        if(sisLin.isChecked){sisAux=sisLin.text.toString()}
+        if(sisMac.isChecked){
+            sisAux=sisMac.text.toString()
+            img="mac"
+        }
+        if(sisWin.isChecked){
+            sisAux=sisWin.text.toString()
+            img="windows"
+        }
+        if(sisLin.isChecked){
+            sisAux=sisLin.text.toString()
+            img="linux"
+        }
 
         if ((nombre.text.toString().trim().isEmpty() && !anonimo.isChecked) || (!sisMac.isChecked && !sisWin.isChecked && !sisLin.isChecked)
             || (!espeDAM.isChecked && !espeASIR.isChecked && !espeDAW.isChecked)){
             Toast.makeText(this, "Campos en blanco", Toast.LENGTH_SHORT).show()
         }
         else {
-            p = Persona(Idcont,nomAux,sisAux,hora.progress)
+            p = Persona(Idcont,nomAux,sisAux,img,hora.progress)
+            Log.e("img",p.getImagen())
             Conexion.addPersona(this, p)
-
             if(espeDAM.isChecked){
                 IdEspeCont=1
                 espe = Especialidad(Idcont,IdEspeCont,espeDAM.text.toString())
@@ -156,16 +165,14 @@ class MainActivity : AppCompatActivity() {
         Fichero.escribirLinea("Se ha visto el numero de Personas encuestadas",Encuestados.log)
     }
     fun resumen(view: View){
-        var intentMain: Intent =  Intent(this,ResumenListViews::class.java)
+        intentMain =  Intent(this,ResumenRecyclerView::class.java)
         Fichero.escribirLinea("Se ha pasado a la vista Resumen",Encuestados.log)
         startActivity(intentMain)
     }
 
     fun verLog(view: View){
-        //intentMain=  Intent(this,Log::class.java)--no se puede modificar el intent?, que desde el main te puedas dirigir a varias ventanas distintas
-        //startActivity(intentMain)
-        Fichero = Fichero(Encuestados.log, this)
-        texto.append(Fichero.leerFichero(Encuestados.log))
+        intentMain=  Intent(this,MiLog::class.java)
+        startActivity(intentMain)
     }
 
 }
