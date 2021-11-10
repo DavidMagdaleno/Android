@@ -85,7 +85,6 @@ class MiAdaptadorRecycler (var personajes : ArrayList<Persona>, var  context: Co
                 //Glide.with(context).load(pers.getImagen()).into(avatar)
             }
 
-            //Para marcar o desmarcar al seleccionado usamos el siguiente código.
             if (pos == MiAdaptadorRecycler.seleccionado) {
                 with(nombrePersona) {
                     this.setTextColor(resources.getColor(R.color.purple_200))
@@ -108,7 +107,6 @@ class MiAdaptadorRecycler (var personajes : ArrayList<Persona>, var  context: Co
                 //Con la siguiente instrucción forzamos a recargar el viewHolder porque han cambiado los datos. Así pintará al seleccionado.
                 miAdaptadorRecycler.notifyDataSetChanged()
 
-                //Toast.makeText(context, "Valor seleccionado " +  MiAdaptadorRecycler.seleccionado.toString(), Toast.LENGTH_SHORT).show()
             })
         }
     }
