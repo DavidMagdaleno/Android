@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MiNotas">
         <activity
+            android:name=".NotaTarea"
+            android:exported="true" />
+        <activity
             android:name=".NotaSimple"
             android:exported="true" />
         <activity

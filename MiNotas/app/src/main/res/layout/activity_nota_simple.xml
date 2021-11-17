@@ -6,19 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".NotaSimple">
 
+    <TextView
+        android:id="@+id/lblT"
+        android:layout_width="66dp"
+        android:layout_height="22dp"
+        android:text="Asunto"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.038" />
+
+    <EditText
+        android:id="@+id/etxtAsunto"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintStart_toEndOf="@+id/lblT"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
     <EditText
         android:id="@+id/etxtSimple"
-        android:layout_width="409dp"
-        android:layout_height="653dp"
+        android:layout_width="404dp"
+        android:layout_height="608dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.079"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintTop_toBottomOf="@+id/etxtAsunto"
+        app:layout_constraintVertical_bias="0.07" />
 
     <Button
         android:id="@+id/btnGuardar"
@@ -58,4 +84,5 @@
         app:layout_constraintStart_toEndOf="@+id/btnGuardar"
         app:layout_constraintTop_toBottomOf="@+id/etxtSimple"
         app:layout_constraintVertical_bias="0.392" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

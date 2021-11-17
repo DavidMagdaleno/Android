@@ -2,7 +2,10 @@ package Auxiliar
 
 import Conexion.AdminSQLIteConexion
 import Modelo.Notas
+import Modelo.Tarea
 import android.content.ContentValues
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 
 object Conexion {
@@ -16,7 +19,7 @@ object Conexion {
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
         val registro = ContentValues()
-        //registro.put("Id", p.getId())
+        registro.put("Id", p.getId())
         registro.put("Asunto", p.getAsunto())
         registro.put("Tipo",p.getTipo())
         registro.put("Fecha",p.getFecha())
@@ -27,35 +30,35 @@ object Conexion {
         bd.close()
     }
 
-    fun addNotaTarea(contexto: AppCompatActivity, e: Especialidad){
+    fun addNotaTarea(contexto: AppCompatActivity, e: Tarea){
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
         val registro = ContentValues()
-        registro.put("IdPersona", e.getidPersona())
-        registro.put("IdEspecialidad", e.getidEspecialidad())
-        registro.put("especialidad",e.getespecialidad())
-        bd.insert("especiali", null, registro)
+        registro.put("Id", e.getId())
+        registro.put("IdTarea", e.getIdTarea())
+        registro.put("Tarea",e.getTarea())
+        bd.insert("nTareas", null, registro)
         bd.close()
     }
 
 
-    fun delPersona(contexto: AppCompatActivity, Id: Int):Int{
+    fun delNotaTarea(contexto: AppCompatActivity, Id: Int):Int{
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
-        val cant = bd.delete("personas", "Id='${Id}'", null)
-        val canti = bd.delete("especiali", "IdPersona='${Id}'", null)
+        val cant = bd.delete("notas", "Id='${Id}'", null)
+        val canti = bd.delete("nTareas", "Id='${Id}'", null)
         bd.close()
         return cant
     }
-    fun delEspecialiad(contexto: AppCompatActivity, Id: Int, Ide: Int):Int{
+    fun delNota(contexto: AppCompatActivity, Id: Int):Int{
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
-        val canti = bd.delete("especiali", "IdPersona='${Id}' AND  IdEspecialidad='${Ide}'", null)
+        val cant = bd.delete("notas", "Id='${Id}'", null)
         bd.close()
-        return canti
+        return cant
     }
 
-    fun numeroPersona(contexto: AppCompatActivity):Int{
+    /*fun numeroPersona(contexto: AppCompatActivity):Int{
         var cantidad:Int=0
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
@@ -68,14 +71,14 @@ object Conexion {
         }
         bd.close()
         return cantidad
-    }
+    }*/
 
     fun ultimoID(contexto: AppCompatActivity):Int{
         var cantidad:Int=0
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
         val fila = bd.rawQuery(
-            "select Max(Id) from personas",
+            "select Max(Id) from notas",
             null
         )
         while (fila.moveToNext()) {
@@ -90,15 +93,16 @@ object Conexion {
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
         val registro = ContentValues()
+        registro.put("Asunto", p.getAsunto())
+        registro.put("Tipo",p.getTipo())
+        registro.put("Fecha",p.getFecha())
+        registro.put("Hora",p.getHora())
         registro.put("Texto", p.getTexto())
-        //registro.put("Sistema",p.getSistema())
-        //registro.put("Imagen",p.getImagen())
-        //registro.put("Horas",p.getHoras())
         val cant = bd.update("notas", registro, "Id='${Id}'", null)
         bd.close()
         return cant
     }
-    fun modPersonaEspecialidad(contexto: AppCompatActivity, Id:Int, e:Especialidad):Int {
+    /*fun modPersonaEspecialidad(contexto: AppCompatActivity, Id:Int, e:Especialidad):Int {
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
         val registro = ContentValues()
@@ -108,21 +112,24 @@ object Conexion {
         val cant = bd.update("especiali", registro, "IdPersona='${Id}'", null)
         bd.close()
         return cant
-    }
+    }*/
 
-    fun buscarNotas(contexto: AppCompatActivity, asunto:String):Notas? {
+    fun buscarNotas(contexto: AppCompatActivity, asunto:String):Int? {
         var p:Notas? = null
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
         val fila = bd.rawQuery(
-            "select select Id,Asunto,Tipo,Fecha,Hora from notas where Asunto='${asunto} '",
+            "select Id from notas where Asunto='${asunto} '",
             null
         )
+        var e: Int=0
         if (fila.moveToFirst()) {
-            p = Notas(fila.getInt(0),fila.getString(1),fila.getString(2),fila.getString(3),fila.getString(4),fila.getString(5))
+            e = fila.getInt(0)
+            //p = Notas(fila.getInt(0))}
         }
         bd.close()
-        return p
+        return e
+
     }
 
     fun obtenerNotas(contexto: AppCompatActivity):ArrayList<Notas>{
@@ -130,7 +137,7 @@ object Conexion {
 
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
-        val fila = bd.rawQuery("select Id,Asunto,Tipo,Fecha,Hora from notas", null)
+        val fila = bd.rawQuery("select Id,Asunto,Tipo,Fecha,Hora,Texto from notas", null)
         while (fila.moveToNext()) {
             var p:Notas = Notas(fila.getInt(0),fila.getString(1),fila.getString(2),fila.getString(3),fila.getString(4),fila.getString(5))
             nota.add(p)
@@ -138,22 +145,23 @@ object Conexion {
         bd.close()
         return nota
     }
-    fun obtenerEspecialidad(contexto: AppCompatActivity, Id:Int):ArrayList<String>{
-        var espe:ArrayList<String> = ArrayList(1)
+    fun obtenerTarea(contexto: AppCompatActivity, Id:Int):ArrayList<Tarea>{
+        var tarea:ArrayList<Tarea> = ArrayList(1)
 
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
 
         val fila = bd.rawQuery(
-            "select especialidad from especiali where IdPersona='${Id} '",
+            "select Id, IDTarea, Tarea from nTareas where Id='${Id} '",
             null
         )
         while (fila.moveToNext()) {
-            var e:String = fila.getString(0)
-            espe.add(e)
+            var e:Tarea=Tarea(fila.getInt(0),fila.getInt(1),fila.getString(2))
+            //var e:String = fila.getString(0)
+            tarea.add(e)
         }
         bd.close()
-        return espe
+        return tarea
     }
 
 }

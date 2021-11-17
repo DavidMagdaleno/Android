@@ -10,17 +10,19 @@ import java.util.*
 
 class Notas : Serializable{
 
-    //private var Id:Int=0
+    private var Id:Int = 0
     private var asunto:String=""
     private var tipo:String=""
     private lateinit var fecha:LocalDate
     private lateinit var hora:LocalTime
+    private var fech:String=""
+    private var hr:String=""
     private var texto:String=""
         //var listaAsig= arrayListOf<String>()
 
-    //fun getId(): Int {
-        //return Id
-    //}
+    fun getId(): Int {
+        return Id
+    }
     fun getAsunto(): String {
         return asunto
     }
@@ -38,20 +40,20 @@ class Notas : Serializable{
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    constructor(/*i:Int,*/ n:String, s:String){
-        //this.Id=i
+    constructor(i:Int, n:String, s:String,t:String){
+        this.Id=i
         this.asunto = n
         this.tipo = s
         fecha=LocalDate.now()
         hora= LocalTime.now()
+        this.texto = t
     }
-    @RequiresApi(Build.VERSION_CODES.O)
-    constructor(/*i:Int,*/ n:String, s:String,t:String){
-        //this.Id=i
+    constructor(i:Int, n:String, s:String,f:String,h:String,t:String){
+        this.Id=i
         this.asunto = n
         this.tipo = s
-        fecha=LocalDate.now()
-        hora= LocalTime.now()
+        this.fech= f
+        this.hr= h
         this.texto = t
     }
         /*fun asig(e: String){
@@ -59,7 +61,7 @@ class Notas : Serializable{
         }*/
 
         override fun toString(): String {
-            return /*this.getId().toString()+","+*/this.getAsunto()+","+this.getTipo()+","+fecha+","+hora
+            return this.getId().toString()+","+this.getAsunto()+","+this.getTipo()+","+fecha+","+hora
         }
 
 

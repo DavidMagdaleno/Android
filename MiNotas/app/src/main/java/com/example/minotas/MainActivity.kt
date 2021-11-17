@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity() {
                 }
                 if(pos==1){
                     //Fichero.escribirLinea("Se ha creado una tarea",Encuestados.log)
-                    //intentMain==  Intent(ventanaactual,NotaTarea::class.java)
-                    //startActivity(intentMain)
+                    intentMain=  Intent(ventanaactual,NotaTarea::class.java)
+                    startActivity(intentMain)
                     Log.e("Opcione 1","Tarea")
                 }
                 //Toast.makeText(applicationContext, texto.toString(), Toast.LENGTH_SHORT).show()
@@ -76,9 +76,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     if(p.getTipo().equals("Tarea")){
                         //Fichero.escribirLinea("Se ha seleccionado una tarea",Encuestados.log)
-                        //intentMain=  Intent(ventanaactual,NotaTarea::class.java)
-                        //intentMain.putExtra("posicion",pos)
-                        //startActivity(intentMain)
+                        intentMain=  Intent(ventanaactual,NotaTarea::class.java)
+                        intentMain.putExtra("posicion",pos)
+                        startActivity(intentMain)
                     }
                 }
                 var miAdaptadorModificado: MiAdaptador = MiAdaptador(ventanaactual,R.layout.notas,Conexion.obtenerNotas(ventanaactual),seleccionado)
