@@ -1,28 +1,29 @@
 package Adaptador
 
 
-import Auxiliar.Fichero
 import Modelo.Tarea
+import Auxiliar.Conexion
 import android.content.Context
-import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.minotas.NotaTarea
 //import com.bumptech.glide.Glide
 import com.example.minotas.R
+import java.nio.file.Files.delete
 
 class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : RecyclerView.Adapter<MiAdaptadorTarea.ViewHolder>(){
 
     companion object {
         var seleccionado:Int = -1
+        var paraborrar:Boolean=false
+        var IddelaTarea:Int=-1
     }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = tarea.get(position)
         holder.bind(item, context, position, this)
@@ -36,11 +37,14 @@ class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : R
         return tarea.size
     }
 
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nomTarea = view.findViewById(R.id.txtCard) as TextView
         val avatar = view.findViewById(R.id.imgRecycler) as ImageView
 
+
         fun bind(tars: Tarea, context: Context, pos: Int, miAdaptadorTarea: MiAdaptadorTarea){
+
             nomTarea.text = tars.getTarea()
 
             /*if (sistemaPersona.text.toString().equals("Mac")){
@@ -60,11 +64,13 @@ class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : R
             if (pos == MiAdaptadorTarea.seleccionado) {
                 with(nomTarea) {
                     this.setTextColor(resources.getColor(R.color.purple_200))
+                    this.paint.isStrikeThruText=true
                 }
             }
             else {
                 with(nomTarea) {
                     this.setTextColor(resources.getColor(R.color.black))
+                    this.paint.isStrikeThruText=false
                 }
             }
 
@@ -80,7 +86,16 @@ class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : R
                 miAdaptadorTarea.notifyDataSetChanged()
 
             })
+            itemView.setOnLongClickListener(View.OnLongClickListener
+            {
+                miAdaptadorTarea.tarea.removeAt(pos)
+                MiAdaptadorTarea.paraborrar=true
+                MiAdaptadorTarea.IddelaTarea=pos
+                miAdaptadorTarea.notifyDataSetChanged()
+                return@OnLongClickListener true
+            })
         }
     }
+
 
 }

@@ -5,7 +5,10 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import java.io.Serializable
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatter.ofPattern
 import java.util.*
 
 class Notas : Serializable{
@@ -13,10 +16,8 @@ class Notas : Serializable{
     private var Id:Int = 0
     private var asunto:String=""
     private var tipo:String=""
-    private lateinit var fecha:LocalDate
-    private lateinit var hora:LocalTime
-    private var fech:String=""
-    private var hr:String=""
+    private var fecha:String=""
+    private var hora:String=""
     private var texto:String=""
         //var listaAsig= arrayListOf<String>()
 
@@ -44,16 +45,16 @@ class Notas : Serializable{
         this.Id=i
         this.asunto = n
         this.tipo = s
-        fecha=LocalDate.now()
-        hora= LocalTime.now()
+        fecha=LocalDate.now().format(DateTimeFormatter.ofPattern("d/M/y")).toString()
+        hora= LocalTime.now().format(DateTimeFormatter.ofPattern("H:m:ss")).toString()
         this.texto = t
     }
     constructor(i:Int, n:String, s:String,f:String,h:String,t:String){
         this.Id=i
         this.asunto = n
         this.tipo = s
-        this.fech= f
-        this.hr= h
+        this.fecha= f
+        this.hora= h
         this.texto = t
     }
         /*fun asig(e: String){

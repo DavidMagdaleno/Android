@@ -49,7 +49,7 @@ class MiAdaptador : ArrayAdapter<Int> {
             holder=view?.tag as ViewHolder
         }
         var valor: Notas = this.valores!![position]
-        holder.txtItem?.text = valor.getAsunto()+" "+valor.getFecha()+" "+valor.getHora()
+        holder.txtItem?.text = valor.getAsunto()+"      "+valor.getFecha()+" "+valor.getHora()
         //holder.txtItem?.append(Encuestados.listaespe.toString())
         //Log.e("espe",Encuestados.listaespe.toString())
         if (valor.getTipo().equals("Nota Simple")) {

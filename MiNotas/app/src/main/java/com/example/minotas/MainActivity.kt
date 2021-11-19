@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         var opciones= ArrayList<String>()
+        opciones.add("")
         opciones.add("Nota Simple")
         opciones.add("Tareas")
         var intentMain: Intent
@@ -29,13 +30,13 @@ class MainActivity : AppCompatActivity() {
         sp.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 var p = opciones.get(pos)
-                if(pos==0){
+                if(pos==1){
                     //Fichero.escribirLinea("Se ha creado una nota simple",Encuestados.log)
                     intentMain=  Intent(ventanaactual,NotaSimple::class.java)
                     startActivity(intentMain)
                     Log.e("Opcione 0","Nota simple")
                 }
-                if(pos==1){
+                if(pos==2){
                     //Fichero.escribirLinea("Se ha creado una tarea",Encuestados.log)
                     intentMain=  Intent(ventanaactual,NotaTarea::class.java)
                     startActivity(intentMain)
@@ -84,6 +85,23 @@ class MainActivity : AppCompatActivity() {
                 var miAdaptadorModificado: MiAdaptador = MiAdaptador(ventanaactual,R.layout.notas,Conexion.obtenerNotas(ventanaactual),seleccionado)
                 ml.adapter = miAdaptadorModificado
                 //Toast.makeText(applicationContext, texto.toString(), Toast.LENGTH_SHORT).show()
+            }
+        }
+        ml.onItemLongClickListener = object: AdapterView.OnItemLongClickListener{
+            override fun onItemLongClick( parent: AdapterView<*>?, view: View?, position: Int, id: Long): Boolean {
+                var p = Conexion.obtenerNotas(ventanaactual).get(position)
+
+                if(p.getTipo().equals("Nota Simple")){
+                    //Fichero.escribirLinea("Se ha eliminado una nota simple",Encuestados.log)
+                    Conexion.delNota(ventanaactual,p.getId())
+                }
+                if(p.getTipo().equals("Tarea")){
+                    //Fichero.escribirLinea("Se ha eliminado una tarea",Encuestados.log)
+                    Conexion.delNotaTarea(ventanaactual,p.getId())
+                }
+                return true
+                var miAdaptadorModificado: MiAdaptador = MiAdaptador(ventanaactual,R.layout.notas,Conexion.obtenerNotas(ventanaactual),seleccionado)
+                ml.adapter = miAdaptadorModificado
             }
         }
 

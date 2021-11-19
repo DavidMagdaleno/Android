@@ -2,12 +2,20 @@ package com.example.minotas
 
 import Auxiliar.Conexion
 import Modelo.Notas
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.telephony.SmsManager
+import android.text.TextUtils
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class NotaSimple : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +63,9 @@ class NotaSimple : AppCompatActivity() {
         finish()
     }
     fun sms(view: View){
-        //proximamente
+        var texto:EditText=findViewById(R.id.etxtSimple)
+        var intentMensaje = Intent(this, SMS::class.java)
+        intentMensaje.putExtra("Mensaje",texto.text.toString())
+        startActivity(intentMensaje)
     }
-
 }

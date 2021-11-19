@@ -1,11 +1,10 @@
 package Auxiliar
 
+import Adaptador.MiAdaptadorTarea
 import Conexion.AdminSQLIteConexion
 import Modelo.Notas
 import Modelo.Tarea
 import android.content.ContentValues
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 
 object Conexion {
@@ -57,6 +56,13 @@ object Conexion {
         bd.close()
         return cant
     }
+    fun delTarea(contexto: AppCompatActivity, Id: Int, IdTarea: Int):Int{////////////////////////////////////////////////////////////////
+        val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
+        val bd = admin.writableDatabase
+        val cant = bd.delete("nTareas", "Id='${Id}' AND  IdTarea='${IdTarea}'", null)
+        bd.close()
+        return cant
+    }
 
     /*fun numeroPersona(contexto: AppCompatActivity):Int{
         var cantidad:Int=0
@@ -87,12 +93,27 @@ object Conexion {
         bd.close()
         return cantidad
     }
+    fun ultimoIDTarea(contexto: AppCompatActivity):Int{
+        var cantidad:Int=0
+        val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
+        val bd = admin.writableDatabase
+        val fila = bd.rawQuery(
+            "select Max(IdTarea) from nTareas",
+            null
+        )
+        while (fila.moveToNext()) {
+            cantidad = fila.getInt(0)
+        }
+        bd.close()
+        return cantidad
+    }
 
 
     fun modNota(contexto: AppCompatActivity, Id:Int, p:Notas):Int {
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
         val registro = ContentValues()
+        registro.put("Id", p.getId())
         registro.put("Asunto", p.getAsunto())
         registro.put("Tipo",p.getTipo())
         registro.put("Fecha",p.getFecha())
