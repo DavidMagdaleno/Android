@@ -1,6 +1,7 @@
 package com.example.minotas
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
@@ -10,20 +11,21 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 class SMS : AppCompatActivity() {
     private val permissionRequest = 101
-    var numero: EditText=findViewById(R.id.etxtNumero)
-    var msg: EditText=findViewById(R.id.etxtMsg)
+    lateinit var numero: EditText
+    lateinit var msg: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sms)
 
         var texto = intent.getStringExtra("Mensaje")
-        //msg=findViewById(R.id.etxtMsg)
+        msg=findViewById(R.id.etxtMsg)
         msg.setText(texto)
 
     }
@@ -45,8 +47,8 @@ class SMS : AppCompatActivity() {
         }
     }
     fun sms(){
-        //numero=findViewById(R.id.etxtNumero)
-        //msg=findViewById(R.id.etxtMsg)
+        numero=findViewById(R.id.etxtNumero)
+        msg=findViewById(R.id.etxtMsg)
         val myNumber: String = numero.text.toString().trim()
         val myMsg: String = msg.text.toString()
         if (myNumber == "" || myMsg == "") {
@@ -80,7 +82,15 @@ class SMS : AppCompatActivity() {
     }
     fun listarContactos(view : View){
         var intentListado = Intent(this, Contactos::class.java)
-        startActivity(intentListado)
+        resultLauncher.launch(intentListado)
+    }
+    var resultLauncher=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        if(result.resultCode==Activity.RESULT_OK){
+            numero=findViewById(R.id.etxtNumero)
+            val data:Intent?=result.data
+            val returnNumero=data!!.getStringExtra("numero")
+            numero.setText(returnNumero)
+        }
     }
     fun cancel(view: View){
         finish()

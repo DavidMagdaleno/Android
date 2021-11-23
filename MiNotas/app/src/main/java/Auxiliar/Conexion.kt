@@ -23,7 +23,6 @@ object Conexion {
         registro.put("Tipo",p.getTipo())
         registro.put("Fecha",p.getFecha())
         registro.put("Hora",p.getHora())
-        //registro.put("Imagen",p.getImagen())
         registro.put("Texto",p.getTexto())
         bd.insert("notas", null, registro)
         bd.close()
@@ -36,6 +35,7 @@ object Conexion {
         registro.put("Id", e.getId())
         registro.put("IdTarea", e.getIdTarea())
         registro.put("Tarea",e.getTarea())
+        registro.put("Imagen",e.getImagen())
         bd.insert("nTareas", null, registro)
         bd.close()
     }
@@ -123,17 +123,18 @@ object Conexion {
         bd.close()
         return cant
     }
-    /*fun modPersonaEspecialidad(contexto: AppCompatActivity, Id:Int, e:Especialidad):Int {
+    fun modTarea(contexto: AppCompatActivity, Id:Int, IdTarea:Int,e:Tarea):Int {
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
         val registro = ContentValues()
-        registro.put("IdPersona", e.getidPersona())
-        registro.put("IdEspecialidad", e.getidEspecialidad())
-        registro.put("especialidad",e.getespecialidad())
-        val cant = bd.update("especiali", registro, "IdPersona='${Id}'", null)
+        registro.put("Id", e.getId())
+        registro.put("IdTarea", e.getIdTarea())
+        registro.put("Tarea",e.getTarea())
+        registro.put("Imagen",e.getImagen())
+        val cant = bd.update("nTareas", registro, "Id='${Id}' AND  IdTarea='${IdTarea}'", null)
         bd.close()
         return cant
-    }*/
+    }
 
     fun buscarNotas(contexto: AppCompatActivity, asunto:String):Int? {
         var p:Notas? = null
@@ -150,6 +151,23 @@ object Conexion {
         }
         bd.close()
         return e
+
+    }
+    fun buscarTarea(contexto: AppCompatActivity, Id:Int, IdTarea:Int):Tarea? {
+        var p:Tarea? = null
+        val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
+        val bd = admin.writableDatabase
+        val fila = bd.rawQuery(
+            "select Id, IdTarea, Tarea, Imagen from nTareas where Id='${Id}' AND IdTarea='${IdTarea}'",
+            null
+        )
+        //var p: Tarea
+        if (fila.moveToNext()) {
+            //e = fila.getInt(0)
+            p = Tarea(fila.getInt(0),fila.getInt(1),fila.getString(2),fila.getString(3))
+        }
+        bd.close()
+        return p
 
     }
 
@@ -173,11 +191,11 @@ object Conexion {
         val bd = admin.writableDatabase
 
         val fila = bd.rawQuery(
-            "select Id, IDTarea, Tarea from nTareas where Id='${Id} '",
+            "select Id, IDTarea, Tarea, Imagen from nTareas where Id='${Id} '",
             null
         )
         while (fila.moveToNext()) {
-            var e:Tarea=Tarea(fila.getInt(0),fila.getInt(1),fila.getString(2))
+            var e:Tarea=Tarea(fila.getInt(0),fila.getInt(1),fila.getString(2),fila.getString(3))
             //var e:String = fila.getString(0)
             tarea.add(e)
         }

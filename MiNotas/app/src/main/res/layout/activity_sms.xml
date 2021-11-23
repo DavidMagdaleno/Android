@@ -48,7 +48,7 @@
     <EditText
         android:id="@+id/etxtMsg"
         android:layout_width="350dp"
-        android:layout_height="496dp"
+        android:layout_height="378dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
@@ -60,19 +60,6 @@
         app:layout_constraintVertical_bias="0.105" />
 
     <Button
-        android:id="@+id/btnSend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="enviar"
-        android:text="Enviar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.26"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etxtMsg"
-        app:layout_constraintVertical_bias="0.567" />
-
-    <Button
         android:id="@+id/btnCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,10 +67,23 @@
         android:text="Cancelar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.524"
+        app:layout_constraintHorizontal_bias="0.537"
         app:layout_constraintStart_toEndOf="@+id/btnSend"
         app:layout_constraintTop_toBottomOf="@+id/etxtMsg"
-        app:layout_constraintVertical_bias="0.567" />
+        app:layout_constraintVertical_bias="0.23" />
+
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="enviar"
+        android:text="Enviar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.27"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etxtMsg"
+        app:layout_constraintVertical_bias="0.23" />
 
     <Button
         android:id="@+id/btnContact"

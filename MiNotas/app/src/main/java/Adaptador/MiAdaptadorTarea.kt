@@ -4,6 +4,7 @@ package Adaptador
 import Modelo.Tarea
 import Auxiliar.Conexion
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : R
         var seleccionado:Int = -1
         var paraborrar:Boolean=false
         var IddelaTarea:Int=-1
+        var nombreTarea:String=""
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -46,7 +48,15 @@ class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : R
         fun bind(tars: Tarea, context: Context, pos: Int, miAdaptadorTarea: MiAdaptadorTarea){
 
             nomTarea.text = tars.getTarea()
-
+            if(!tars.getImagen().equals("")){
+                var img= tars.getImagen().substring(36)
+                var path=tars.getImagen().subSequence(0,36)
+                Log.e("parte",img)
+                Log.e("parte2",path.toString())
+                with(avatar){
+                    this.setImageBitmap(BitmapFactory.decodeFile(path.toString()+ "/"+img))
+                }
+            }
             /*if (sistemaPersona.text.toString().equals("Mac")){
                 Log.e("imagen",pers.getImagen())
                 val uri = "@drawable/" +pers.getImagen()
@@ -81,6 +91,8 @@ class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : R
                 }
                 else {
                     MiAdaptadorTarea.seleccionado = pos
+                    MiAdaptadorTarea.IddelaTarea=pos
+                    MiAdaptadorTarea.nombreTarea= nomTarea.text.toString()
                 }
                 //Con la siguiente instrucción forzamos a recargar el viewHolder porque han cambiado los datos. Así pintará al seleccionado.
                 miAdaptadorTarea.notifyDataSetChanged()

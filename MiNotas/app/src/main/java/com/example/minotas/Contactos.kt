@@ -1,5 +1,9 @@
 package com.example.minotas
 
+import Adaptador.MiAdaptador
+import Adaptador.MiAdaptadorContactos
+import Auxiliar.Conexion
+import Modelo.Contact
 import android.Manifest
 import android.annotation.TargetApi
 import android.content.pm.PackageManager
@@ -14,13 +18,20 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import android.R.id
+import android.app.Activity
+import android.content.Intent
+import android.util.Log
+import android.widget.AdapterView
 
 class Contactos : AppCompatActivity() {
 
     val REQUEST_READ_CONTACTS = 79
-    var mobileArray: ArrayList<String> = ArrayList()
+    var mobileArray: ArrayList<Contact> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        var ventanaactual:Contactos=this
+        var seleccionado:Int=-1
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contactos)
 
@@ -33,9 +44,25 @@ class Contactos : AppCompatActivity() {
         } else {
             requestPermission();
         }
-        var adaptador: ArrayAdapter<String> =
-            ArrayAdapter(this, R.layout.item_contactos, R.id.txtContact, mobileArray)
-        lista.adapter = adaptador
+        var miAdaptadorModificado: MiAdaptadorContactos = MiAdaptadorContactos(this,R.layout.item_contactos,mobileArray,seleccionado)
+        lista.adapter = miAdaptadorModificado
+
+        lista.onItemClickListener = object: AdapterView.OnItemClickListener {
+
+            override fun onItemClick(parent: AdapterView<*>?, vista: View?, pos: Int, idElemento: Long) {
+                var p = mobileArray.get(pos)
+                if(pos==seleccionado){
+                    seleccionado=-1
+                }else{
+                    //Fichero.escribirLinea("Se ha seleccionado un movil",Encuestados.log)
+                    seleccionado=pos
+                    val intent=Intent()
+                    intent.putExtra("numero",p.getNumero())
+                    setResult(Activity.RESULT_OK,intent)
+                    finish()
+                }
+            }
+        }
     }
     private fun requestPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.READ_CONTACTS)) {
@@ -60,8 +87,10 @@ class Contactos : AppCompatActivity() {
             }
         }
     }
-    fun obtenerContactos():ArrayList<String> {
-        var listaNombre:ArrayList<String>? = ArrayList()
+    fun obtenerContactos():ArrayList<Contact> {
+        //var listaNombre:ArrayList<String>? = ArrayList()
+        var listaNombre:ArrayList<Contact>? = ArrayList()
+        var p: Contact = Contact()
         var cr = this.contentResolver
         var cur: Cursor? = cr.query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null,null)
         if (cur != null){
@@ -69,16 +98,19 @@ class Contactos : AppCompatActivity() {
                 while(cur!=null && cur.moveToNext()){
                     var id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID).toInt())
                     var nombre = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME).toInt())
-                    listaNombre!!.add(nombre)
+                    //listaNombre!!.add(nombre)
+                    p.setNombre(nombre)
                     if (cur.getInt(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER).toInt()) > 0) {
                         val pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", arrayOf(id), null)
                         //Sacamos todos los números de ese contacto.
                         while (pCur!!.moveToNext()) {
                             val phoneNo = pCur!!.getString(pCur!!.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER).toInt())
                             //Esto son los números asociados a ese contacto. Ahora mismo no hacemos nada con ellos.
+                            p.setNumero(phoneNo)
                         }
                         pCur!!.close()
                     }
+                    listaNombre!!.add(p)
                 }
             }
         }
