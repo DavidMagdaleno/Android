@@ -3,6 +3,7 @@ package com.example.minotas
 import Adaptador.MiAdaptador
 import Auxiliar.Conexion
 import Auxiliar.Fichero
+import Auxiliar.NombreFoto
 import Modelo.Notas
 import android.content.Intent
 import android.os.Build
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         opciones.add("")
         opciones.add("Nota Simple")
         opciones.add("Tareas")
+        var Fichero: Fichero = Fichero(NombreFoto.log, this)
         var intentMain: Intent
         var sp: Spinner = findViewById(R.id.spNotas)
         val adaptador = ArrayAdapter(this, R.layout.add,R.id.txtOpcionNotas,opciones)
@@ -31,13 +33,13 @@ class MainActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 var p = opciones.get(pos)
                 if(pos==1){
-                    //Fichero.escribirLinea("Se ha creado una nota simple",Encuestados.log)
+                    Fichero.escribirLinea("Se ha creado una nota simple",NombreFoto.log)
                     intentMain=  Intent(ventanaactual,NotaSimple::class.java)
                     startActivity(intentMain)
                     Log.e("Opcione 0","Nota simple")
                 }
                 if(pos==2){
-                    //Fichero.escribirLinea("Se ha creado una tarea",Encuestados.log)
+                    Fichero.escribirLinea("Se ha creado una tarea",NombreFoto.log)
                     intentMain=  Intent(ventanaactual,NotaTarea::class.java)
                     startActivity(intentMain)
                     Log.e("Opcione 1","Tarea")
@@ -54,6 +56,7 @@ class MainActivity : AppCompatActivity() {
     var seleccionado:Int=-1
     override fun onStart() {
         super.onStart()
+        var Fichero: Fichero = Fichero(NombreFoto.log, this)
         var intentMain: Intent
         var ml: ListView = findViewById(R.id.lstNotas)
         var miAdaptadorModificado: MiAdaptador = MiAdaptador(this,R.layout.notas,Conexion.obtenerNotas(this),seleccionado)
@@ -67,16 +70,16 @@ class MainActivity : AppCompatActivity() {
                 if(pos==seleccionado){
                     seleccionado=-1
                 }else{
-                    //Fichero.escribirLinea("Se ha seleccionado una nota",Encuestados.log)
+                    Fichero.escribirLinea("Se ha seleccionado una nota",NombreFoto.log)
                     seleccionado=pos
                     if(p.getTipo().equals("Nota Simple")){
-                        //Fichero.escribirLinea("Se ha seleccionado una nota simple",Encuestados.log)
+                        Fichero.escribirLinea("Se ha seleccionado una nota simple",NombreFoto.log)
                         intentMain =  Intent(ventanaactual,NotaSimple::class.java)
                         intentMain.putExtra("posicion",pos)
                         startActivity(intentMain)
                     }
                     if(p.getTipo().equals("Tarea")){
-                        //Fichero.escribirLinea("Se ha seleccionado una tarea",Encuestados.log)
+                        Fichero.escribirLinea("Se ha seleccionado una tarea",NombreFoto.log)
                         intentMain=  Intent(ventanaactual,NotaTarea::class.java)
                         intentMain.putExtra("posicion",pos)
                         startActivity(intentMain)
@@ -84,7 +87,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 var miAdaptadorModificado: MiAdaptador = MiAdaptador(ventanaactual,R.layout.notas,Conexion.obtenerNotas(ventanaactual),seleccionado)
                 ml.adapter = miAdaptadorModificado
-                //Toast.makeText(applicationContext, texto.toString(), Toast.LENGTH_SHORT).show()
             }
         }
         ml.onItemLongClickListener = object: AdapterView.OnItemLongClickListener{
@@ -92,11 +94,11 @@ class MainActivity : AppCompatActivity() {
                 var p = Conexion.obtenerNotas(ventanaactual).get(position)
 
                 if(p.getTipo().equals("Nota Simple")){
-                    //Fichero.escribirLinea("Se ha eliminado una nota simple",Encuestados.log)
+                    Fichero.escribirLinea("Se ha eliminado una nota simple",NombreFoto.log)
                     Conexion.delNota(ventanaactual,p.getId())
                 }
                 if(p.getTipo().equals("Tarea")){
-                    //Fichero.escribirLinea("Se ha eliminado una tarea",Encuestados.log)
+                    Fichero.escribirLinea("Se ha eliminado una tarea",NombreFoto.log)
                     Conexion.delNotaTarea(ventanaactual,p.getId())
                 }
                 return true

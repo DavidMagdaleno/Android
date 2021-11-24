@@ -19,7 +19,6 @@ class Notas : Serializable{
     private var fecha:String=""
     private var hora:String=""
     private var texto:String=""
-        //var listaAsig= arrayListOf<String>()
 
     fun getId(): Int {
         return Id
@@ -46,7 +45,7 @@ class Notas : Serializable{
         this.asunto = n
         this.tipo = s
         fecha=LocalDate.now().format(DateTimeFormatter.ofPattern("d/M/y")).toString()
-        hora= LocalTime.now().format(DateTimeFormatter.ofPattern("H:m:ss")).toString()
+        hora= LocalTime.now().format(DateTimeFormatter.ofPattern("H:mm:ss")).toString()
         this.texto = t
     }
     constructor(i:Int, n:String, s:String,f:String,h:String,t:String){
@@ -57,9 +56,6 @@ class Notas : Serializable{
         this.hora= h
         this.texto = t
     }
-        /*fun asig(e: String){
-            listaAsig.add(e)
-        }*/
 
         override fun toString(): String {
             return this.getId().toString()+","+this.getAsunto()+","+this.getTipo()+","+fecha+","+hora

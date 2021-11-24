@@ -22,7 +22,7 @@ class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : R
     companion object {
         var seleccionado:Int = -1
         var paraborrar:Boolean=false
-        var IddelaTarea:Int=-1
+        var IddelaTarea:Int=0
         var nombreTarea:String=""
     }
 
@@ -32,7 +32,6 @@ class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : R
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        //return ViewHolder(layoutInflater.inflate(R.layout.item_lo,parent,false))
         return ViewHolder(layoutInflater.inflate(R.layout.notatarea,parent,false))
     }
     override fun getItemCount(): Int {
@@ -46,31 +45,15 @@ class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : R
 
 
         fun bind(tars: Tarea, context: Context, pos: Int, miAdaptadorTarea: MiAdaptadorTarea){
-
             nomTarea.text = tars.getTarea()
+
             if(!tars.getImagen().equals("")){
                 var img= tars.getImagen().substring(36)
                 var path=tars.getImagen().subSequence(0,36)
-                Log.e("parte",img)
-                Log.e("parte2",path.toString())
                 with(avatar){
-                    this.setImageBitmap(BitmapFactory.decodeFile(path.toString()+ "/"+img))
+                    this.setImageBitmap(BitmapFactory.decodeFile(path.toString()+ "/"+img+".png"))
                 }
             }
-            /*if (sistemaPersona.text.toString().equals("Mac")){
-                Log.e("imagen",pers.getImagen())
-                val uri = "@drawable/" +pers.getImagen()
-                Log.e("imagen2",uri)
-                val imageResource: Int = context.getResources().getIdentifier(uri, null, context.getPackageName())
-                var res: Drawable = context.resources.getDrawable(imageResource)
-                avatar.setImageDrawable(res)
-                Log.e("imagen3",avatar.drawable.current.toString())
-
-            }
-            else {
-                //Glide.with(context).load(pers.getImagen()).into(avatar)
-            }*/
-
             if (pos == MiAdaptadorTarea.seleccionado) {
                 with(nomTarea) {
                     this.setTextColor(resources.getColor(R.color.purple_200))
@@ -91,10 +74,9 @@ class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : R
                 }
                 else {
                     MiAdaptadorTarea.seleccionado = pos
-                    MiAdaptadorTarea.IddelaTarea=pos
+                    MiAdaptadorTarea.IddelaTarea=tars.getIdTarea()
                     MiAdaptadorTarea.nombreTarea= nomTarea.text.toString()
                 }
-                //Con la siguiente instrucción forzamos a recargar el viewHolder porque han cambiado los datos. Así pintará al seleccionado.
                 miAdaptadorTarea.notifyDataSetChanged()
 
             })
@@ -102,12 +84,10 @@ class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : R
             {
                 miAdaptadorTarea.tarea.removeAt(pos)
                 MiAdaptadorTarea.paraborrar=true
-                MiAdaptadorTarea.IddelaTarea=pos
+                MiAdaptadorTarea.IddelaTarea=tars.getIdTarea()
                 miAdaptadorTarea.notifyDataSetChanged()
                 return@OnLongClickListener true
             })
         }
     }
-
-
 }

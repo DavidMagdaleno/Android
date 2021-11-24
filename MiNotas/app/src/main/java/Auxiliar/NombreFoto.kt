@@ -1,12 +1,18 @@
 package Auxiliar
 
-object NombreFoto {
-    private var contador:Int=0
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-    fun getContador(): Int {
-        return contador
+object NombreFoto {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private var contador: LocalDateTime? = LocalDateTime.now()
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getContador(): String {
+        return contador.toString()
     }
-    fun setContador(i:Int) {
-        contador=i
-    }
+    var log:String="Bitacora"
 }

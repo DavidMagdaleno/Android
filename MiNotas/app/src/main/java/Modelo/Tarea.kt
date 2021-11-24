@@ -11,7 +11,6 @@ class Tarea: Serializable{
     private var IdTarea:Int = 0
     private var Tarea:String=""
     private var Imagen:String=""
-    //var listaAsig= arrayListOf<String>()
 
     fun getId(): Int {
         return Id
@@ -28,9 +27,6 @@ class Tarea: Serializable{
     fun setImagen(i:String) {
         Imagen=i
     }
-    //fun getTipo(): String {
-        //return tipo
-    //}
 
     constructor(i:Int, j:Int,n:String,img:String){
         this.Id=i
@@ -38,9 +34,6 @@ class Tarea: Serializable{
         this.Tarea = n
         this.Imagen=img
     }
-    /*fun asig(e: String){
-        listaAsig.add(e)
-    }*/
 
     override fun toString(): String {
         return this.getId().toString()+" "+this.getIdTarea().toString()+","+this.getTarea()

@@ -2,6 +2,7 @@ package Adaptador
 
 import Modelo.Notas
 import android.app.Activity
+import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -43,7 +44,6 @@ class MiAdaptador : ArrayAdapter<Int> {
             if (this.context != null) {
                 view = context.layoutInflater.inflate(this.resource, null)
                 holder.txtItem = view.findViewById(R.id.txtNote)
-                //holder.imagen = view.findViewById(R.id.imgResumen)
                 view.tag=holder
             }
         }else{
@@ -51,13 +51,11 @@ class MiAdaptador : ArrayAdapter<Int> {
         }
         var valor: Notas = this.valores!![position]
         holder.txtItem?.text = valor.getAsunto()+"      "+valor.getFecha()+" "+valor.getHora()
-        //holder.txtItem?.append(Encuestados.listaespe.toString())
-        //Log.e("espe",Encuestados.listaespe.toString())
         if (valor.getTipo().equals("Nota Simple")) {
-            //with(holder.imagen) {this?.setImageResource(R.drawable.linux)}
+            with(holder.txtItem) { this?.setBackgroundResource(R.color.purple_500)}//donde hay mas r.color??
         }
         if (valor.getTipo().equals("Tareas")) {
-            //with(holder.imagen) {this?.setImageResource(R.drawable.windows)}
+            with(holder.txtItem) { this?.setBackgroundResource(R.color.purple_700)}//donde hay mas r.color??
         }
         if (position==seleccionado) {
             with(holder.txtItem) { this?.setBackgroundResource(R.color.purple_200)}
@@ -67,6 +65,5 @@ class MiAdaptador : ArrayAdapter<Int> {
     }
     class ViewHolder(){
         var txtItem: TextView? = null
-        //var imagen: ImageView? = null
     }
 }

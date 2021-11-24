@@ -3,6 +3,8 @@ package com.example.minotas
 import Adaptador.MiAdaptador
 import Adaptador.MiAdaptadorContactos
 import Auxiliar.Conexion
+import Auxiliar.Fichero
+import Auxiliar.NombreFoto
 import Modelo.Contact
 import android.Manifest
 import android.annotation.TargetApi
@@ -31,6 +33,7 @@ class Contactos : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         var ventanaactual:Contactos=this
         var seleccionado:Int=-1
+        var Fichero: Fichero = Fichero(NombreFoto.log, this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contactos)
@@ -54,7 +57,7 @@ class Contactos : AppCompatActivity() {
                 if(pos==seleccionado){
                     seleccionado=-1
                 }else{
-                    //Fichero.escribirLinea("Se ha seleccionado un movil",Encuestados.log)
+                    Fichero.escribirLinea("Se ha seleccionado un movil",NombreFoto.log)
                     seleccionado=pos
                     val intent=Intent()
                     intent.putExtra("numero",p.getNumero())
@@ -88,7 +91,6 @@ class Contactos : AppCompatActivity() {
         }
     }
     fun obtenerContactos():ArrayList<Contact> {
-        //var listaNombre:ArrayList<String>? = ArrayList()
         var listaNombre:ArrayList<Contact>? = ArrayList()
         var p: Contact = Contact()
         var cr = this.contentResolver
@@ -98,14 +100,11 @@ class Contactos : AppCompatActivity() {
                 while(cur!=null && cur.moveToNext()){
                     var id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID).toInt())
                     var nombre = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME).toInt())
-                    //listaNombre!!.add(nombre)
                     p.setNombre(nombre)
                     if (cur.getInt(cur.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER).toInt()) > 0) {
                         val pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", arrayOf(id), null)
-                        //Sacamos todos los números de ese contacto.
                         while (pCur!!.moveToNext()) {
                             val phoneNo = pCur!!.getString(pCur!!.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER).toInt())
-                            //Esto son los números asociados a ese contacto. Ahora mismo no hacemos nada con ellos.
                             p.setNumero(phoneNo)
                         }
                         pCur!!.close()

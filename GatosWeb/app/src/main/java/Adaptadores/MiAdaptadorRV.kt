@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.gatosweb.R
 
 class MiAdaptadorRV (private var context: Context,
-                     private var message: ArrayList<String>,
+                     private var message: ArrayList<String>,//cambiar en funcion de un arraylist
                      private var status: String
 ) :
     RecyclerView.Adapter<MiAdaptadorRV.MyViewHolder>() {
@@ -21,8 +21,11 @@ class MiAdaptadorRV (private var context: Context,
         return MyViewHolder(v)
     }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Glide.with(context).load(message[position]).centerCrop().into(holder.imagen)
-        holder.status.text = status
+        // set the data in items
+        //holder.imagen = message[position]
+        Glide.with(context).load(message[position]).centerCrop().into(holder.imagen)//las url se cargan asi (centercrop para redimensionar)
+        holder.status.text = status//Cambiar si es array list
+        //holder.mobileNo.text = mobileNumbers[position]
         holder.itemView.setOnClickListener {
             Toast.makeText(context, message[position], Toast.LENGTH_SHORT).show()
         }
@@ -33,5 +36,6 @@ class MiAdaptadorRV (private var context: Context,
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var imagen: ImageView = itemView.findViewById<View>(R.id.img) as ImageView
         var status: TextView = itemView.findViewById<View>(R.id.txtImagen) as TextView
+        //var mobileNo: TextView = itemView.findViewById<View>(R.id.txtMovil) as TextView
     }
 }

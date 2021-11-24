@@ -57,6 +57,5 @@ class MiAdaptadorContactos : ArrayAdapter<Int> {
     }
     class ViewHolder(){
         var txtItem: TextView? = null
-        //var imagen: ImageView? = null
     }
 }

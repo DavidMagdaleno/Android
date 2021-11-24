@@ -147,7 +147,6 @@ object Conexion {
         var e: Int=0
         if (fila.moveToFirst()) {
             e = fila.getInt(0)
-            //p = Notas(fila.getInt(0))}
         }
         bd.close()
         return e
@@ -161,9 +160,7 @@ object Conexion {
             "select Id, IdTarea, Tarea, Imagen from nTareas where Id='${Id}' AND IdTarea='${IdTarea}'",
             null
         )
-        //var p: Tarea
         if (fila.moveToNext()) {
-            //e = fila.getInt(0)
             p = Tarea(fila.getInt(0),fila.getInt(1),fila.getString(2),fila.getString(3))
         }
         bd.close()

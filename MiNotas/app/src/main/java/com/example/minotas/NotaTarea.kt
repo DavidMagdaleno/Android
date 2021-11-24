@@ -70,9 +70,11 @@ class NotaTarea : AppCompatActivity() {
     fun regreso(view: View){
         finish()
     }
+    var nuevaTarea:Boolean=false
     var contTarea:Int=0
     @RequiresApi(Build.VERSION_CODES.O)
     fun add(view: View){
+        nuevaTarea=true
         var titulo:EditText=findViewById(R.id.etxtTarea)
         contTarea=Conexion.ultimoIDTarea(this)
         contTarea++
@@ -94,12 +96,10 @@ class NotaTarea : AppCompatActivity() {
         var posicion = intent!!.getIntExtra("posicion",-1)
         var tare:Notas
         if(posicion==-1){
-            //cont=Conexion.ultimoID(this)
-            //cont++
+
         }else{
             tare=Conexion.obtenerNotas(this)[posicion]
             if(!nom.text.toString().equals(tare.getAsunto())){
-                Log.e("sin titulo","modificado")
                 n = Notas(tare.getId(),nom.text.toString(),"Tarea",tare.getFecha(),tare.getHora(),"")
                 Conexion.modNota(this,tare.getId(),n)
             }
@@ -111,7 +111,6 @@ class NotaTarea : AppCompatActivity() {
         if(nom.text.toString().equals("") && posicion<0){
             n = Notas(cont,"Sin Titulo","Tarea","")
             Conexion.addNotaSimple(this,n)
-            Log.e("sin titulo","n"+n.getAsunto())
         }
         borrar()
     }
@@ -127,12 +126,13 @@ class NotaTarea : AppCompatActivity() {
     fun tomarFoto(view: View){
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(cameraIntent, cameraRequest)
-        Log.e("toma foto","tomar la foto")
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         var nom:EditText=findViewById(R.id.etxtLista)
         var titulo:EditText=findViewById(R.id.etxtTarea)
+        var ruta:String="/data/data/com.example.minotas/files"
         var posicion = intent!!.getIntExtra("posicion",-1)
         var tare:Notas
         var fotoFichero:File
@@ -141,33 +141,32 @@ class NotaTarea : AppCompatActivity() {
                 val photo: Bitmap = data?.extras?.get("data") as Bitmap
                 if(posicion==-1){//no haria falta distinguir
                     if(nom.text.toString().equals("")){
-                        NombreFoto.setContador(NombreFoto.getContador()+1)
-                        fotoFichero = File("/data/data/com.example.minotas/files", NombreFoto.getContador().toString())
-                        var t:Tarea=Tarea(cont,contTarea,"Sin Titulo","/data/data/com.example.minotas/files"+NombreFoto.getContador().toString())
+                        fotoFichero = File(ruta, NombreFoto.getContador()+".png")
+                        var t:Tarea=Tarea(cont,contTarea,"Sin Titulo",ruta+NombreFoto.getContador())
                         Conexion.modTarea(this,cont,contTarea,t)
-                        Log.e("Con el titulo en blanco"," ")
                     }else{
-                        NombreFoto.setContador(NombreFoto.getContador()+1)
-                        fotoFichero = File("/data/data/com.example.minotas/files", NombreFoto.getContador().toString())
-                        var t:Tarea=Tarea(cont,contTarea,titulo.text.toString(),"/data/data/com.example.minotas/files"+NombreFoto.getContador().toString())
+                        fotoFichero = File(ruta, NombreFoto.getContador()+".png")
+                        var t:Tarea=Tarea(cont,contTarea,titulo.text.toString(),ruta+NombreFoto.getContador())
                         Conexion.modTarea(this,cont,contTarea,t)
-                        Log.e("la primera vez"," ")
                     }
                 }else{
                     tare=Conexion.obtenerNotas(this)[posicion]
-                    NombreFoto.setContador(NombreFoto.getContador()+1)
-                    fotoFichero = File("/data/data/com.example.minotas/files", NombreFoto.getContador().toString()+".png")
-                    var t:Tarea=Tarea(tare.getId(),MiAdaptadorTarea.IddelaTarea,MiAdaptadorTarea.nombreTarea,"/data/data/com.example.minotas/files"+NombreFoto.getContador().toString())
-                    Log.e("datos t",tare.getId().toString()+" "+MiAdaptadorTarea.IddelaTarea+" "+MiAdaptadorTarea.nombreTarea+" "+"/data/data/com.example.minotas/files"+NombreFoto.getContador().toString())
-                    Conexion.modTarea(this,tare.getId(),MiAdaptadorTarea.IddelaTarea,t)
-                    Log.e("segunda vez"," ")
+                    fotoFichero = File(ruta, NombreFoto.getContador()+".png")
+                    if(nuevaTarea){
+                        var t:Tarea=Tarea(tare.getId(),contTarea,titulo.text.toString(),ruta+NombreFoto.getContador())
+                        Conexion.modTarea(this,tare.getId(),contTarea,t)
+                    }else{
+                        var t:Tarea=Tarea(tare.getId(),MiAdaptadorTarea.IddelaTarea,MiAdaptadorTarea.nombreTarea,ruta+NombreFoto.getContador())
+                        Conexion.modTarea(this,tare.getId(),MiAdaptadorTarea.IddelaTarea,t)
+                        MiAdaptadorTarea.IddelaTarea=-1
+                        nuevaTarea=false
+                    }
                 }
                 var uri = Uri.fromFile(fotoFichero)
                 var fileOutStream = FileOutputStream(fotoFichero)
                 photo.compress(Bitmap.CompressFormat.PNG, 100, fileOutStream);
                 fileOutStream.flush();
                 fileOutStream.close();
-                //comprobar tip de archivo
             }
         }catch(e: Exception){
             Log.e("David",e.toString())
