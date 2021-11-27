@@ -10,7 +10,7 @@
         android:id="@+id/lblT"
         android:layout_width="66dp"
         android:layout_height="22dp"
-        android:text="Asunto"
+        android:text="@string/lblT"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +25,6 @@
         android:layout_height="40dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.483"
@@ -44,20 +43,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etxtAsunto"
-        app:layout_constraintVertical_bias="0.07" />
+        app:layout_constraintVertical_bias="0.07"
+        style="@style/notasimple"/>
+
+    <Button
+        android:id="@+id/btnCancelar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="cancel"
+        android:text="@string/btnCancelar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.318"
+        app:layout_constraintStart_toEndOf="@+id/btnGuardar"
+        app:layout_constraintTop_toBottomOf="@+id/etxtSimple"
+        app:layout_constraintVertical_bias="0.278" />
 
     <Button
         android:id="@+id/btnGuardar"
         android:layout_width="138dp"
         android:layout_height="47dp"
         android:onClick="guardar"
-        android:text="Guardar"
+        android:text="@string/btnGuardar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.092"
         app:layout_constraintStart_toEndOf="@+id/btnEnviar"
         app:layout_constraintTop_toBottomOf="@+id/etxtSimple"
-        app:layout_constraintVertical_bias="0.379" />
+        app:layout_constraintVertical_bias="0.266" />
 
     <Button
         android:id="@+id/btnEnviar"
@@ -67,22 +80,9 @@
         android:text="SMS"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etxtSimple"
-        app:layout_constraintVertical_bias="0.428" />
-
-    <Button
-        android:id="@+id/btnCancelar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="cancel"
-        android:text="Cancelar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.304"
-        app:layout_constraintStart_toEndOf="@+id/btnGuardar"
-        app:layout_constraintTop_toBottomOf="@+id/etxtSimple"
-        app:layout_constraintVertical_bias="0.392" />
+        app:layout_constraintVertical_bias="0.314" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

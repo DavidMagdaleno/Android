@@ -3,11 +3,14 @@ package Adaptador
 import Modelo.Notas
 import android.app.Activity
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.example.minotas.Contactos
 import com.example.minotas.R
 
@@ -50,20 +53,20 @@ class MiAdaptador : ArrayAdapter<Int> {
             holder=view?.tag as ViewHolder
         }
         var valor: Notas = this.valores!![position]
-        holder.txtItem?.text = valor.getAsunto()+"      "+valor.getFecha()+" "+valor.getHora()
+        holder.txtItem?.text = "    "+valor.getAsunto()+"                   "+valor.getFecha()+" "+valor.getHora()
         if (valor.getTipo().equals("Nota Simple")) {
-            with(holder.txtItem) { this?.setBackgroundResource(R.color.purple_500)}//donde hay mas r.color??
+            with(holder.txtItem) { this?.setBackgroundResource(R.color.nota)}
         }
         if (valor.getTipo().equals("Tareas")) {
-            with(holder.txtItem) { this?.setBackgroundResource(R.color.purple_700)}//donde hay mas r.color??
+            with(holder.txtItem) { this?.setBackgroundResource(R.color.cyan)}
         }
         if (position==seleccionado) {
             with(holder.txtItem) { this?.setBackgroundResource(R.color.purple_200)}
         }
-
         return view!!
     }
     class ViewHolder(){
         var txtItem: TextView? = null
+
     }
 }

@@ -7,6 +7,9 @@ import Auxiliar.NombreFoto
 import Modelo.Notas
 import Modelo.Tarea
 import android.Manifest
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -24,6 +27,7 @@ import android.widget.ListView
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.io.File
@@ -114,12 +118,12 @@ class NotaTarea : AppCompatActivity() {
         }
         borrar()
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     fun borrar(){
         if(MiAdaptadorTarea.paraborrar){
             var posicion = intent!!.getIntExtra("posicion",-1)
             var tare=Conexion.obtenerNotas(this)[posicion]
-            var e=Conexion.delTarea(this,tare.getId(),MiAdaptadorTarea.IddelaTarea)
-            MiAdaptadorTarea.IddelaTarea=-1
+            createSimpleDialog(tare)
         }
     }
 
@@ -139,7 +143,7 @@ class NotaTarea : AppCompatActivity() {
         try {
             if (requestCode == cameraRequest) {
                 val photo: Bitmap = data?.extras?.get("data") as Bitmap
-                if(posicion==-1){//no haria falta distinguir
+                if(posicion==-1){
                     if(nom.text.toString().equals("")){
                         fotoFichero = File(ruta, NombreFoto.getContador()+".png")
                         var t:Tarea=Tarea(cont,contTarea,"Sin Titulo",ruta+NombreFoto.getContador())
@@ -171,5 +175,24 @@ class NotaTarea : AppCompatActivity() {
         }catch(e: Exception){
             Log.e("David",e.toString())
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun createSimpleDialog(tare:Notas): Boolean {
+        val dialogo: AlertDialog.Builder = AlertDialog.Builder(this)
+        dialogo.setPositiveButton("OK",
+            DialogInterface.OnClickListener { dialog, which ->
+                var e=Conexion.delTarea(this,tare.getId(),MiAdaptadorTarea.IddelaTarea)
+                MiAdaptadorTarea.IddelaTarea=-1
+            })
+        dialogo.setNegativeButton("CANCELAR",
+            DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+            })
+        dialogo.setTitle("¿Borrar Elemento?")
+        dialogo.setMessage("¿Deseas eliminar este elemento?")
+        dialogo.show()
+
+        return true
     }
 }

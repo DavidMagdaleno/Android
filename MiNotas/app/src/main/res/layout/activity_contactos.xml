@@ -8,8 +8,8 @@
 
     <ListView
         android:id="@+id/lstContactos"
-        android:layout_width="406dp"
-        android:layout_height="649dp"
+        android:layout_width="407dp"
+        android:layout_height="608dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
@@ -21,10 +21,12 @@
         android:id="@+id/btnVolver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/purple_500"
         android:onClick="volver"
-        android:text="Volver"
+        android:text="@string/btnVolver"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lstContactos" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

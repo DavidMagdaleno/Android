@@ -3,6 +3,7 @@ package com.example.minotas
 import Auxiliar.Conexion
 import Modelo.Notas
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -16,6 +17,9 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import android.content.DialogInterface
+import com.google.android.material.internal.ContextUtils.getActivity
+
 
 class NotaSimple : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,22 +45,12 @@ class NotaSimple : AppCompatActivity() {
         var posicion = intent!!.getIntExtra("posicion",-1)
         if(posicion!=-1){
             var nota= Conexion.obtenerNotas(this)[posicion]
-            if(texto.text.isEmpty()){
-                //avisar de si quieres borrarla
-                Conexion.delNota(this, nota.getId())
-            }else{
-                var n: Notas = Notas(nota.getId(),asunto.text.toString(),"Nota Simple",texto.text.toString())
-                Conexion.modNota(this,nota.getId(),n)
-            }
+            var n: Notas = Notas(nota.getId(),asunto.text.toString(),"Nota Simple",texto.text.toString())
+            Conexion.modNota(this,nota.getId(),n)
         }else{
-            if(texto.text.isEmpty()){
-                //avisar crear nota vacia
-                var n: Notas = Notas(cont,asunto.text.toString(),"Nota Simple",texto.text.toString())
-                Conexion.addNotaSimple(this,n)
-            }else{
-                var n: Notas = Notas(cont,asunto.text.toString(),"Nota Simple",texto.text.toString())
-                Conexion.addNotaSimple(this,n)
-            }
+            var n: Notas = Notas(cont,asunto.text.toString(),"Nota Simple",texto.text.toString())
+            Conexion.addNotaSimple(this,n)
+
         }
     }
     fun cancel(view: View){

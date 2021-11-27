@@ -4,21 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NotaTarea">
+    tools:context=".NotaTarea"
+    style="@style/listNota">
+
+    <TextView
+        android:id="@+id/lblListaTarea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lblListaTarea"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.065"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.035" />
+
+    <EditText
+        android:id="@+id/etxtLista"
+        android:layout_width="282dp"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
+    <TextView
+        android:id="@+id/lblTarea"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lblTarea"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.065"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etxtLista"
+        app:layout_constraintVertical_bias="0.062" />
 
     <EditText
         android:id="@+id/etxtTarea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.082"
+        app:layout_constraintHorizontal_bias="0.171"
         app:layout_constraintStart_toEndOf="@+id/lblTarea"
         app:layout_constraintTop_toBottomOf="@+id/etxtLista"
-        app:layout_constraintVertical_bias="0.036" />
+        app:layout_constraintVertical_bias="0.047" />
 
     <Button
         android:id="@+id/btnAñadir"
@@ -28,84 +67,46 @@
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.304"
+        app:layout_constraintHorizontal_bias="0.285"
         app:layout_constraintStart_toEndOf="@+id/etxtTarea"
         app:layout_constraintTop_toBottomOf="@+id/etxtLista"
-        app:layout_constraintVertical_bias="0.049" />
-
-    <TextView
-        android:id="@+id/lblTarea"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nueva Tarea"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblListaTarea"
-        app:layout_constraintVertical_bias="0.146" />
+        app:layout_constraintVertical_bias="0.047" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTarea"
-        android:layout_width="396dp"
-        android:layout_height="417dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etxtTarea"
-        app:layout_constraintVertical_bias="0.157" />
-
-    <TextView
-        android:id="@+id/lblListaTarea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nombre de la Lista"
-        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.057"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
-
-    <EditText
-        android:id="@+id/etxtLista"
-        android:layout_width="307dp"
-        android:layout_height="32dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.144"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.09" />
+        app:layout_constraintTop_toBottomOf="@+id/etxtTarea"
+        app:layout_constraintVertical_bias="0.253" />
 
     <Button
         android:id="@+id/btnRegret"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="regreso"
-        android:text="Regresar"
+        android:text="@string/btnRegret"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.601"
+        app:layout_constraintHorizontal_bias="0.688"
         app:layout_constraintStart_toEndOf="@+id/btnGardar"
         app:layout_constraintTop_toBottomOf="@+id/rvTarea"
-        app:layout_constraintVertical_bias="0.405" />
+        app:layout_constraintVertical_bias="0.925" />
 
     <Button
         android:id="@+id/btnGardar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="guardar"
-        android:text="Guardar"
+        android:text="@string/btnGardar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.183"
+        app:layout_constraintHorizontal_bias="0.201"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvTarea"
-        app:layout_constraintVertical_bias="0.405" />
+        app:layout_constraintVertical_bias="0.925" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

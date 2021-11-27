@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MiNotas</string>
+
+    <string name="btnVolver">Volver</string>
+    <string name="btnCancelar">Cancelar</string>
+    <string name="btnGuardar">Guardar</string>
+    <string name="btnGardar">Guardar</string>
+    <string name="btnRegret">Volver</string>
+    <string name="btnSend">Enviar</string>
+    <string name="btnCancel">Cancelar</string>
+    <string name="btnContact">Lista de Contactos</string>
+
+    <string name="lblT">Asunto:</string>
+    <string name="lblListaTarea">Nombre de la Lista:</string>
+    <string name="lblTarea">Nueva Tarea:</string>
+    <string name="lblNumero">Número de Movil:</string>
+    <string name="lblMsg">Mensaje:</string>
+</resources>

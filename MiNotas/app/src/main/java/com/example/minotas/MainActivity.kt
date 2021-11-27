@@ -1,10 +1,15 @@
 package com.example.minotas
 
 import Adaptador.MiAdaptador
+import Adaptador.MiAdaptadorTarea
 import Auxiliar.Conexion
 import Auxiliar.Fichero
 import Auxiliar.NombreFoto
 import Modelo.Notas
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +18,9 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
+import android.widget.EditText
+import com.google.android.material.internal.ContextUtils.getActivity
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,9 +28,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         var opciones= ArrayList<String>()
-        opciones.add("")
-        opciones.add("Nota Simple")
-        opciones.add("Tareas")
+        opciones.add("                  Crear")
+        opciones.add("              Nota Simple")
+        opciones.add("                 Tareas")
         var Fichero: Fichero = Fichero(NombreFoto.log, this)
         var intentMain: Intent
         var sp: Spinner = findViewById(R.id.spNotas)
@@ -36,15 +44,12 @@ class MainActivity : AppCompatActivity() {
                     Fichero.escribirLinea("Se ha creado una nota simple",NombreFoto.log)
                     intentMain=  Intent(ventanaactual,NotaSimple::class.java)
                     startActivity(intentMain)
-                    Log.e("Opcione 0","Nota simple")
                 }
                 if(pos==2){
                     Fichero.escribirLinea("Se ha creado una tarea",NombreFoto.log)
                     intentMain=  Intent(ventanaactual,NotaTarea::class.java)
                     startActivity(intentMain)
-                    Log.e("Opcione 1","Tarea")
                 }
-                //Toast.makeText(applicationContext, texto.toString(), Toast.LENGTH_SHORT).show()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
@@ -90,22 +95,65 @@ class MainActivity : AppCompatActivity() {
             }
         }
         ml.onItemLongClickListener = object: AdapterView.OnItemLongClickListener{
-            override fun onItemLongClick( parent: AdapterView<*>?, view: View?, position: Int, id: Long): Boolean {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onItemLongClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long): Boolean {
                 var p = Conexion.obtenerNotas(ventanaactual).get(position)
 
-                if(p.getTipo().equals("Nota Simple")){
-                    Fichero.escribirLinea("Se ha eliminado una nota simple",NombreFoto.log)
-                    Conexion.delNota(ventanaactual,p.getId())
-                }
-                if(p.getTipo().equals("Tarea")){
-                    Fichero.escribirLinea("Se ha eliminado una tarea",NombreFoto.log)
-                    Conexion.delNotaTarea(ventanaactual,p.getId())
-                }
+                val dialogo: AlertDialog.Builder = AlertDialog.Builder(this@MainActivity)
+                dialogo.setPositiveButton("OK",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        if(p.getTipo().equals("Nota Simple")){
+                            Fichero.escribirLinea("Se ha eliminado una nota simple",NombreFoto.log)
+                            Conexion.delNota(ventanaactual,p.getId())
+                        }
+                        if(p.getTipo().equals("Tarea")){
+                            Fichero.escribirLinea("Se ha eliminado una tarea",NombreFoto.log)
+                            Conexion.delNotaTarea(ventanaactual,p.getId())
+                        }
+                    })
+                dialogo.setNegativeButton(
+                    "CANCELAR",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                    })
+                dialogo.setTitle("¿Borrar Elemento?")
+                dialogo.setMessage("¿Deseas eliminar este elemento?")
+                dialogo.show()
+
                 return true
                 var miAdaptadorModificado: MiAdaptador = MiAdaptador(ventanaactual,R.layout.notas,Conexion.obtenerNotas(ventanaactual),seleccionado)
                 ml.adapter = miAdaptadorModificado
             }
         }
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun buscar(view: View){
+        createSimpleDialog()
+    }
+    @SuppressLint("RestrictedApi")
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun createSimpleDialog(): Boolean {
+        val dialogo: AlertDialog.Builder = AlertDialog.Builder(this)
+        val Myview=layoutInflater.inflate(R.layout.buscar, null)
+        var basunto = Myview.findViewById<EditText>(R.id.asunto)
+        dialogo.setView(Myview)
+        dialogo.setPositiveButton("OK",
+            DialogInterface.OnClickListener { dialog, which ->
+                var e= Conexion.buscarNotas(this,basunto.text.toString())
+                var intentMain: Intent =  Intent(ventanaactual,NotaSimple::class.java)
+                if (e != null) {
+                    intentMain.putExtra("posicion",e-1)
+                    startActivity(intentMain)
+                }
+            })
+        dialogo.setNegativeButton("CANCELAR",
+            DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+            })
+        dialogo.setTitle("Buscar Nota")
+        dialogo.setMessage("Escribe el titulo de la nota")
+        dialogo.show()
 
+        return true
     }
 }

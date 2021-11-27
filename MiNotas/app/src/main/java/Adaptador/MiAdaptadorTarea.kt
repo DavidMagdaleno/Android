@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minotas.NotaTarea
 //import com.bumptech.glide.Glide
@@ -82,9 +83,10 @@ class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : R
             })
             itemView.setOnLongClickListener(View.OnLongClickListener
             {
+                MiAdaptadorTarea.IddelaTarea=tars.getIdTarea()
                 miAdaptadorTarea.tarea.removeAt(pos)
                 MiAdaptadorTarea.paraborrar=true
-                MiAdaptadorTarea.IddelaTarea=tars.getIdTarea()
+                Toast.makeText(context, "Guardar para confirmar Borrado", Toast.LENGTH_SHORT).show()
                 miAdaptadorTarea.notifyDataSetChanged()
                 return@OnLongClickListener true
             })

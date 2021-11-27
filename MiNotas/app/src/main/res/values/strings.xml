@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">MiNotas</string>
+    <string name="app_name">MiNotes</string>
+    <string name="btnVolver">Back</string>
+    <string name="btnCancelar">Cancel</string>
+    <string name="btnGuardar">Save</string>
+    <string name="btnGardar">Save</string>
+    <string name="btnRegret">Back</string>
+    <string name="btnSend">Send</string>
+    <string name="btnCancel">Cancel</string>
+    <string name="btnContact">Contacts list</string>
+
+    <string name="lblT">Affair:</string>
+    <string name="lblListaTarea">List Name:</string>
+    <string name="lblTarea">New Task:</string>
+    <string name="lblNumero">Phone Number:</string>
+    <string name="lblMsg">Message:</string>
+
 </resources>

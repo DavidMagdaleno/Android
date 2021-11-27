@@ -13,4 +13,19 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="spin" parent="Theme.MiNotas">
+        <item name="android:background">@drawable/add1</item>
+    </style>
+    <style name="listNota" parent="Theme.MiNotas">
+        <item name="android:background">@color/nota</item>
+    </style>
+    <style name="listTarea" parent="Theme.MiNotas">
+        <item name="android:background">@color/cyan</item>
+    </style>
+    <style name="notasimple" parent="Theme.MiNotas">
+        <item name="android:background">@drawable/nota</item>
+    </style>
+    <style name="buscar" parent="Theme.MiNotas">
+        <item name="android:backgroundTint">@drawable/lupa</item>
+    </style>
 </resources>

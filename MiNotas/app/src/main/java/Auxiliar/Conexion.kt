@@ -5,6 +5,7 @@ import Conexion.AdminSQLIteConexion
 import Modelo.Notas
 import Modelo.Tarea
 import android.content.ContentValues
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 
 object Conexion {
@@ -137,18 +138,18 @@ object Conexion {
     }
 
     fun buscarNotas(contexto: AppCompatActivity, asunto:String):Int? {
-        var p:Notas? = null
+        var e: Int=0
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
         val fila = bd.rawQuery(
-            "select Id from notas where Asunto='${asunto} '",
+            "select Id from notas where Asunto='${asunto}'",
             null
         )
-        var e: Int=0
-        if (fila.moveToFirst()) {
+        if (fila.moveToNext()) {
             e = fila.getInt(0)
         }
         bd.close()
+        Log.e("fuente", e.toString())
         return e
 
     }
