@@ -137,22 +137,22 @@ object Conexion {
         return cant
     }
 
-    fun buscarNotas(contexto: AppCompatActivity, asunto:String):Int? {
-        var e: Int=0
+    fun buscarNotas(contexto: AppCompatActivity, asunto:String):Notas? {
+        var p:Notas? = null
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
         val bd = admin.writableDatabase
         val fila = bd.rawQuery(
-            "select Id from notas where Asunto='${asunto}'",
+            "select Id,Asunto,Tipo,Fecha,Hora,Texto from notas where Asunto='${asunto}'",
             null
         )
         if (fila.moveToNext()) {
-            e = fila.getInt(0)
+            p=Notas(fila.getInt(0),fila.getString(1),fila.getString(2),fila.getString(3),fila.getString(4),fila.getString(5))
         }
         bd.close()
-        Log.e("fuente", e.toString())
-        return e
+        return p
 
     }
+    /*
     fun buscarTarea(contexto: AppCompatActivity, Id:Int, IdTarea:Int):Tarea? {
         var p:Tarea? = null
         val admin = AdminSQLIteConexion(contexto, nombreBD, null, 1)
@@ -166,9 +166,8 @@ object Conexion {
         }
         bd.close()
         return p
-
     }
-
+    */
     fun obtenerNotas(contexto: AppCompatActivity):ArrayList<Notas>{
         var nota:ArrayList<Notas> = ArrayList(1)
 

@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
     fun buscar(view: View){
         createSimpleDialog()
     }
-    @SuppressLint("RestrictedApi")
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun createSimpleDialog(): Boolean {
         val dialogo: AlertDialog.Builder = AlertDialog.Builder(this)
@@ -139,10 +139,19 @@ class MainActivity : AppCompatActivity() {
         dialogo.setPositiveButton("OK",
             DialogInterface.OnClickListener { dialog, which ->
                 var e= Conexion.buscarNotas(this,basunto.text.toString())
-                var intentMain: Intent =  Intent(ventanaactual,NotaSimple::class.java)
                 if (e != null) {
-                    intentMain.putExtra("posicion",e-1)
-                    startActivity(intentMain)
+                    if(e.getTipo().equals("Nota Simple")){
+                        var intentMain: Intent =  Intent(ventanaactual,NotaSimple::class.java)
+                        intentMain.run {
+                            putExtra("posicion",e.getId()-1)
+                            startActivity(this)
+                        }
+                    }
+                    if(e.getTipo().equals("Tarea")){
+                        var intentMain: Intent =  Intent(ventanaactual,NotaTarea::class.java)
+                        intentMain.putExtra("posicion",e.getId()-1)
+                        startActivity(intentMain)
+                    }
                 }
             })
         dialogo.setNegativeButton("CANCELAR",
