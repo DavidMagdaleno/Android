@@ -47,26 +47,32 @@ class MiAdaptador : ArrayAdapter<Int> {
             if (this.context != null) {
                 view = context.layoutInflater.inflate(this.resource, null)
                 holder.txtItem = view.findViewById(R.id.txtNote)
+                holder.txtItem2 = view.findViewById(R.id.txtFecha)
                 view.tag=holder
             }
         }else{
             holder=view?.tag as ViewHolder
         }
         var valor: Notas = this.valores!![position]
-        holder.txtItem?.text = "    "+valor.getAsunto()+"                   "+valor.getFecha()+" "+valor.getHora()
+        holder.txtItem?.text = "    "+valor.getAsunto()
+        holder.txtItem2?.text= valor.getFecha()+" "+valor.getHora()
         if (valor.getTipo().equals("Nota Simple")) {
             with(holder.txtItem) { this?.setBackgroundResource(R.color.nota)}
+            with(holder.txtItem2) { this?.setBackgroundResource(R.color.nota)}
         }
         if (valor.getTipo().equals("Tareas")) {
             with(holder.txtItem) { this?.setBackgroundResource(R.color.cyan)}
+            with(holder.txtItem2) { this?.setBackgroundResource(R.color.cyan)}
         }
         if (position==seleccionado) {
             with(holder.txtItem) { this?.setBackgroundResource(R.color.purple_200)}
+            with(holder.txtItem2) { this?.setBackgroundResource(R.color.purple_200)}
         }
         return view!!
     }
     class ViewHolder(){
         var txtItem: TextView? = null
+        var txtItem2: TextView? = null
 
     }
 }

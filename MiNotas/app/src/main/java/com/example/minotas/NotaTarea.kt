@@ -167,23 +167,4 @@ class NotaTarea : AppCompatActivity() {
             Log.e("David",e.toString())
         }
     }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun createSimpleDialog(tare:Notas): Boolean {
-        val dialogo: AlertDialog.Builder = AlertDialog.Builder(this)
-        dialogo.setPositiveButton("OK",
-            DialogInterface.OnClickListener { dialog, which ->
-                var e=Conexion.delTarea(this,tare.getId(),MiAdaptadorTarea.IddelaTarea)
-                MiAdaptadorTarea.IddelaTarea=-1
-            })
-        dialogo.setNegativeButton("CANCELAR",
-            DialogInterface.OnClickListener { dialog, which ->
-                dialog.dismiss()
-            })
-        dialogo.setTitle("¿Borrar Elemento?")
-        dialogo.setMessage("¿Deseas eliminar este elemento?")
-        dialogo.show()
-
-        return true
-    }
 }

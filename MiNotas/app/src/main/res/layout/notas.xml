@@ -5,8 +5,18 @@
 
     <TextView
         android:id="@+id/txtNote"
-        android:layout_width="wrap_content"
+        android:layout_width="10dp"
         android:layout_height="33dp"
+        android:layout_weight="1"
+        android:fontFamily="serif"
+        android:text="TextView"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtFecha"
+        android:layout_width="86dp"
+        android:layout_height="31dp"
         android:layout_weight="1"
         android:fontFamily="serif"
         android:text="TextView"

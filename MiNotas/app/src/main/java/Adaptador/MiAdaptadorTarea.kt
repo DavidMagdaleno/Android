@@ -3,8 +3,12 @@ package Adaptador
 
 import Modelo.Tarea
 import Auxiliar.Conexion
+import Modelo.Notas
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minotas.NotaTarea
@@ -23,7 +28,6 @@ class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : R
 
     companion object {
         var seleccionado:Int = -1
-        var paraborrar:Boolean=false
         var IddelaTarea:Int=0
         var nombreTarea:String=""
     }
@@ -46,6 +50,7 @@ class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : R
         val avatar = view.findViewById(R.id.imgRecycler) as ImageView
 
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(tars: Tarea, context: Context, pos: Int, miAdaptadorTarea: MiAdaptadorTarea){
             nomTarea.text = tars.getTarea()
 
@@ -84,14 +89,24 @@ class MiAdaptadorTarea (var tarea : ArrayList<Tarea>, var  context: Context) : R
             })
             itemView.setOnLongClickListener(View.OnLongClickListener
             {
-                //MiAdaptadorTarea.IddelaTarea=tars.getIdTarea()
                 miAdaptadorTarea.tarea.removeAt(pos)
-                //MiAdaptadorTarea.paraborrar=true
-                Conexion.delTarea(context as AppCompatActivity,tars.getId(),tars.getIdTarea())
-                //Toast.makeText(context, "Guardar para confirmar Borrado", Toast.LENGTH_SHORT).show()
+                val dialogo: AlertDialog.Builder = AlertDialog.Builder(context)
+                dialogo.setPositiveButton("OK",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        Conexion.delTarea(context as AppCompatActivity,tars.getId(),tars.getIdTarea())
+                    })
+                dialogo.setNegativeButton("CANCELAR",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                    })
+                dialogo.setTitle("¿Borrar Elemento?")
+                dialogo.setMessage("¿Deseas eliminar este elemento?")
+                dialogo.show()
+
                 miAdaptadorTarea.notifyDataSetChanged()
                 return@OnLongClickListener true
             })
         }
+
     }
 }
