@@ -71,7 +71,6 @@ class MainActivity : AppCompatActivity() {
 
             override fun onItemClick(parent: AdapterView<*>?, vista: View?, pos: Int, idElemento: Long) {
                 var p = Conexion.obtenerNotas(ventanaactual).get(pos)
-                Log.e("pasar nota",p.toString())
                 if(pos==seleccionado){
                     seleccionado=-1
                 }else{

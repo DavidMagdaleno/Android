@@ -116,15 +116,6 @@ class NotaTarea : AppCompatActivity() {
             n = Notas(cont,"Sin Titulo","Tarea","")
             Conexion.addNotaSimple(this,n)
         }
-        borrar()
-    }
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun borrar(){
-        if(MiAdaptadorTarea.paraborrar){
-            var posicion = intent!!.getIntExtra("posicion",-1)
-            var tare=Conexion.obtenerNotas(this)[posicion]
-            createSimpleDialog(tare)
-        }
     }
 
     fun tomarFoto(view: View){

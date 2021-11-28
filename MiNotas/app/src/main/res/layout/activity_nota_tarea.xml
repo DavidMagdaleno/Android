@@ -59,19 +59,6 @@
         app:layout_constraintTop_toBottomOf="@+id/etxtLista"
         app:layout_constraintVertical_bias="0.047" />
 
-    <Button
-        android:id="@+id/btnAñadir"
-        android:layout_width="66dp"
-        android:layout_height="45dp"
-        android:onClick="add"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.285"
-        app:layout_constraintStart_toEndOf="@+id/etxtTarea"
-        app:layout_constraintTop_toBottomOf="@+id/etxtLista"
-        app:layout_constraintVertical_bias="0.047" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTarea"
         android:layout_width="wrap_content"
@@ -108,5 +95,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvTarea"
         app:layout_constraintVertical_bias="0.925" />
+
+    <ImageView
+        android:id="@+id/btnAñadir"
+        android:layout_width="57dp"
+        android:layout_height="46dp"
+        android:onClick="add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/etxtTarea"
+        app:layout_constraintTop_toBottomOf="@+id/etxtLista"
+        app:layout_constraintVertical_bias="0.047"
+        app:srcCompat="@drawable/mas" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

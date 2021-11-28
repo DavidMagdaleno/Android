@@ -78,6 +78,7 @@
         android:layout_height="47dp"
         android:onClick="sms"
         android:text="SMS"
+        app:icon="@android:drawable/ic_dialog_email"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.049"

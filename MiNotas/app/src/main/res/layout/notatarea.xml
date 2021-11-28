@@ -39,11 +39,12 @@
 
             <ImageView
                 android:id="@+id/imgRecycler"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:clickable="true"
                 android:onClick="tomarFoto"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
+                android:scaleType="centerCrop"
+                app:srcCompat="@android:drawable/ic_menu_camera" />
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
