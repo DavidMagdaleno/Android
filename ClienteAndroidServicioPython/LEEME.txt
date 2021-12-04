@@ -1,0 +1,3 @@
+En la carpeta ServicioWEB está el servicio programado en Python.
+También existe un script que permite generar la base de datos usada de prueba (MySQL).
+
