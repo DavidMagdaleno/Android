@@ -3,11 +3,26 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Raziel/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/activity_aulas.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Raziel/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Raziel/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/activity_new_aula.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Raziel/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/activity_new_profesor.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Raziel/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/fragment_acciones.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Raziel/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/fragment_cabecera.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Raziel/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/fragment_login.xml" value="0.35260416666666666" />
+        <entry key="..\:/Users/Raziel/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/fragment_r_v.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Raziel/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/fragment_ver.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Raziel/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/item_cspinner.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Raziel/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/item_login.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Raziel/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/item_login2.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Raziel/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/item_recycler.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Raziel/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/login.xml" value="0.35260416666666666" />
+        <entry key="..\:/Users/Raziel/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/recyclerxml.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/dam201/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/dam201/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/fragment_acciones.xml" value="0.18885869565217392" />
+        <entry key="..\:/Users/dam201/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/fragment_r_v.xml" value="0.18432971014492755" />
+        <entry key="..\:/Users/dam201/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/fragment_ver.xml" value="0.25" />
+        <entry key="..\:/Users/dam201/Desktop/Android/ServicioWebProfesores/app/src/main/res/layout/item_recycler.xml" value="0.33" />
       </map>
     </option>
   </component>

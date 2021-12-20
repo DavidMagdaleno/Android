@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class Profesor(@SerializedName("Password")
-                   val Pass: String? = null,
+                   val Password: String? = null,
 
                    @SerializedName("DNIProfesor")
-                   val DNI: String? = null,
+                   val DNIProfesor: String? = null,
 
                    @SerializedName("Nombre")
                    val Nombre: String? = null,
 
                    @SerializedName("Apellidos")
-                   val Apellido: String? = null) :Serializable{
+                   val Apellidos: String? = null) :Serializable{
 }

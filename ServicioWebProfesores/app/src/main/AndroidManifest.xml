@@ -13,6 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ServicioWebProfesores"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".NewAula"
+            android:exported="true" />
+        <activity
+            android:name=".NewProfesor"
+            android:exported="true" />
+        <activity
+            android:name=".Aulas"
+            android:exported="true" />
+
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/splash_bienvenida" />
