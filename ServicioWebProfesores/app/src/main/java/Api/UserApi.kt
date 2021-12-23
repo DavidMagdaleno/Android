@@ -1,9 +1,6 @@
 package Api
 
-import Modelo.Aula
-import Modelo.Equipo
-import Modelo.Profesor
-import Modelo.Rol
+import Modelo.*
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -54,7 +51,7 @@ interface UserAPI {
 
     @Headers("Content-Type:application/json")
     @POST("registrar/asignacion")
-    fun addAsignacion(@Body info: Equipo) : Call<ResponseBody>
+    fun addAsignacion(@Body info: Asignacion) : Call<ResponseBody>
     //--------------------------------------------------
 
     @Headers("Content-Type:application/json")
