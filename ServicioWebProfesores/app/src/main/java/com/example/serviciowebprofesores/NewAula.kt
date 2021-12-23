@@ -50,7 +50,6 @@ class NewAula : AppCompatActivity() {
             descrip.setText(au.Descripcion.toString())
 
             id.isEnabled = false  //No dejamos modificar el id que es la clave del registro.
-            //dni.isEnabled = false  //No dejamos modificar el id que es la clave del registro.
         }
     }
 
@@ -58,73 +57,81 @@ class NewAula : AppCompatActivity() {
         val us = Aula(id.text.toString().toInt(),profesDNI[spProfe.selectedItemPosition],descrip.text.toString())
         if (operacion.equals("nuevo")) {
             val request = ServiceBuilder.buildService(UserAPI::class.java)
-            val call = request.getUnAula(profesDNI[spProfe.selectedItemPosition]);
-            //si es mas de una
-            call.enqueue(object : Callback<MutableList<Aula>> {
-                override fun onResponse(call: Call<MutableList<Aula>>, response: Response<MutableList<Aula>>) {
-                    val post = response.body()
-                    if (post != null) {
-                        if (response.isSuccessful){
-                            if (post.size>0){
-                                Toast.makeText(this@NewAula, "Ese Profesor ya tiene un aula asignada.",Toast.LENGTH_LONG).show()
-                                //alertDialog para quitar la asignacion del aula anterior copiar en modificar
-                                createSimpleDialog()
-                                //si no tiene ningun aula
-                            }else{
-                                val call = request.addAula(us)
-                                call.enqueue(object : Callback<ResponseBody> {
-                                    override fun onResponse(
-                                        call: Call<ResponseBody>,
-                                        response: Response<ResponseBody>
-                                    ) {
-                                        Log.e("Fernando", response.message())
-                                        Log.e("Fernando", response.code().toString())
-                                        if (response.code() == 200) {
-                                            Log.e("Registro", "Registro efectuado con éxito.")
-                                            Toast.makeText(this@NewAula, "Se ha registrado el aula con éxito.",Toast.LENGTH_LONG).show()
-                                            //finish()
-                                        } else {
-                                            Log.e("Registro", "Algo ha fallado en la inserción: clave duplicada.")
-                                        }
-                                        if (response.isSuccessful) { //Esto es otra forma de hacerlo en lugar de mirar el código.
-                                            Log.e("Registro", "Registro efectuado con éxito.")
+            val call = request.getAulaId(id.text.toString().toInt());
+
+            call.enqueue(object : Callback<Aula> {
+                override fun onResponse(call: Call<Aula>, response: Response<Aula>) {
+                    //val post = response.body()
+                    if (response.isSuccessful){
+                        Toast.makeText(this@NewAula, "El Identificador de Aula ya Existe", Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+                        val call = request.getUnAula(profesDNI[spProfe.selectedItemPosition]);
+                        //si es mas de una
+                        call.enqueue(object : Callback<MutableList<Aula>> {
+                            override fun onResponse(call: Call<MutableList<Aula>>, response: Response<MutableList<Aula>>) {
+                                val post = response.body()
+                                if (response.isSuccessful){
+                                    if (post != null){
+                                        if (post.size>0) {
+                                            Toast.makeText(this@NewAula,"Ese Profesor ya tiene un aula asignada.",Toast.LENGTH_LONG).show()
+                                            //alertDialog para quitar la asignacion del aula anterior copiar en modificar
+                                            createSimpleDialog()
+                                            //si no tiene ningun aula
                                         }
                                     }
-                                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                                        Log.e("Registro", "Algo ha fallado en la conexión.")
-                                    }
-                                })
+                                }else{
+                                    val call = request.addAula(us)
+                                    call.enqueue(object : Callback<ResponseBody> {
+                                        override fun onResponse(
+                                            call: Call<ResponseBody>,
+                                            response: Response<ResponseBody>
+                                        ) {
+                                            Log.e("Fernando", response.message())
+                                            Log.e("Fernando", response.code().toString())
+                                            if (response.code() == 200) {
+                                                Log.e("Registro", "Registro efectuado con éxito.")
+                                                Toast.makeText(this@NewAula, "Se ha registrado el aula con éxito.",Toast.LENGTH_LONG).show()
+                                                //finish()
+                                            } else {
+                                                Log.e("Registro", "Algo ha fallado en la inserción: clave duplicada.")
+                                            }
+                                            if (response.isSuccessful) { //Esto es otra forma de hacerlo en lugar de mirar el código.
+                                                Log.e("Registro", "Registro efectuado con éxito.")
+                                            }
+                                        }
+                                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                            Log.e("Registro", "Algo ha fallado en la conexión.")
+                                        }
+                                    })
+                                }
                             }
-                        }
-                        else {
-                            Toast.makeText(this@NewAula, "No se han encontrado resultados", Toast.LENGTH_SHORT).show()
-                        }
+                            override fun onFailure(call: Call<MutableList<Aula>>, t: Throwable) {
+                                Toast.makeText(this@NewAula, "${t.message}", Toast.LENGTH_SHORT).show()
+                            }
+                        })
                     }
                 }
-                override fun onFailure(call: Call<MutableList<Aula>>, t: Throwable) {
+                override fun onFailure(call: Call<Aula>, t: Throwable) {
                     Toast.makeText(this@NewAula, "${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
         }else{
-            Log.e("Modificar","Modificar")
             val request = ServiceBuilder.buildService(UserAPI::class.java)
             val call = request.getUnAula(profesDNI[spProfe.selectedItemPosition])
             call.enqueue(object : Callback<MutableList<Aula>> {
                 override fun onResponse(call: Call<MutableList<Aula>>, response: Response<MutableList<Aula>>) {
                     val post = response.body()
-                    //if (post != null) {//esta es la clave da null si no tiene ningun aula
                     if (response.isSuccessful){
-                        if (post != null) {//esta es la clave da null si no tiene ningun aula
+                        if (post != null) {
                             if (post.size>0){
                                 Toast.makeText(this@NewAula, "Ese Profesor ya tiene un aula asignada.",Toast.LENGTH_LONG).show()
-                                //alertDialog para quitar la asignacion del aula anterior copiar en modificar
                                 createSimpleDialog()
-                                //si no tiene ningun aula
                             }
                         }
                     }else {
+                        //si no tiene ningun aula
                         val call = request.modAula(us)
-                        Log.e("Modificar2",us.toString())
                         call.enqueue(object : Callback<ResponseBody> {
                             override fun onResponse(
                                 call: Call<ResponseBody>,
@@ -135,10 +142,9 @@ class NewAula : AppCompatActivity() {
                                 if (response.code() == 200) {
                                     Log.e("Fernando", "Registro modificado con éxito.")
                                     Toast.makeText(this@NewAula, "Se ha modificado el aula con éxito.",Toast.LENGTH_LONG).show()
-                                    finish()
                                 } else {
                                     Log.e("Fernando", "Algo ha fallado en la modificación.")
-                                    //Toast.makeText(contexto,"Algo ha fallado en la modificación",Toast.LENGTH_LONG).show()
+                                    Toast.makeText(this@NewAula,"Algo ha fallado en la modificación",Toast.LENGTH_LONG).show()
                                 }
                                 if (response.isSuccessful) { //Esto es otra forma de hacerlo en lugar de mirar el código.
                                     Log.e("Fernando", "Registro modificado con éxito.")
@@ -148,10 +154,9 @@ class NewAula : AppCompatActivity() {
 
                             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                                 Log.e("Fernando", "Algo ha fallado en la conexión.")
-                                //Toast.makeText(contexto, "Algo ha fallado en la conexión.", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this@NewAula, "Algo ha fallado en la conexión.", Toast.LENGTH_LONG).show()
                             }
                         })
-                        //Toast.makeText(this@NewAula, "No se han encontrado resultados", Toast.LENGTH_SHORT).show()
                     }
                 }
                 override fun onFailure(call: Call<MutableList<Aula>>, t: Throwable) {
@@ -164,7 +169,6 @@ class NewAula : AppCompatActivity() {
 
    fun realizaCambio(idOtroaula:Int){
        val request = ServiceBuilder.buildService(UserAPI::class.java)
-       Log.e("que pone aulab",idOtroaula.toString())
        val us = Aula(id.text.toString().toInt(),profesDNI[spProfe.selectedItemPosition],descrip.text.toString())
        val us2 = Aula(idOtroaula,"Nadie",descrip.text.toString())
        val call = request.modAula(us2)
@@ -207,7 +211,6 @@ class NewAula : AppCompatActivity() {
                    if (response.code() == 200) {
                        Log.e("Registro", "Registro efectuado con éxito.")
                        Toast.makeText(this@NewAula, "Se ha registrado el aula con éxito.",Toast.LENGTH_LONG).show()
-                       //finish()
                    } else {
                        Log.e("Registro", "Algo ha fallado en la inserción: clave duplicada.")
                    }
@@ -232,10 +235,9 @@ class NewAula : AppCompatActivity() {
                    if (response.code() == 200) {
                        Log.e("Fernando", "Registro modificado con éxito.")
                        Toast.makeText(this@NewAula, "Se ha modificado el aula con éxito.",Toast.LENGTH_LONG).show()
-                       finish()
                    } else {
                        Log.e("Fernando", "Algo ha fallado en la modificación.")
-                       //Toast.makeText(contexto,"Algo ha fallado en la modificación",Toast.LENGTH_LONG).show()
+                       Toast.makeText(this@NewAula,"Algo ha fallado en la modificación",Toast.LENGTH_LONG).show()
                    }
                    if (response.isSuccessful) { //Esto es otra forma de hacerlo en lugar de mirar el código.
                        Log.e("Fernando", "Registro modificado con éxito.")
@@ -245,7 +247,7 @@ class NewAula : AppCompatActivity() {
 
                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                    Log.e("Fernando", "Algo ha fallado en la conexión.")
-                   //Toast.makeText(contexto, "Algo ha fallado en la conexión.", Toast.LENGTH_LONG).show()
+                   Toast.makeText(this@NewAula, "Algo ha fallado en la conexión.", Toast.LENGTH_LONG).show()
                }
            })
        }
@@ -260,8 +262,6 @@ class NewAula : AppCompatActivity() {
         dialogo.setView(Myview)
         dialogo.setPositiveButton("OK",
             DialogInterface.OnClickListener { dialog, which ->
-                //AulaDNI2(au.DNI.toString())
-                //AulaDNI2(profesDNI[spProfe.selectedItemPosition])
                 val request = ServiceBuilder.buildService(UserAPI::class.java)
                 val call = request.getUnAula2(profesDNI[spProfe.selectedItemPosition]);
 
@@ -293,11 +293,8 @@ class NewAula : AppCompatActivity() {
     }
 
     fun Profe(){
-        //spProfe = findViewById<Spinner>(R.id.spProfe)
         val request = ServiceBuilder.buildService(UserAPI::class.java)
         val call = request.getProfesores();
-        //Call<MutableList<Profesor>>
-        //call.enqueue(object : Callback<Profesor> {
         call.enqueue(object : Callback<MutableList<Profesor>> {
             override fun onResponse(call: Call<MutableList<Profesor>>, response: Response<MutableList<Profesor>>) {
                 val post = response.body()
