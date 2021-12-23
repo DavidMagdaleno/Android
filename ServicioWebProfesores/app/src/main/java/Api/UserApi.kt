@@ -25,7 +25,7 @@ interface UserAPI {
     @GET("listado/{id}")
     fun getUnProfesor(@Path("id") id:String): Call<Profesor>
 
-    @GET("/listado/aulas/{id}")
+    @GET("/listado/aulas2/{id}")
     fun getUnAula(@Path("id") id:String): Call<MutableList<Aula>>
 
     @GET("/listado/aulas/{id}")
