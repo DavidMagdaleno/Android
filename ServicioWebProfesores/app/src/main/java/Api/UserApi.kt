@@ -29,7 +29,7 @@ interface UserAPI {
     fun getUnAula2(@Path("id") id:String): Call<Aula>
 
     @GET("/listado/aulas/id/{id}")
-    fun getAulaId(@Path("id") id:Int): Call<Aula>//
+    fun getAulaId(@Path("id") id:Int): Call<Aula>
 
     @GET("/listado/equipos/{id}")
     fun getEquiposAula(@Path("id") id:Int): Call<MutableList<Equipo>>
@@ -57,6 +57,10 @@ interface UserAPI {
     @Headers("Content-Type:application/json")
     @POST("login")
     fun loginUsuario(@Body info: Profesor) : Call<MutableList<Rol>>
+
+    @GET("/listado/roles/{id}")
+    fun getRolId(@Path("id") id:String): Call<MutableList<Rol>>
+
     //--------------------------------------------------
 
     @DELETE("borrar/{dni}")
@@ -64,6 +68,9 @@ interface UserAPI {
 
     @DELETE("borrar/aula/{id}")
     fun borrarAula(@Path("id") id:Int) : Call<ResponseBody>
+
+    @DELETE("/borrar/rol/{id}")
+    fun borrarRol(@Path("id") id:ArrayList<String>) : Call<ResponseBody>
 
     //--------------------------------------------------
 
