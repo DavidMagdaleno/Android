@@ -105,27 +105,30 @@ class MainActivity : AppCompatActivity(),FragmentVer.OnFragmentInteractionListen
                 var p = roles.get(pos)
                 if(p.equals("Profesor")){
                     rol.setText("Profesor")
-                    r=rol.text.toString()
+                    //r=rol.text.toString()
                     FragmentRV.role="P"
                     FragmentRV.Dni=dni.text.toString()
                     verProfe.isEnabled=false
                     masProfe.isEnabled=false
                     masAula.isEnabled=false
                     masEquipo.isEnabled=false
+                    FragmentCabecera.rol=p
                 }
                 if(p.equals("Jefe")){
                     rol.setText("Jefe")
-                    r=rol.text.toString()
+                    //r=rol.text.toString()
                     FragmentRV.role="J"
                     verProfe.isEnabled=true
                     masProfe.isEnabled=true
                     masAula.isEnabled=true
                     masEquipo.isEnabled=true
+                    FragmentCabecera.rol=p
                 }
                 if(p.equals("Encargado")){
                     rol.setText("Encargado")
-                    r=rol.text.toString()
+                    //r=rol.text.toString()
                     FragmentRV.role="E"
+                    FragmentCabecera.rol=p
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {

@@ -14,6 +14,9 @@
         android:theme="@style/Theme.ServicioWebProfesores"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".MisDatos"
+            android:exported="true" />
+        <activity
             android:name=".NewAula"
             android:exported="true" />
         <activity

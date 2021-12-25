@@ -1,5 +1,6 @@
 package com.example.serviciowebprofesores
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ class FragmentCabecera : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var intentMain:Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +46,34 @@ class FragmentCabecera : Fragment() {
         var nom:TextView=view.findViewById(R.id.txtNomCabez)
         var apel:TextView=view.findViewById(R.id.txtApelCabez)
         var dn:TextView=view.findViewById(R.id.txtDNI)
+        var ro:TextView=view.findViewById(R.id.txtRol)
         nom.setText(nombre)
         apel.setText(apellidos)
         dn.setText(dni)
+        ro.setText(rol)
+
+        nom.setOnClickListener(){
+            intentMain = Intent(context,MisDatos::class.java)
+            //intentMain.putExtra("opcion","nuevo")
+            startActivity(intentMain)
+        }
+        apel.setOnClickListener(){
+            intentMain = Intent(context,MisDatos::class.java)
+            //intentMain.putExtra("opcion","nuevo")
+            startActivity(intentMain)
+        }
+        dn.setOnClickListener(){
+            intentMain = Intent(context,MisDatos::class.java)
+            //intentMain.putExtra("opcion","nuevo")
+            startActivity(intentMain)
+        }
+        ro.setOnClickListener(){
+            intentMain = Intent(context,MisDatos::class.java)
+            //intentMain.putExtra("opcion","nuevo")
+            startActivity(intentMain)
+        }
+
+
     }
 
 
@@ -54,6 +81,7 @@ class FragmentCabecera : Fragment() {
         var nombre:String=""
         var apellidos:String=""
         var dni:String=""
+        var rol:String=""
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.

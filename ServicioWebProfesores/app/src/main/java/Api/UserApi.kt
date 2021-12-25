@@ -82,6 +82,9 @@ interface UserAPI {
     @PUT("modificar/aula")
     fun modAula(@Body info: Aula) : Call<ResponseBody>
 
+    @Headers("Content-Type:application/json")
+    @PUT("modificar/clave")
+    fun modClave(@Body info: Profesor) : Call<ResponseBody>
 
 
 }

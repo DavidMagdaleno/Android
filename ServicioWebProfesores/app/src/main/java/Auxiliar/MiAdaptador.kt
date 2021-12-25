@@ -5,6 +5,7 @@ import Api.UserAPI
 import Modelo.Aula
 import Modelo.Equipo
 import Modelo.Profesor
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.serviciowebprofesores.NewAula
 import com.example.serviciowebprofesores.NewProfesor
 import com.example.serviciowebprofesores.R
+import com.google.android.material.internal.ContextUtils.getActivity
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -36,7 +38,9 @@ class MiAdaptador (var objeto : ArrayList<Any>, var  context: Context) : Recycle
         var seleccionado:Int = -1
         var IddelaTarea:Int=0
         var nombreTarea:String=""
+
     }
+    var ventanaactual:MiAdaptador=this
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -125,10 +129,13 @@ class MiAdaptador (var objeto : ArrayList<Any>, var  context: Context) : Recycle
                 val dialogo: AlertDialog.Builder = AlertDialog.Builder(context)
                 dialogo.setPositiveButton("OK",
                     DialogInterface.OnClickListener { dialog, which ->
-                        if(tars is Profesor){}
+                        if(tars is Profesor){
+                            var p:Profesor=miAdaptador.objeto[pos] as Profesor
+                            borrarProfesor(p.DNIProfesor.toString())
+                            miAdaptador.objeto.removeAt(pos)
+                        }
                         if(tars is Aula){
                             var a:Aula=miAdaptador.objeto[pos] as Aula
-                            Log.e("objeto",a.IdAula.toString())
                             borrarPorIDAula(a.IdAula.toString().toInt())
                             miAdaptador.objeto.removeAt(pos)
                         }
@@ -157,11 +164,11 @@ class MiAdaptador (var objeto : ArrayList<Any>, var  context: Context) : Recycle
                     Log.e ("Fernando", response.code().toString())
                     if (response.code() == 200) {
                         Log.e("Fernando","Registro eliminado con éxito.")
-                        //Toast.makeText(this@MainActivity, "Registro eliminado con éxito", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(itemView.context, "Registro eliminado con éxito", Toast.LENGTH_SHORT).show()
                     }
                     else {
                         Log.e("Fernando","Algo ha fallado en el borrado: DNI no encontrado.")
-                        //Toast.makeText(this@MainActivity, "Algo ha fallado en el borrado: DNI no encontrado",Toast.LENGTH_LONG).show()
+                        Toast.makeText(itemView.context, "Algo ha fallado en el borrado: DNI no encontrado",Toast.LENGTH_LONG).show()
                     }
                     if (response.isSuccessful){ //Esto es otra forma de hacerlo en lugar de mirar el código.
                         Log.e("Fernando","Registro eliminado con éxito.")
@@ -170,11 +177,133 @@ class MiAdaptador (var objeto : ArrayList<Any>, var  context: Context) : Recycle
                 }
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                     Log.e("Fernando","Algo ha fallado en la conexión.")
-                    //Toast.makeText(this@MainActivity, "Algo ha fallado en la conexión.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(itemView.context, "Algo ha fallado en la conexión.", Toast.LENGTH_LONG).show()
                 }
             })
         }
 
+        fun borrarProfesor(id:String){
+            val request = ServiceBuilder.buildService(UserAPI::class.java)
+            val call = request.getUnAula(id)
+            call.enqueue(object : Callback<MutableList<Aula>> {
+                override fun onResponse(call: Call<MutableList<Aula>>, response: Response<MutableList<Aula>>) {
+                    val post = response.body()
+                    if (response.isSuccessful){
+                        if (post != null) {
+                            if (post.size>0){
+                                Toast.makeText(itemView.context, "Ese Profesor tiene un aula asignada.",Toast.LENGTH_LONG).show()
+                                createSimpleDialog(post[0].IdAula.toString().toInt(),post[0].Descripcion.toString(),id)
+                            }
+                        }
+                    }else {
+                        val call = request.borrarUsuario(id)
+                        call.enqueue(object : Callback<ResponseBody> {
+
+                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                Log.e("Fernando",response.message())
+                                Log.e ("Fernando", response.code().toString())
+                                if (response.code() == 200) {
+                                    Log.e("Fernando","Registro eliminado con éxito.")
+                                    Toast.makeText(itemView.context, "Registro eliminado con éxito", Toast.LENGTH_SHORT).show()
+                                }
+                                else {
+                                    Log.e("Fernando","Algo ha fallado en el borrado: DNI no encontrado.")
+                                    Toast.makeText(itemView.context, "Algo ha fallado en el borrado: DNI no encontrado",Toast.LENGTH_LONG).show()
+                                }
+                                if (response.isSuccessful){ //Esto es otra forma de hacerlo en lugar de mirar el código.
+                                    Log.e("Fernando","Registro eliminado con éxito.")
+                                    //Toast.makeText(this@MainActivity, "Registro eliminado con éxito", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                Log.e("Fernando","Algo ha fallado en la conexión.")
+                                Toast.makeText(itemView.context, "Algo ha fallado en la conexión.", Toast.LENGTH_LONG).show()
+                            }
+                        })
+                    }
+                }
+                override fun onFailure(call: Call<MutableList<Aula>>, t: Throwable) {
+                    Toast.makeText(itemView.context, "${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+
+
+        fun createSimpleDialog(ida:Int,descr:String,dni:String): Boolean {
+            val dialogo: AlertDialog.Builder = AlertDialog.Builder(itemView.context)
+            dialogo.setPositiveButton("OK",
+                DialogInterface.OnClickListener { dialog, which ->
+                    aulaSinProfe(ida,descr,dni)
+                })
+            dialogo.setNegativeButton("CANCELAR",
+                DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+                })
+            dialogo.setTitle("¿El Profesor tiene un Aula Asignada?")
+            dialogo.setMessage("¿Deseas eliminar al Profesor?")
+            dialogo.show()
+            return true
+        }
+
+
+        fun aulaSinProfe(ida:Int,descr:String,dni:String){
+            //se le desasigna el aula
+            val request = ServiceBuilder.buildService(UserAPI::class.java)
+            val us2 = Aula(ida,"Nadie",descr)
+            val call = request.modAula(us2)
+
+            call.enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
+                    Log.e("Fernando", response.message())
+                    Log.e("Fernando", response.code().toString())
+                    if (response.code() == 200) {
+                        Log.e("Fernando", "Registro modificado con éxito.")
+                        Toast.makeText(itemView.context, "Se ha modificado el aula con éxito.",Toast.LENGTH_LONG).show()
+                        //finish()
+                    } else {
+                        Log.e("Fernando", "Algo ha fallado en la modificación.")
+                        Toast.makeText(itemView.context,"Algo ha fallado en la modificación",Toast.LENGTH_LONG).show()
+                    }
+                    if (response.isSuccessful) { //Esto es otra forma de hacerlo en lugar de mirar el código.
+                        Log.e("Fernando", "Registro modificado con éxito.")
+                        //Toast.makeText(contexto, "Registro modificado con éxito", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.e("Fernando", "Algo ha fallado en la conexión.")
+                    Toast.makeText(itemView.context, "Algo ha fallado en la conexión.", Toast.LENGTH_LONG).show()
+                }
+            })
+            //ahora se elimina al profesor
+            val call2 = request.borrarUsuario(dni)
+            call2.enqueue(object : Callback<ResponseBody> {
+
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    Log.e("Fernando",response.message())
+                    Log.e ("Fernando", response.code().toString())
+                    if (response.code() == 200) {
+                        Log.e("Fernando","Registro eliminado con éxito.")
+                        Toast.makeText(itemView.context, "Registro eliminado con éxito", Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+                        Log.e("Fernando","Algo ha fallado en el borrado: DNI no encontrado.")
+                        Toast.makeText(itemView.context, "Algo ha fallado en el borrado: DNI no encontrado",Toast.LENGTH_LONG).show()
+                    }
+                    if (response.isSuccessful){ //Esto es otra forma de hacerlo en lugar de mirar el código.
+                        Log.e("Fernando","Registro eliminado con éxito.")
+                        //Toast.makeText(this@MainActivity, "Registro eliminado con éxito", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.e("Fernando","Algo ha fallado en la conexión.")
+                    Toast.makeText(itemView.context, "Algo ha fallado en la conexión.", Toast.LENGTH_LONG).show()
+                }
+            })
+        }
     }
 
 }
