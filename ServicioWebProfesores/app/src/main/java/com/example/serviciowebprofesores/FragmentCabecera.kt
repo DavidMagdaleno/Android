@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -47,6 +48,7 @@ class FragmentCabecera : Fragment() {
         var apel:TextView=view.findViewById(R.id.txtApelCabez)
         var dn:TextView=view.findViewById(R.id.txtDNI)
         var ro:TextView=view.findViewById(R.id.txtRol)
+        var img:ImageView=view.findViewById(R.id.imageView3)
         nom.setText(nombre)
         apel.setText(apellidos)
         dn.setText(dni)
@@ -68,6 +70,11 @@ class FragmentCabecera : Fragment() {
             startActivity(intentMain)
         }
         ro.setOnClickListener(){
+            intentMain = Intent(context,MisDatos::class.java)
+            //intentMain.putExtra("opcion","nuevo")
+            startActivity(intentMain)
+        }
+        img.setOnClickListener(){
             intentMain = Intent(context,MisDatos::class.java)
             //intentMain.putExtra("opcion","nuevo")
             startActivity(intentMain)
