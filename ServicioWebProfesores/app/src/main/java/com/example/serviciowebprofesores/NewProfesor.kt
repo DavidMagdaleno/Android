@@ -65,7 +65,6 @@ class NewProfesor : AppCompatActivity() {
 
             dni.isEnabled = false  //No dejamos modificar el id que es la clave del registro.
             pass.isEnabled = false //Si ya esta creado se cambia la contraseña con el boton de cambiar
-            //boton is enabled
         }
 
     }

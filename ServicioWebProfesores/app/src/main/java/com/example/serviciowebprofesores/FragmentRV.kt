@@ -88,14 +88,14 @@ class FragmentRV : Fragment(),FragmentVer.OnFragmentInteractionListener {
         if(texto=="Equipo"){
             if(role=="P"){
                 AulaDNI2(Dni)
-                EquiposAula(idAula)
+                //EquiposAula(idAula)
             }
             if(role=="J"){
                 Equipos()
             }
             if(role=="E"){
                 AulaDNI2(Dni)
-                EquiposAula(idAula)
+                //EquiposAula(idAula)
             }
         }
 
@@ -243,6 +243,7 @@ class FragmentRV : Fragment(),FragmentVer.OnFragmentInteractionListener {
                 if (post != null) {
                     if (response.isSuccessful){
                         idAula= post.IdAula!!
+                        EquiposAula(post.IdAula!!)
                     }
                     else {
                         Toast.makeText(context, "No se han encontrado resultados", Toast.LENGTH_SHORT).show()

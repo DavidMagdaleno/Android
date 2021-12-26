@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.serviciowebprofesores.NewAula
+import com.example.serviciowebprofesores.NewEquipo
 import com.example.serviciowebprofesores.NewProfesor
 import com.example.serviciowebprofesores.R
 import com.google.android.material.internal.ContextUtils.getActivity
@@ -70,18 +71,32 @@ class MiAdaptador (var objeto : ArrayList<Any>, var  context: Context) : Recycle
                 tars as Profesor
                 texto1.text=tars.DNIProfesor.toString()
                 texto2.text=tars.Nombre.toString()
-                texto3.text=tars.Apellidos.toString()
+                texto4.text=tars.Apellidos.toString()
+                with(avatar){
+                    setImageResource(R.drawable.tutor2)
+                }
             }
             if(tars is Aula){
                 tars as Aula
-                texto1.text=tars.IdAula.toString()
+                texto1.text="Aula: "+tars.IdAula.toString()
                 texto2.text=tars.DNI.toString()
                 texto3.text=tars.Descripcion.toString()
                 with(avatar){
                     setImageResource(R.drawable.aula)
                 }
             }
-            if(tars is Equipo){tars as Equipo}
+            if(tars is Equipo){
+                tars as Equipo
+                texto1.text="Aula: "+tars.IdAula.toString()
+                texto2.text="Equipo: "+tars.IdEquipo.toString()
+                texto3.text=tars.Procesador.toString()+" RAM: "+tars.RAM.toString()
+                if(tars.Pantalla.toString().equals("1")){
+                    texto4.text="Pantalla: SI"
+                }else{ texto4.text="Pantalla: NO"}
+                with(avatar){
+                    setImageResource(R.drawable.pc)
+                }
+            }
 
             if (pos == MiAdaptador.seleccionado) {
                 with(texto1) {
@@ -116,7 +131,12 @@ class MiAdaptador (var objeto : ArrayList<Any>, var  context: Context) : Recycle
                         intentMain.putExtra("modificar",tars)
                         startActivity(context,intentMain,null)
                     }
-                    if(tars is Equipo){}
+                    if(tars is Equipo){
+                        var intentMain:Intent = Intent(context, NewEquipo::class.java)
+                        intentMain.putExtra("opcion","modificar")
+                        intentMain.putExtra("modificar",tars)
+                        startActivity(context,intentMain,null)
+                    }
 
                 }
                 miAdaptador.notifyDataSetChanged()

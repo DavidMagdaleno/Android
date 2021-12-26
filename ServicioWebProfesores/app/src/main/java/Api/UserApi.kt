@@ -34,6 +34,8 @@ interface UserAPI {
     @GET("/listado/equipos/{id}")
     fun getEquiposAula(@Path("id") id:Int): Call<MutableList<Equipo>>
 
+    @GET("/listado/equipo/{id}")
+    fun getEquipo(@Path("id") id:Int): Call<Equipo>
 
 
     //--------------------------------------------------
@@ -85,6 +87,10 @@ interface UserAPI {
     @Headers("Content-Type:application/json")
     @PUT("modificar/clave")
     fun modClave(@Body info: Profesor) : Call<ResponseBody>
+
+    @Headers("Content-Type:application/json")
+    @PUT("modificar/equipo")
+    fun modEquipo(@Body info: Equipo) : Call<ResponseBody>
 
 
 }

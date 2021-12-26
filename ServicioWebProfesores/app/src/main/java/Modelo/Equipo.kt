@@ -16,5 +16,5 @@ data class Equipo(@SerializedName("IdAula")
                 val RAM: String? = null,
 
                 @SerializedName("Pantalla")
-                val Pantalla: String? = null) : Serializable {
+                val Pantalla: Int? = null) : Serializable {
 }

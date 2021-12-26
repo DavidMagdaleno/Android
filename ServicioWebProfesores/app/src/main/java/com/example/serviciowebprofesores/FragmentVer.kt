@@ -91,8 +91,9 @@ class FragmentVer : Fragment() {
             startActivity(intentMain)
         }
         botonAñadirEquipo.setOnClickListener(){
-            //intentMain = Intent(context,NotaSimple::class.java)
-            //startActivity(intentMain)
+            intentMain = Intent(context,NewEquipo::class.java)
+            intentMain.putExtra("opcion","nuevo")
+            startActivity(intentMain)
         }
         /*val image = view.findViewById<ImageView>(R.id.imgImagen)
         image.setOnClickListener(){
