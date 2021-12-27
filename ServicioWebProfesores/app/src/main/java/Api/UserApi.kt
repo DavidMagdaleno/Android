@@ -71,6 +71,9 @@ interface UserAPI {
     @DELETE("borrar/aula/{id}")
     fun borrarAula(@Path("id") id:Int) : Call<ResponseBody>
 
+    @DELETE("borrar/equipo/{id}")
+    fun borrarEquipo(@Path("id") id:Int) : Call<ResponseBody>
+
     @DELETE("/borrar/rol/{id}")
     fun borrarRol(@Path("id") id:ArrayList<String>) : Call<ResponseBody>
 

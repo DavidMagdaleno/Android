@@ -23,10 +23,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.serviciowebprofesores.NewAula
-import com.example.serviciowebprofesores.NewEquipo
-import com.example.serviciowebprofesores.NewProfesor
-import com.example.serviciowebprofesores.R
+import com.example.serviciowebprofesores.*
 import com.google.android.material.internal.ContextUtils.getActivity
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -126,18 +123,25 @@ class MiAdaptador (var objeto : ArrayList<Any>, var  context: Context) : Recycle
                         startActivity(context,intentMain,null)
                     }
                     if(tars is Aula){
-                        var intentMain:Intent = Intent(context, NewAula::class.java)
-                        intentMain.putExtra("opcion","modificar")
-                        intentMain.putExtra("modificar",tars)
-                        startActivity(context,intentMain,null)
+                        if(FragmentCabecera.rol.equals("Jefe")){
+                            var intentMain:Intent = Intent(context, NewAula::class.java)
+                            intentMain.putExtra("opcion","modificar")
+                            intentMain.putExtra("modificar",tars)
+                            startActivity(context,intentMain,null)
+                        }else{
+                            Toast.makeText(itemView.context, "No tienes permisos para modificar", Toast.LENGTH_SHORT).show()
+                        }
                     }
                     if(tars is Equipo){
-                        var intentMain:Intent = Intent(context, NewEquipo::class.java)
-                        intentMain.putExtra("opcion","modificar")
-                        intentMain.putExtra("modificar",tars)
-                        startActivity(context,intentMain,null)
+                        if(!FragmentCabecera.rol.equals("Profesor")){
+                            var intentMain:Intent = Intent(context, NewEquipo::class.java)
+                            intentMain.putExtra("opcion","modificar")
+                            intentMain.putExtra("modificar",tars)
+                            startActivity(context,intentMain,null)
+                        }else{
+                            Toast.makeText(itemView.context, "No tienes permisos para modificar", Toast.LENGTH_SHORT).show()
+                        }
                     }
-
                 }
                 miAdaptador.notifyDataSetChanged()
 
@@ -155,11 +159,23 @@ class MiAdaptador (var objeto : ArrayList<Any>, var  context: Context) : Recycle
                             miAdaptador.objeto.removeAt(pos)
                         }
                         if(tars is Aula){
-                            var a:Aula=miAdaptador.objeto[pos] as Aula
-                            borrarPorIDAula(a.IdAula.toString().toInt())
-                            miAdaptador.objeto.removeAt(pos)
+                            if(FragmentCabecera.rol.equals("Jefe")){
+                                var a:Aula=miAdaptador.objeto[pos] as Aula
+                                borrarPorIDAula(a.IdAula.toString().toInt())
+                                miAdaptador.objeto.removeAt(pos)
+                            }else{
+                                Toast.makeText(itemView.context, "No tienes permisos para eliminar", Toast.LENGTH_SHORT).show()
+                            }
                         }
-                        if(tars is Equipo){}
+                        if(tars is Equipo){
+                            if(!FragmentCabecera.rol.equals("Profesor")){
+                                var e:Equipo=miAdaptador.objeto[pos] as Equipo
+                                borrarPorIDEquipo(e.IdEquipo.toString().toInt())
+                                miAdaptador.objeto.removeAt(pos)
+                            }else{
+                                Toast.makeText(itemView.context, "No tienes permisos para eliminar", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     })
                 dialogo.setNegativeButton("CANCELAR",
                     DialogInterface.OnClickListener { dialog, which ->
@@ -173,6 +189,35 @@ class MiAdaptador (var objeto : ArrayList<Any>, var  context: Context) : Recycle
                 return@OnLongClickListener true
             })
         }
+
+        fun borrarPorIDEquipo(id:Int){
+            val request = ServiceBuilder.buildService(UserAPI::class.java)
+            val call = request.borrarEquipo(id)
+            call.enqueue(object : Callback<ResponseBody> {
+
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    Log.e("Fernando",response.message())
+                    Log.e ("Fernando", response.code().toString())
+                    if (response.code() == 200) {
+                        Log.e("Fernando","Registro eliminado con éxito.")
+                        Toast.makeText(itemView.context, "Equipo eliminado con éxito", Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+                        Log.e("Fernando","Algo ha fallado en el borrado: DNI no encontrado.")
+                        Toast.makeText(itemView.context, "Algo ha fallado en el borrado: Id no encontrado",Toast.LENGTH_LONG).show()
+                    }
+                    if (response.isSuccessful){ //Esto es otra forma de hacerlo en lugar de mirar el código.
+                        Log.e("Fernando","Registro eliminado con éxito.")
+                        //Toast.makeText(this@MainActivity, "Registro eliminado con éxito", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.e("Fernando","Algo ha fallado en la conexión.")
+                    Toast.makeText(itemView.context, "Algo ha fallado en la conexión.", Toast.LENGTH_LONG).show()
+                }
+            })
+        }
+
 
         fun borrarPorIDAula(id:Int){
             val request = ServiceBuilder.buildService(UserAPI::class.java)

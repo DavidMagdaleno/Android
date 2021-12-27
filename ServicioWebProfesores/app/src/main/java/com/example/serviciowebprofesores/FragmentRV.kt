@@ -86,17 +86,16 @@ class FragmentRV : Fragment(),FragmentVer.OnFragmentInteractionListener {
             }
         }
         if(texto=="Equipo"){
-            if(role=="P"){
+            Equipos()
+            /*if(role=="P"){
                 AulaDNI2(Dni)
-                //EquiposAula(idAula)
             }
             if(role=="J"){
                 Equipos()
             }
             if(role=="E"){
                 AulaDNI2(Dni)
-                //EquiposAula(idAula)
-            }
+            }*/
         }
 
         //var miAdapter = context?.let { MiAdaptador(opciones, it) }
@@ -128,6 +127,9 @@ class FragmentRV : Fragment(),FragmentVer.OnFragmentInteractionListener {
             }
     }
 
+
+
+
     fun Profesores(){
         val request = ServiceBuilder.buildService(UserAPI::class.java)
         val call = request.getProfesores();
@@ -139,6 +141,8 @@ class FragmentRV : Fragment(),FragmentVer.OnFragmentInteractionListener {
                 if (post != null) {
                     if (response.isSuccessful){
                         opciones=post as ArrayList<Any>
+                        var miAdapter = MiAdaptador(opciones,contexto2)
+                        miRecyclerView.adapter = miAdapter
                     }
                     else {
                         Toast.makeText(context, "No se han encontrado resultados", Toast.LENGTH_SHORT).show()
@@ -159,6 +163,8 @@ class FragmentRV : Fragment(),FragmentVer.OnFragmentInteractionListener {
                 if (post != null) {
                     if (response.isSuccessful){
                         opciones=post as ArrayList<Any>
+                        var miAdapter = MiAdaptador(opciones,contexto2)
+                        miRecyclerView.adapter = miAdapter
                     }
                     else {
                         Toast.makeText(context, "No se han encontrado resultados", Toast.LENGTH_SHORT).show()
@@ -179,9 +185,9 @@ class FragmentRV : Fragment(),FragmentVer.OnFragmentInteractionListener {
                 val post = response.body()
                 if (post != null) {
                     if (response.isSuccessful){
-                        //var nom: TextView =findViewById(R.id.txtNomCabez)
-                        //nom.setText(post.Nombre.toString())
                         opciones=post as ArrayList<Any>
+                        var miAdapter = MiAdaptador(opciones,contexto2)
+                        miRecyclerView.adapter = miAdapter
                     }
                     else {
                         Toast.makeText(context, "No se han encontrado resultados", Toast.LENGTH_SHORT).show()
@@ -204,6 +210,8 @@ class FragmentRV : Fragment(),FragmentVer.OnFragmentInteractionListener {
                 if (post != null) {
                     if (response.isSuccessful){
                         opciones.add(post)
+                        var miAdapter = MiAdaptador(opciones,contexto2)
+                        miRecyclerView.adapter = miAdapter
                     }
                     else {
                         Toast.makeText(context, "No se han encontrado resultados", Toast.LENGTH_SHORT).show()
@@ -264,6 +272,8 @@ class FragmentRV : Fragment(),FragmentVer.OnFragmentInteractionListener {
                 if (post != null) {
                     if (response.isSuccessful){
                         opciones=post as ArrayList<Any>
+                        var miAdapter = MiAdaptador(opciones,contexto2)
+                        miRecyclerView.adapter = miAdapter
                     }
                     else {
                         Toast.makeText(context, "No se han encontrado resultados", Toast.LENGTH_SHORT).show()
