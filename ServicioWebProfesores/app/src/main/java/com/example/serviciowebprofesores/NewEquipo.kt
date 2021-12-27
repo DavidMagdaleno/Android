@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.core.content.ContextCompat
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -81,46 +82,114 @@ class NewEquipo : AppCompatActivity() {
             val us = Equipo(aus[idA.selectedItemPosition].toInt(),idE.text.toString().toInt(),proc.text.toString(),Ram.text.toString(),aux)
 
             if (operacion.equals("nuevo")){
-                val request = ServiceBuilder.buildService(UserAPI::class.java)
-                //se comprueba que no exista ya un Equipo con ese id
-                val call = request.getEquipo(idE.text.toString().toInt())
-                call.enqueue(object : Callback<Equipo> {
-                    override fun onResponse(call: Call<Equipo>, response: Response<Equipo>) {
-                        //val post = response.body()
-                        if (response.isSuccessful){
-                            Toast.makeText(this@NewEquipo, "Ya Existe un Equipo con ese id", Toast.LENGTH_SHORT).show()
-                        }else {
-                            //Si no ningun equipo con ese id entonces se añade
-                            val call = request.addEquipo(us)
-                            call.enqueue(object : Callback<ResponseBody> {
+                //El encargado solo puede añadir a su aula
+                if(FragmentCabecera.rol.equals("Encargado")){
+                    val request = ServiceBuilder.buildService(UserAPI::class.java)
+                    val call = request.getUnAula2(FragmentCabecera.dni);
+                    call.enqueue(object : Callback<Aula> {
+                        override fun onResponse(call: Call<Aula>, response: Response<Aula>) {
+                            val post = response.body()
+                            if (post != null) {
+                                if (response.isSuccessful){
+                                    if(aus[idA.selectedItemPosition].toInt()==post.IdAula){
 
-                                override fun onResponse(
-                                    call: Call<ResponseBody>,
-                                    response: Response<ResponseBody>
-                                ) {
-                                    Log.e("Fernando", response.message())
-                                    Log.e("Fernando", response.code().toString())
-                                    if (response.code() == 200) {
-                                        Log.e("Registro", "Registro efectuado con éxito.")
-                                        Toast.makeText(this@NewEquipo, "Registro efectuado con éxito.", Toast.LENGTH_SHORT).show()
-                                    } else {
-                                        Log.e("Registro", "Algo ha fallado en la inserción: clave duplicada.")
-                                        Toast.makeText(this@NewEquipo, "Algo ha fallado en la inserción: clave duplicada.", Toast.LENGTH_SHORT).show()
-                                    }
-                                    if (response.isSuccessful) { //Esto es otra forma de hacerlo en lugar de mirar el código.
-                                        Log.e("Registro", "Registro efectuado con éxito.")
+                                        val request = ServiceBuilder.buildService(UserAPI::class.java)
+                                        //se comprueba que no exista ya un Equipo con ese id
+                                        val call = request.getEquipo(idE.text.toString().toInt())
+                                        call.enqueue(object : Callback<Equipo> {
+                                            override fun onResponse(call: Call<Equipo>, response: Response<Equipo>) {
+                                                //val post = response.body()
+                                                if (response.isSuccessful){
+                                                    Toast.makeText(this@NewEquipo, "Ya Existe un Equipo con ese id", Toast.LENGTH_SHORT).show()
+                                                }else {
+                                                    //Si no ningun equipo con ese id entonces se añade
+                                                    val call = request.addEquipo(us)
+                                                    call.enqueue(object : Callback<ResponseBody> {
+
+                                                        override fun onResponse(
+                                                            call: Call<ResponseBody>,
+                                                            response: Response<ResponseBody>
+                                                        ) {
+                                                            Log.e("Fernando", response.message())
+                                                            Log.e("Fernando", response.code().toString())
+                                                            if (response.code() == 200) {
+                                                                Log.e("Registro", "Registro efectuado con éxito.")
+                                                                Toast.makeText(this@NewEquipo, "Registro efectuado con éxito.", Toast.LENGTH_SHORT).show()
+                                                            } else {
+                                                                Log.e("Registro", "Algo ha fallado en la inserción: clave duplicada.")
+                                                                Toast.makeText(this@NewEquipo, "Algo ha fallado en la inserción: clave duplicada.", Toast.LENGTH_SHORT).show()
+                                                            }
+                                                            if (response.isSuccessful) { //Esto es otra forma de hacerlo en lugar de mirar el código.
+                                                                Log.e("Registro", "Registro efectuado con éxito.")
+                                                            }
+                                                        }
+                                                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                                            Log.e("Registro", "Algo ha fallado en la conexión.")
+                                                        }
+                                                    })
+                                                }
+                                            }
+                                            override fun onFailure(call: Call<Equipo>, t: Throwable) {
+                                                Toast.makeText(this@NewEquipo, "${t.message}", Toast.LENGTH_SHORT).show()
+                                            }
+                                        })
+                                    }else{
+                                        Toast.makeText(this@NewEquipo, "Solo puedes añadir Equipos en tu Aula", Toast.LENGTH_SHORT).show()
                                     }
                                 }
-                                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                                    Log.e("Registro", "Algo ha fallado en la conexión.")
+                                else {
+                                    Log.e("Fernando","No se han encontrado resultados")
+                                    Toast.makeText(this@NewEquipo, "No se han encontrado resultados", Toast.LENGTH_SHORT).show()
                                 }
-                            })
+                            }
                         }
-                    }
-                    override fun onFailure(call: Call<Equipo>, t: Throwable) {
-                        Toast.makeText(this@NewEquipo, "${t.message}", Toast.LENGTH_SHORT).show()
-                    }
-                })
+                        override fun onFailure(call: Call<Aula>, t: Throwable) {
+                            Toast.makeText(this@NewEquipo, "${t.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+
+                }else{
+                    val request = ServiceBuilder.buildService(UserAPI::class.java)
+                    //se comprueba que no exista ya un Equipo con ese id
+                    val call = request.getEquipo(idE.text.toString().toInt())
+                    call.enqueue(object : Callback<Equipo> {
+                        override fun onResponse(call: Call<Equipo>, response: Response<Equipo>) {
+                            //val post = response.body()
+                            if (response.isSuccessful){
+                                Toast.makeText(this@NewEquipo, "Ya Existe un Equipo con ese id", Toast.LENGTH_SHORT).show()
+                            }else {
+                                //Si no ningun equipo con ese id entonces se añade
+                                val call = request.addEquipo(us)
+                                call.enqueue(object : Callback<ResponseBody> {
+
+                                    override fun onResponse(
+                                        call: Call<ResponseBody>,
+                                        response: Response<ResponseBody>
+                                    ) {
+                                        Log.e("Fernando", response.message())
+                                        Log.e("Fernando", response.code().toString())
+                                        if (response.code() == 200) {
+                                            Log.e("Registro", "Registro efectuado con éxito.")
+                                            Toast.makeText(this@NewEquipo, "Registro efectuado con éxito.", Toast.LENGTH_SHORT).show()
+                                        } else {
+                                            Log.e("Registro", "Algo ha fallado en la inserción: clave duplicada.")
+                                            Toast.makeText(this@NewEquipo, "Algo ha fallado en la inserción: clave duplicada.", Toast.LENGTH_SHORT).show()
+                                        }
+                                        if (response.isSuccessful) { //Esto es otra forma de hacerlo en lugar de mirar el código.
+                                            Log.e("Registro", "Registro efectuado con éxito.")
+                                        }
+                                    }
+                                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                        Log.e("Registro", "Algo ha fallado en la conexión.")
+                                    }
+                                })
+                            }
+                        }
+                        override fun onFailure(call: Call<Equipo>, t: Throwable) {
+                            Toast.makeText(this@NewEquipo, "${t.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                }
             }else{
                 //modificar
                 if(!mSi.isChecked && !mNo.isChecked){

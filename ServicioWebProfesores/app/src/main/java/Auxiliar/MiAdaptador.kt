@@ -34,9 +34,6 @@ class MiAdaptador (var objeto : ArrayList<Any>, var  context: Context) : Recycle
 
     companion object {
         var seleccionado:Int = -1
-        var IddelaTarea:Int=0
-        var nombreTarea:String=""
-
     }
     var ventanaactual:MiAdaptador=this
 
@@ -133,11 +130,41 @@ class MiAdaptador (var objeto : ArrayList<Any>, var  context: Context) : Recycle
                         }
                     }
                     if(tars is Equipo){
+                        var intentMain:Intent = Intent(context, NewEquipo::class.java)
                         if(!FragmentCabecera.rol.equals("Profesor")){
-                            var intentMain:Intent = Intent(context, NewEquipo::class.java)
-                            intentMain.putExtra("opcion","modificar")
-                            intentMain.putExtra("modificar",tars)
-                            startActivity(context,intentMain,null)
+                            if(FragmentCabecera.rol.equals("Encargado")){
+
+                                val request = ServiceBuilder.buildService(UserAPI::class.java)
+                                val call = request.getUnAula2(FragmentCabecera.dni);
+                                call.enqueue(object : Callback<Aula> {
+                                    override fun onResponse(call: Call<Aula>, response: Response<Aula>) {
+                                        val post = response.body()
+                                        if (post != null) {
+                                            if (response.isSuccessful){
+                                                if(tars.IdAula==post.IdAula){
+                                                    intentMain.putExtra("opcion","modificar")
+                                                    intentMain.putExtra("modificar",tars)
+                                                    startActivity(context,intentMain,null)
+                                                }else{
+                                                    Toast.makeText(itemView.context, "No tienes permisos para Modificar ese aula", Toast.LENGTH_SHORT).show()
+                                                }
+                                            }
+                                            else {
+                                                Log.e("Fernando","No se han encontrado resultados")
+                                                Toast.makeText(itemView.context, "No se han encontrado resultados", Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
+                                    }
+                                    override fun onFailure(call: Call<Aula>, t: Throwable) {
+                                        Toast.makeText(itemView.context, "${t.message}", Toast.LENGTH_SHORT).show()
+                                    }
+                                })
+
+                            }else{
+                                intentMain.putExtra("opcion","modificar")
+                                intentMain.putExtra("modificar",tars)
+                                startActivity(context,intentMain,null)
+                            }
                         }else{
                             Toast.makeText(itemView.context, "No tienes permisos para modificar", Toast.LENGTH_SHORT).show()
                         }
@@ -170,8 +197,36 @@ class MiAdaptador (var objeto : ArrayList<Any>, var  context: Context) : Recycle
                         if(tars is Equipo){
                             if(!FragmentCabecera.rol.equals("Profesor")){
                                 var e:Equipo=miAdaptador.objeto[pos] as Equipo
-                                borrarPorIDEquipo(e.IdEquipo.toString().toInt())
-                                miAdaptador.objeto.removeAt(pos)
+
+                                if(FragmentCabecera.rol.equals("Encargado")){
+                                    val request = ServiceBuilder.buildService(UserAPI::class.java)
+                                    val call = request.getUnAula2(FragmentCabecera.dni);
+                                    call.enqueue(object : Callback<Aula> {
+                                        override fun onResponse(call: Call<Aula>, response: Response<Aula>) {
+                                            val post = response.body()
+                                            if (post != null) {
+                                                if (response.isSuccessful){
+                                                    if(e.IdAula==post.IdAula){
+                                                        borrarPorIDEquipo(e.IdEquipo.toString().toInt())
+                                                        miAdaptador.objeto.removeAt(pos)
+                                                    }else{
+                                                        Toast.makeText(itemView.context, "No tienes permisos para eliminar ese Equipo", Toast.LENGTH_SHORT).show()
+                                                    }
+                                                }
+                                                else {
+                                                    Log.e("Fernando","No se han encontrado resultados")
+                                                    Toast.makeText(itemView.context, "No se han encontrado resultados", Toast.LENGTH_SHORT).show()
+                                                }
+                                            }
+                                        }
+                                        override fun onFailure(call: Call<Aula>, t: Throwable) {
+                                            Toast.makeText(itemView.context, "${t.message}", Toast.LENGTH_SHORT).show()
+                                        }
+                                    })
+                                }else{
+                                    borrarPorIDEquipo(e.IdEquipo.toString().toInt())
+                                    miAdaptador.objeto.removeAt(pos)
+                                }
                             }else{
                                 Toast.makeText(itemView.context, "No tienes permisos para eliminar", Toast.LENGTH_SHORT).show()
                             }

@@ -127,10 +127,11 @@ class MainActivity : AppCompatActivity(),FragmentVer.OnFragmentInteractionListen
                 if(p.equals("Encargado")){
                     rol.setText("Encargado")
                     //r=rol.text.toString()
+                    FragmentRV.Dni=dni.text.toString()
                     verProfe.isEnabled=false
                     masProfe.isEnabled=false
                     masAula.isEnabled=false
-                    masEquipo.isEnabled=false//preguntar
+                    masEquipo.isEnabled=true
                     FragmentRV.role="E"
                     FragmentCabecera.rol=p
                 }

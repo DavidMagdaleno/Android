@@ -98,9 +98,9 @@ class FragmentRV : Fragment(),FragmentVer.OnFragmentInteractionListener {
             }*/
         }
 
-        //var miAdapter = context?.let { MiAdaptador(opciones, it) }
-        var miAdapter = MiAdaptador(opciones,contexto2)
-        miRecyclerView.adapter = miAdapter
+
+        //var miAdapter = MiAdaptador(opciones,contexto2)
+        //miRecyclerView.adapter = miAdapter
 
     }
 
@@ -209,6 +209,7 @@ class FragmentRV : Fragment(),FragmentVer.OnFragmentInteractionListener {
                 val post = response.body()
                 if (post != null) {
                     if (response.isSuccessful){
+                        opciones.clear()
                         opciones.add(post)
                         var miAdapter = MiAdaptador(opciones,contexto2)
                         miRecyclerView.adapter = miAdapter
