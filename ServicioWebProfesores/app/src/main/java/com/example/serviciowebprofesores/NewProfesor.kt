@@ -268,4 +268,10 @@ class NewProfesor : AppCompatActivity() {
             }
         })
     }
+
+    fun volver(view: View){
+        finish()
+    }
+
+
 }
