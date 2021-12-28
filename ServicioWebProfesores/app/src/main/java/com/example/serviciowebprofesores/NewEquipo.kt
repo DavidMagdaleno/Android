@@ -204,7 +204,6 @@ class NewEquipo : AppCompatActivity() {
                     }else{
                         us = Equipo(aus[idA.selectedItemPosition].toInt(),idE.text.toString().toInt(),proc.text.toString(),Ram.text.toString(),aux)
                     }
-
                     val request = ServiceBuilder.buildService(UserAPI::class.java)
                     val call = request.modEquipo(us)
                     call.enqueue(object : Callback<ResponseBody> {

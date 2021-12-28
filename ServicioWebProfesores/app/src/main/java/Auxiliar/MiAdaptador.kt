@@ -146,7 +146,7 @@ class MiAdaptador (var objeto : ArrayList<Any>, var  context: Context) : Recycle
                                                     intentMain.putExtra("modificar",tars)
                                                     startActivity(context,intentMain,null)
                                                 }else{
-                                                    Toast.makeText(itemView.context, "No tienes permisos para Modificar ese aula", Toast.LENGTH_SHORT).show()
+                                                    Toast.makeText(itemView.context, "No tienes permisos para Modificar", Toast.LENGTH_SHORT).show()
                                                 }
                                             }
                                             else {
