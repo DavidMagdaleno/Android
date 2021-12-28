@@ -25,17 +25,7 @@
         <activity
             android:name=".NewProfesor"
             android:exported="true" />
-        <activity
-            android:name=".Aulas"
-            android:exported="true" />
 
-        <meta-data
-            android:name="com.google.android.actions"
-            android:resource="@xml/splash_bienvenida" />
-
-        <activity
-            android:name=".SplashBienvenida"
-            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

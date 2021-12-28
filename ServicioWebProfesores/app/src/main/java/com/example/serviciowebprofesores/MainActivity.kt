@@ -141,8 +141,8 @@ class MainActivity : AppCompatActivity(),FragmentVer.OnFragmentInteractionListen
         })
         dialogo.setPositiveButton("Entrar",
             DialogInterface.OnClickListener { dialog, which ->
-                intentMain=Intent(this,SplashBienvenida::class.java)
-                startActivity(intentMain)
+                //intentMain=Intent(this,SplashBienvenida::class.java)
+                //startActivity(intentMain)
             })
         dialogo.setNegativeButton("Salir",
             DialogInterface.OnClickListener { dialog, which ->
