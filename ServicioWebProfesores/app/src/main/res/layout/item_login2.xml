@@ -8,10 +8,13 @@
         android:id="@+id/lblOpcion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Elije un perfil para entrar:" />
+        android:text="Elije un perfil para entrar:"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <Spinner
         android:id="@+id/spinRol"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="42dp"
+        android:textAlignment="center" />
 </LinearLayout>
