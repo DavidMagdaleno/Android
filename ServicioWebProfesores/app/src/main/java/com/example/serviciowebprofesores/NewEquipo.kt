@@ -65,7 +65,21 @@ class NewEquipo : AppCompatActivity() {
         }
     }
 
-    fun NuevoEquipo(view:View){
+    fun comprobarIdEquipo(view: View){
+        var isnumeric:Boolean=true
+        for(it in idE.text){
+            if(!it.isDigit()){
+                isnumeric=false
+            }
+        }
+        if(idE.text.isNullOrEmpty() || !isnumeric){
+            Toast.makeText(this@NewEquipo, "El Identificador de Equipo debe ser Numerico", Toast.LENGTH_SHORT).show()
+        }else{
+            NuevoEquipo()
+        }
+    }
+
+    fun NuevoEquipo(){
         var aux:Int=0
         if(mSi.isChecked){
             aux=1

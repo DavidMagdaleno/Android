@@ -1,14 +1,35 @@
 <resources>
     <string name="app_name">ServicioWebProfesores</string>
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="apellidos">Surname</string>
+    <string name="contraseña">Password</string>
+    <string name="guardar">Save</string>
+    <string name="volver">Back</string>
+    <string name="nombre">Name</string>
+    <string name="lblOpcion">Choose a Profile to Enter</string>
+    <string name="txtPa">New Password</string>
+    <string name="btnMostrarPro">See Teachers</string>
+    <string name="btnVerAulas">See Classrooms</string>
+    <string name="btnVerEquipos">See Computers</string>
+    <string name="btnAñadirProfe">+ Teacher</string>
+    <string name="btnAñadirAula">+ Classrooms</string>
+    <string name="btnAñadirEquipo">+ Computer</string>
+    <string name="textView6">Welcome:</string>
+    <string name="cbProfe">Teacher</string>
+    <string name="cbEncargado">Manager</string>
+    <string name="cbJefe">Boss</string>
+    <string name="textView12">Previous Classroom</string>
+    <string name="textView4">Classroom</string>
+    <string name="textView5">ID Computer</string>
+    <string name="textView7">Computer Processing Unit</string>
+    <string name="textView10">Display Unit</string>
+    <string name="rbSi">YES</string>
+    <string name="rbNo">NO</string>
+    <string name="lblCodAula">Classroom Code</string>
+    <string name="textView">Current Assigned Teacher</string>
+    <string name="textView2">Assigned Teacher</string>
+    <string name="lblDescrip">Description</string>
+    <string name="btnCPass">Change Password</string>
+
+
 </resources>

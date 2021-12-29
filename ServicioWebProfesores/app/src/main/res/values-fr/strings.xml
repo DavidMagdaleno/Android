@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ServicioWebProfesores</string>
+    <string name="btnCPass">Changer le mot de Passe</string>
+    <string name="lblDescrip">La Description</string>
+    <string name="textView2">Professeur Assigné</string>
+    <string name="textView">Enseignant Actuellement Affecté</string>
+    <string name="lblCodAula">Code de Classe</string>
+    <string name="rbNo">NON</string>
+    <string name="rbSi">Oui</string>
+    <string name="textView10">Moniteur</string>
+    <string name="textView7">Processeur</string>
+    <string name="textView5">ID Équipes</string>
+    <string name="textView4">Classe</string>
+    <string name="textView12">Classe précédente</string>
+    <string name="cbJefe">Chef</string>
+    <string name="cbEncargado">Responsable</string>
+    <string name="cbProfe">Prof</string>
+    <string name="textView6">Bienvenue:</string>
+    <string name="btnAñadirEquipo">+ Équipes</string>
+    <string name="btnAñadirAula">+ Classe</string>
+    <string name="btnAñadirProfe">+ Prof</string>
+    <string name="btnVerEquipos">Voir les Équipes</string>
+    <string name="btnVerAulas">Voir les Salles de Classe</string>
+    <string name="btnMostrarPro">Voir les Professeurs</string>
+    <string name="txtPa">Nouveau mot de Passe</string>
+    <string name="lblOpcion">Choisissez un Profil pour Entrer</string>
+    <string name="nombre">Nom</string>
+    <string name="volver">Revenir</string>
+    <string name="guardar">Sauvegarder</string>
+    <string name="contraseña">Le mot de Passe</string>
+    <string name="apellidos">Noms de Famille</string>
+</resources>

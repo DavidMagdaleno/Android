@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ServicioWebProfesores</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellidos">Apellidos</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="guardar">Guardar</string>
+    <string name="volver">Volver</string>
+
+    <string name="lblOpcion">Elige un Perfil para Entrar</string>
+    <string name="txtPa">Nueva Contraseña</string>
+    <string name="btnMostrarPro">Ver Profesores</string>
+    <string name="btnVerAulas">Ver Aulas</string>
+    <string name="btnVerEquipos">Ver Equipos</string>
+    <string name="btnAñadirProfe">+ Profesor</string>
+    <string name="btnAñadirAula">+ Aula</string>
+    <string name="btnAñadirEquipo">+ Equipo</string>
+    <string name="textView6">Bienvenido:</string>
+    <string name="cbProfe">Profesor</string>
+    <string name="cbEncargado">Encargado</string>
+    <string name="cbJefe">Jefe</string>
+    <string name="textView12">Aula Anterior</string>
+    <string name="textView4">Aula</string>
+    <string name="textView5">ID Equipo</string>
+    <string name="textView7">Procesador</string>
+    <string name="textView10">Monitor</string>
+    <string name="rbSi">SI</string>
+    <string name="rbNo">NO</string>
+    <string name="lblCodAula">Codigo Aula</string>
+    <string name="textView">Profesor Asignado Actual</string>
+    <string name="textView2">Profesor Asignado</string>
+    <string name="lblDescrip">Descripcion</string>
+    <string name="btnCPass">Cambiar Contraseña</string>
+
+
+
+</resources>

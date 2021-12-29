@@ -15,7 +15,7 @@
             android:id="@+id/btnMostrarPro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ver Profesores" />
+            android:text="@string/btnMostrarPro" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,14 +27,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Ver Aulas" />
+                android:text="@string/btnVerAulas" />
 
             <Button
                 android:id="@+id/btnVerEquipos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Ver Equipos" />
+                android:text="@string/btnVerEquipos" />
         </LinearLayout>
 
         <LinearLayout
@@ -52,21 +52,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="+Profesor" />
+                    android:text="@string/btnAñadirProfe" />
 
                 <Button
                     android:id="@+id/btnAñadirAula"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="+Aula" />
+                    android:text="@string/btnAñadirAula" />
 
                 <Button
                     android:id="@+id/btnAñadirEquipo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="+Equipo" />
+                    android:text="@string/btnAñadirEquipo" />
             </LinearLayout>
 
         </LinearLayout>

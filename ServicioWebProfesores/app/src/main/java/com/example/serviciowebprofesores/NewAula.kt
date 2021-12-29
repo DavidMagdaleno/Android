@@ -53,7 +53,21 @@ class NewAula : AppCompatActivity() {
         }
     }
 
-    fun NuevoAula(view: View){
+    fun comprobarIdAula(view: View){
+        var isnumeric:Boolean=true
+        for(it in id.text){
+            if(!it.isDigit()){
+                isnumeric=false
+            }
+        }
+        if(id.text.isNullOrEmpty() || !isnumeric){
+            Toast.makeText(this@NewAula, "El Identificador de Aula debe ser Numerico", Toast.LENGTH_SHORT).show()
+        }else{
+            NuevoAula()
+        }
+    }
+
+    fun NuevoAula(){
         val us = Aula(id.text.toString().toInt(),profesDNI[spProfe.selectedItemPosition],descrip.text.toString())
         if (operacion.equals("nuevo")) {
             val request = ServiceBuilder.buildService(UserAPI::class.java)
