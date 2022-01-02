@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity(),FragmentVer.OnFragmentInteractionListen
         dialogo.setNegativeButton("Salir",
             DialogInterface.OnClickListener { dialog, which ->
                 dialog.dismiss()
+                DialogLogin()
             })
         dialogo.show()
 
@@ -76,12 +77,14 @@ class MainActivity : AppCompatActivity(),FragmentVer.OnFragmentInteractionListen
                     Toast.makeText(contexto, response.message().toString(), Toast.LENGTH_SHORT).show()
                 } else {
                     //Log.e("Fernando", "Login Incorrecto.")
-                    Toast.makeText(contexto, response.message().toString(), Toast.LENGTH_LONG).show()
+                    Toast.makeText(contexto, "Login Incorrecto.", Toast.LENGTH_LONG).show()
+                    DialogLogin()
                 }
             }
             override fun onFailure(call: Call<MutableList<Rol>>, t: Throwable) {
                 //Log.e("Fernando", "Algo ha fallado en la conexión.")
                 Toast.makeText(contexto, "Algo ha fallado en la conexión.", Toast.LENGTH_LONG).show()
+                DialogLogin()
             }
         })
     }
@@ -147,6 +150,7 @@ class MainActivity : AppCompatActivity(),FragmentVer.OnFragmentInteractionListen
         dialogo.setNegativeButton("Salir",
             DialogInterface.OnClickListener { dialog, which ->
                 dialog.dismiss()
+                DialogLogin()
             })
         dialogo.show()
         return true
