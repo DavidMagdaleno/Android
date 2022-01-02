@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(),FragmentVer.OnFragmentInteractionListen
 
         DialogLogin()
     }
-    var r=""
+    //var r=""
     lateinit var dni:TextView
     fun DialogLogin(): Boolean {
         val dialogo: AlertDialog.Builder = AlertDialog.Builder(this)
