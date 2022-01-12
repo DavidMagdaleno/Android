@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">NuevoProyecFirebase</string>
+    <string name="prefs_file">com.example.nuevoproyecfirebase.PREFERENCE_FILE_KEY</string>
+    <string name="request_id_token">232542742115-0n8jasdk8lp5llul7qs7c33sbesb8qh6.apps.googleusercontent.com</string>
+</resources>
