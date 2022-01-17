@@ -23,6 +23,22 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_main.*
+import com.google.firebase.firestore.QuerySnapshot
+
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.firestore.QueryDocumentSnapshot
+
+import androidx.annotation.NonNull
+import com.example.nuevoproyecfirebase.MainActivity.RolCallback
+
+
+
+
+
+
+
+
+
 
 class MainActivity : AppCompatActivity() {
     //Atributos necesarios para el login con Google.
@@ -60,7 +76,26 @@ class MainActivity : AppCompatActivity() {
             if (edEmail.text.isNotEmpty() && edPass.text.isNotEmpty()){
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(edEmail.text.toString(),edPass.text.toString()).addOnCompleteListener {
                     if (it.isSuccessful){
-                        DialogLogin2(it)
+                        //recuperarRoles()
+                        try {
+                            recuperarRoles(object : RolCallback {
+                                override fun rolRecibido(rolNuevo: ArrayList<Int>) {
+                                    roles = rolNuevo
+                                    tipoRol.add("selecciona Perfil")
+                                    for(i in 0..roles.size-1){
+                                        if(roles[i].equals(1.toLong())){tipoRol.add("Usuario")}
+                                        if(roles[i].equals(2.toLong())){tipoRol.add("Administrador")}
+                                        if(roles[i].equals(3.toLong())){tipoRol.add("Encargado")}
+                                    }
+                                    DialogLogin2(it)
+                                }
+                            })
+                        } catch (e: InterruptedException) {
+                            e.printStackTrace()
+                        }
+
+
+
                         //irHome(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
                     } else {
                         showAlert()
@@ -152,28 +187,25 @@ class MainActivity : AppCompatActivity() {
         startActivity(homeIntent)
     }
 
-    fun recuperarRoles(){
-        db.collection("users").document(edEmail.text.toString()).get().addOnSuccessListener {
-            //Si encuentra el documento será satisfactorio este listener y entraremos en él.
-            //txtDNI.setText(it.get("DNI") as String?)
-            //txtNombre.setText(it.get("Nombre") as String?)
-            //txtApel.setText(it.get("Apellidos") as String?)
-            roles = it.get("roles") as ArrayList<Int>
-            for(i in 0..roles.size-1){
-                if(roles[i].equals(1.toLong())){tipoRol.add("Usuario")}
-                if(roles[i].equals(2.toLong())){tipoRol.add("Administrador")}
-                if(roles[i].equals(3.toLong())){tipoRol.add("Encargado")}
-            }
-            Log.e("p3 ",tipoRol.size.toString())
+    interface RolCallback {
+        fun rolRecibido(roles: ArrayList<Int>)
+    }
 
-            //Toast.makeText(this, "Recuperado",Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener{
-            //Toast.makeText(this, "Algo ha ido mal al recuperar",Toast.LENGTH_SHORT).show()
-        }
+    fun recuperarRoles( callback:RolCallback){
+            db.collection("users").document(edEmail.text.toString()).get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    var croles= task.result.data?.get("roles") as ArrayList<Int>
+                    if (callback != null) {
+                        callback.rolRecibido(croles);
+                    }
+                } else {
+                    Log.e("wh", "Error getting documents.", task.exception)
+                }
+            }
     }
 
     fun DialogLogin(account: GoogleSignInAccount): Boolean {
-        recuperarRoles()
         val dialogo: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(this)
         val Myview=layoutInflater.inflate(R.layout.item_login, null)
         var srol = Myview.findViewById<Spinner>(R.id.spinRol)
@@ -211,18 +243,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun DialogLogin2(it:Task<AuthResult>): Boolean {
-        recuperarRoles()//realiza el dialog result antes de que devuelva el valor-------------------------------------------------------------------------------------------------
         val dialogo: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(this)
         val Myview=layoutInflater.inflate(R.layout.item_login, null)
         var srol = Myview.findViewById<Spinner>(R.id.spinRol)
         dialogo.setView(Myview)
         val adaptador = ArrayAdapter(this, R.layout.item_spiner,R.id.txtOpcion,tipoRol)
         srol.adapter = adaptador
-        Log.e("p2 ",tipoRol.size.toString())
         srol.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 var p = tipoRol.get(pos)
-                Log.e("p ",p)
                 if(p.equals("Usuario")){
                     rolEscogido=1
                     tipoRol.clear()
