@@ -1,27 +1,37 @@
 package com.example.nuevoproyecfirebase
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     //Atributos necesarios para el login con Google.
+    var roles = ArrayList<Int>()
+    var tipoRol = ArrayList<String>()
+    private var rolEscogido:Int=-1
     private var RC_SIGN_IN = 1
     private lateinit var auth: FirebaseAuth
+    private val db = FirebaseFirestore.getInstance() //Variable con la que accederemos a Firestore. Será una instancia a la bd.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +60,8 @@ class MainActivity : AppCompatActivity() {
             if (edEmail.text.isNotEmpty() && edPass.text.isNotEmpty()){
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(edEmail.text.toString(),edPass.text.toString()).addOnCompleteListener {
                     if (it.isSuccessful){
-                        irHome(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
+                        DialogLogin2(it)
+                        //irHome(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
                     } else {
                         showAlert()
                     }
@@ -100,7 +111,8 @@ class MainActivity : AppCompatActivity() {
                     val credential: AuthCredential = GoogleAuthProvider.getCredential(account.idToken, null)
                     FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
                         if (it.isSuccessful){
-                            irHome(account.email?:"",ProviderType.GOOGLE)  //Esto de los interrogantes es por si está vacío el email.
+                            DialogLogin(account)
+                            //irHome(account.email?:"",ProviderType.GOOGLE)  //Esto de los interrogantes es por si está vacío el email.
                         } else {
                             showAlert()
                         }
@@ -124,7 +136,7 @@ class MainActivity : AppCompatActivity() {
     private fun showAlert(){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Error")
-        builder.setMessage("Se ha producido un error autenticando al usuairo")
+        builder.setMessage("Se ha producido un error autenticando al usuario")
         builder.setPositiveButton("Aceptar",null)
         val dialog: AlertDialog = builder.create()
         dialog.show()
@@ -135,7 +147,113 @@ class MainActivity : AppCompatActivity() {
         val homeIntent = Intent(this, HomeActivity::class.java).apply {
             putExtra("email",email)
             putExtra("provider",provider.name)
+            putExtra("rol",rolEscogido)
         }
         startActivity(homeIntent)
     }
+
+    fun recuperarRoles(){
+        db.collection("users").document(edEmail.text.toString()).get().addOnSuccessListener {
+            //Si encuentra el documento será satisfactorio este listener y entraremos en él.
+            //txtDNI.setText(it.get("DNI") as String?)
+            //txtNombre.setText(it.get("Nombre") as String?)
+            //txtApel.setText(it.get("Apellidos") as String?)
+            roles = it.get("roles") as ArrayList<Int>
+            for(i in 0..roles.size-1){
+                if(roles[i].equals(1.toLong())){tipoRol.add("Usuario")}
+                if(roles[i].equals(2.toLong())){tipoRol.add("Administrador")}
+                if(roles[i].equals(3.toLong())){tipoRol.add("Encargado")}
+            }
+            Log.e("p3 ",tipoRol.size.toString())
+
+            //Toast.makeText(this, "Recuperado",Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener{
+            //Toast.makeText(this, "Algo ha ido mal al recuperar",Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun DialogLogin(account: GoogleSignInAccount): Boolean {
+        recuperarRoles()
+        val dialogo: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(this)
+        val Myview=layoutInflater.inflate(R.layout.item_login, null)
+        var srol = Myview.findViewById<Spinner>(R.id.spinRol)
+        dialogo.setView(Myview)
+        val adaptador = ArrayAdapter(this, R.layout.item_spiner,R.id.txtOpcion,tipoRol)
+        srol.adapter = adaptador
+        srol.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                var p = tipoRol.get(pos)
+                if(p.equals("Usuario")){
+                    rolEscogido=1
+                    irHome(account.email?:"",ProviderType.GOOGLE)  //Esto de los interrogantes es por si está vacío el email.
+                }
+                if(p.equals("Administrador")){
+                    rolEscogido=2
+                    irHome(account.email?:"",ProviderType.GOOGLE)  //Esto de los interrogantes es por si está vacío el email.
+                }
+                if(p.equals("Encargado")){
+                    rolEscogido=3
+                    irHome(account.email?:"",ProviderType.GOOGLE)  //Esto de los interrogantes es por si está vacío el email.
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        })
+        dialogo.setPositiveButton("Entrar",
+            DialogInterface.OnClickListener { dialog, which ->
+            })
+        dialogo.setNegativeButton("Salir",
+            DialogInterface.OnClickListener { dialog, which ->
+                dialog.dismiss()
+            })
+        dialogo.show()
+        return true
+    }
+
+    fun DialogLogin2(it:Task<AuthResult>): Boolean {
+        recuperarRoles()//realiza el dialog result antes de que devuelva el valor-------------------------------------------------------------------------------------------------
+        val dialogo: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(this)
+        val Myview=layoutInflater.inflate(R.layout.item_login, null)
+        var srol = Myview.findViewById<Spinner>(R.id.spinRol)
+        dialogo.setView(Myview)
+        val adaptador = ArrayAdapter(this, R.layout.item_spiner,R.id.txtOpcion,tipoRol)
+        srol.adapter = adaptador
+        Log.e("p2 ",tipoRol.size.toString())
+        srol.setOnItemSelectedListener(object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                var p = tipoRol.get(pos)
+                Log.e("p ",p)
+                if(p.equals("Usuario")){
+                    rolEscogido=1
+                    tipoRol.clear()
+                    irHome(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
+                }
+                if(p.equals("Administrador")){
+                    rolEscogido=2
+                    tipoRol.clear()
+                    irHome(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
+                }
+                if(p.equals("Encargado")){
+                    rolEscogido=3
+                    tipoRol.clear()
+                    irHome(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        })
+        dialogo.setPositiveButton("Entrar",
+            DialogInterface.OnClickListener { dialog, which ->
+                tipoRol.clear()
+            })
+        dialogo.setNegativeButton("Salir",
+            DialogInterface.OnClickListener { dialog, which ->
+                tipoRol.clear()
+                dialog.dismiss()
+            })
+        dialogo.show()
+        return true
+    }
+
+
 }

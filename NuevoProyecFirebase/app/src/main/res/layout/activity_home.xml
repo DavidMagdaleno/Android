@@ -7,15 +7,15 @@
     tools:context=".HomeActivity">
 
     <LinearLayout
-        android:layout_width="410dp"
-        android:layout_height="366dp"
+        android:layout_width="411dp"
+        android:layout_height="486dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.09">
+        app:layout_constraintVertical_bias="0.128">
 
         <TextView
             android:id="@+id/txtEmail"
@@ -32,6 +32,14 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/txtMail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/txtDNI"
@@ -59,7 +67,35 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="62dp"
+            android:layout_height="52dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/ckUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Usuario" />
+
+            <CheckBox
+                android:id="@+id/ckAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Administrador" />
+
+            <CheckBox
+                android:id="@+id/ckEncargado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Encargado" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
             android:orientation="horizontal">
 
             <Button
@@ -70,11 +106,11 @@
                 android:text="Guardar" />
 
             <Button
-                android:id="@+id/btnBuscar"
+                android:id="@+id/btnRecuperar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Buscar" />
+                android:text="Recuperar" />
 
             <Button
                 android:id="@+id/btnEliminar"
@@ -82,6 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Eliminar" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -95,6 +132,7 @@
                 android:layout_height="wrap_content"
                 android:text="Cerrar Sesion" />
         </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
