@@ -1,5 +1,6 @@
 package com.example.nuevoproyecfirebase
 
+import Modelo.Users
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -20,30 +21,19 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_main.*
+
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
-
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.firestore.QueryDocumentSnapshot
-
-import androidx.annotation.NonNull
-import com.example.nuevoproyecfirebase.MainActivity.RolCallback
-
-
-
-
-
-
-
-
 
 
 class MainActivity : AppCompatActivity() {
     //Atributos necesarios para el login con Google.
     var roles = ArrayList<Int>()
     var tipoRol = ArrayList<String>()
+    lateinit var intentMain: Intent
     private var rolEscogido:Int=-1
     private var RC_SIGN_IN = 1
     private lateinit var auth: FirebaseAuth
@@ -76,7 +66,6 @@ class MainActivity : AppCompatActivity() {
             if (edEmail.text.isNotEmpty() && edPass.text.isNotEmpty()){
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(edEmail.text.toString(),edPass.text.toString()).addOnCompleteListener {
                     if (it.isSuccessful){
-                        //recuperarRoles()
                         try {
                             recuperarRoles(object : RolCallback {
                                 override fun rolRecibido(rolNuevo: ArrayList<Int>) {
@@ -93,9 +82,6 @@ class MainActivity : AppCompatActivity() {
                         } catch (e: InterruptedException) {
                             e.printStackTrace()
                         }
-
-
-
                         //irHome(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
                     } else {
                         showAlert()
@@ -103,7 +89,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
         btGoogle.setOnClickListener {
             //Configuración
             val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -187,6 +172,15 @@ class MainActivity : AppCompatActivity() {
         startActivity(homeIntent)
     }
 
+    private fun irMostarTodos(email:String, provider:ProviderType){
+        val homeIntent = Intent(this, MostrarTodos::class.java).apply {
+            putExtra("email",email)
+            putExtra("provider",provider.name)
+            putExtra("rol",rolEscogido)
+        }
+        startActivity(homeIntent)
+    }
+
     interface RolCallback {
         fun rolRecibido(roles: ArrayList<Int>)
     }
@@ -195,6 +189,7 @@ class MainActivity : AppCompatActivity() {
             db.collection("users").document(edEmail.text.toString()).get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    //poner los demas para recuperar todos los datos
                     var croles= task.result.data?.get("roles") as ArrayList<Int>
                     if (callback != null) {
                         callback.rolRecibido(croles);
@@ -204,6 +199,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
     }
+
 
     fun DialogLogin(account: GoogleSignInAccount): Boolean {
         val dialogo: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(this)
@@ -255,17 +251,20 @@ class MainActivity : AppCompatActivity() {
                 if(p.equals("Usuario")){
                     rolEscogido=1
                     tipoRol.clear()
-                    irHome(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
+                    //irHome(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
+                    irMostarTodos(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
                 }
                 if(p.equals("Administrador")){
                     rolEscogido=2
                     tipoRol.clear()
-                    irHome(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
+                    //irHome(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
+                    irMostarTodos(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
                 }
                 if(p.equals("Encargado")){
                     rolEscogido=3
                     tipoRol.clear()
-                    irHome(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
+                    //irHome(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
+                    irMostarTodos(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -283,6 +282,4 @@ class MainActivity : AppCompatActivity() {
         dialogo.show()
         return true
     }
-
-
 }
