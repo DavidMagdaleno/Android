@@ -282,4 +282,8 @@ class MainActivity : AppCompatActivity() {
         dialogo.show()
         return true
     }
+    fun irStorage(view: View){
+        var intenMain:Intent= Intent(this,Storage::class.java)
+        startActivity(intenMain)
+    }
 }

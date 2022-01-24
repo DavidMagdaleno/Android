@@ -74,5 +74,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Regitrar con Google" />
+
+        <Button
+            android:id="@+id/btStorage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="irStorage"
+            android:text="Storage" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

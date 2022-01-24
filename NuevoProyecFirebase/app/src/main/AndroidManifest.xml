@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NuevoProyecFirebase">
         <activity
+            android:name=".Storage"
+            android:exported="true" />
+        <activity
             android:name=".MostrarTodos"
             android:exported="true" />
         <activity
