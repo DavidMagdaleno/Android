@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1092312383570",
+    "project_id": "eventosmaps-78060",
+    "storage_bucket": "eventosmaps-78060.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092312383570:android:9b5ff0e5ea1cb988a39f8b",
+        "android_client_info": {
+          "package_name": "com.example.eventosmaps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092312383570-j9s9r8n51jjl5hpuueidivt5o5v8l2eo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.eventosmaps",
+            "certificate_hash": "50e90e4b19db9b2682cd7f16810ca05c13b18918"
+          }
+        },
+        {
+          "client_id": "1092312383570-587tsl32k0lkb8pts06lgt69u1a8dc1t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx_ki_LuUxCDatJ2gxjps_fP-3IeQci2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1092312383570-587tsl32k0lkb8pts06lgt69u1a8dc1t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

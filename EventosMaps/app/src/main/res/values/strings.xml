@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">EventosMaps</string>
+    <string name="prefs_file">com.example.nuevoproyecfirebase.PREFERENCE_FILE_KEY</string>
+    <string name="request_id_token">1092312383570-587tsl32k0lkb8pts06lgt69u1a8dc1t.apps.googleusercontent.com</string>
+</resources>
