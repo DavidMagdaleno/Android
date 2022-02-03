@@ -37,14 +37,11 @@ class CrearEvento : AppCompatActivity() {
         miRecyclerView.setHasFixedSize(true)
         miRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        //val sdf = SimpleDateFormat("dd/M/yyyy")
-        //val currentDate = sdf.format(Date())
+        //val bundle:Bundle? = intent.extras
+        //val email = bundle?.getString("email").toString()
+        //MiAdapterCrear.email=email
 
-        val bundle:Bundle? = intent.extras
-        val email = bundle?.getString("email").toString()
-        MiAdapterCrear.email=email
-
-        db.collection("eventos").get().addOnSuccessListener {
+        /*db.collection("eventos").get().addOnSuccessListener {
             //Si encuentra el documento será satisfactorio este listener y entraremos en él
             //Log.e("llaves", it.documents[0].id)
             //Log.e("llaves", it.documents.single().id)
@@ -72,9 +69,54 @@ class CrearEvento : AppCompatActivity() {
 
         btCrear.setOnClickListener(){
             DialogLogin()
-        }
+        }*/
 
     }
+    var flag:Boolean=true
+    override fun onStart() {
+        super.onStart()
+        val bundle:Bundle? = intent.extras
+        val email = bundle?.getString("email").toString()
+        MiAdapterCrear.email=email
+
+        db.collection("eventos").get().addOnSuccessListener {
+            //Si encuentra el documento será satisfactorio este listener y entraremos en él
+            //Log.e("llaves", it.documents[0].id)
+            //Log.e("llaves", it.documents.single().id)
+            for (i in 0..it.documents.size-1){
+                if (flag){
+                    miArray2.add(it.documents[i].id)
+                }
+                if(!flag && it.documents[i].id.equals(txtEvento.text.toString())){
+                    miArray2.add(it.documents[i].id)
+                }
+            }
+            if (!miArray2.isEmpty()){ flag=false}
+            var miAdapter = MiAdapterCrear(miArray2, this)
+            miRecyclerView.adapter = miAdapter
+
+        }.addOnFailureListener{
+            Toast.makeText(this, "Algo ha ido mal al recuperar", Toast.LENGTH_SHORT).show()
+        }
+
+        db.collection("Usuarios").document(email).get().addOnSuccessListener {
+            //Si encuentra el documento será satisfactorio este listener y entraremos en él
+            if(it.get("Nombre") as String!=""){
+                asistentes.add(User(it.get("Nombre") as String,it.get("Apellidos") as String,"SI","",""))
+            }else{
+                Toast.makeText(this, "El usuario no tiene nombre",Toast.LENGTH_SHORT).show()
+            }
+            //Toast.makeText(this, "Recuperado",Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener{
+            Toast.makeText(this, "Algo ha ido mal al recuperar",Toast.LENGTH_SHORT).show()
+        }
+
+        btCrear.setOnClickListener(){
+            DialogLogin()
+        }
+    }
+
+
     fun volver(view: View){
         finish()
     }

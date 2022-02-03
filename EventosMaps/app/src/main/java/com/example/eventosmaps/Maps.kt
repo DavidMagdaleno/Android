@@ -66,6 +66,7 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
         map.setOnPoiClickListener(this)
         map.setOnMapLongClickListener (this)
         map.setOnMarkerClickListener(this)
+        map.setOnMapClickListener (this)
         enableMyLocation() //--> Hanilita, pidiendo permisos, la localización actual.
         createMarker() //--> Nos coloca varios marcadores en el mapa y nos coloca en el CIFP Virgen de Gracia con un Zoom.
         //irubicacioActual() //--> Nos coloca en la ubicación actual directamente. Comenta createMarker par ver esto. al arrancar
@@ -233,27 +234,44 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
         var evento = intent.getStringExtra("marcarPosicion")
         var email = intent.getStringExtra("user")
 
-        db.collection("Usuarios").document(email!!).get().addOnSuccessListener {
-            //Si encuentra el documento será satisfactorio este listener y entraremos en él
-
-            var u:User=User(it.get("Nombre") as String,it.get("Apellidos") as String,"SI",p0.latitude.toString()+","+p0.longitude.toString(),currentDate)
-
-            var user = hashMapOf(
-                "asistentes" to u
-            )
-            db.collection("eventos")//añade o sebreescribe
-                .document(evento!!) //Será la clave del documento.
-                .set(user).addOnSuccessListener {
-                    //Toast.makeText(this, "Almacenado", Toast.LENGTH_SHORT).show()
-                }.addOnFailureListener{
-                    //Toast.makeText(this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show()
+        db.collection("eventos").document(evento!!).get().addOnSuccessListener {
+            var miArray:ArrayList<User> = ArrayList()
+            var ev=it.get("Ubicacion")
+            //sacar todos los asistentes
+            var asistentes = it.get("asistentes") as ArrayList<Any>
+            for (i in 0..asistentes.size-1){
+                var m=asistentes[i] as Map<String, String>
+                var asist=User(m["nombre"].toString(),m["apellidos"].toString(),m["asistencia"].toString(),m["ubicacion"].toString(),m["hora"].toString())
+                miArray.add(asist)
+            }
+            db.collection("Usuarios").document(email!!).get().addOnSuccessListener {
+                //Si encuentra el documento será satisfactorio este listener y entraremos en él
+                var u:User=User(it.get("Nombre") as String,it.get("Apellidos") as String,"SI",p0.latitude.toString()+","+p0.longitude.toString(),currentDate)
+                for (i in 0..miArray.size-1){
+                    if (miArray[i].Nombre.equals(u.Nombre)){
+                        miArray[i]=u
+                    }else{
+                        miArray.add(u)
+                    }
                 }
-
-            //Toast.makeText(this, "Recuperado",Toast.LENGTH_SHORT).show()
+                var user = hashMapOf(
+                    "Ubicacion" to ev,
+                    "asistentes" to miArray
+                )
+                db.collection("eventos")//añade o sebreescribe
+                    .document(evento!!) //Será la clave del documento.
+                    .set(user).addOnSuccessListener {
+                        //Toast.makeText(this, "Almacenado", Toast.LENGTH_SHORT).show()
+                    }.addOnFailureListener{
+                        //Toast.makeText(this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show()
+                    }
+                //Toast.makeText(this, "Recuperado",Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener{
+                Toast.makeText(this, "Algo ha ido mal al recuperar",Toast.LENGTH_SHORT).show()
+            }
         }.addOnFailureListener{
             Toast.makeText(this, "Algo ha ido mal al recuperar",Toast.LENGTH_SHORT).show()
         }
-        //asistentes.add(User(it.get("Nombre") as String,it.get("Apellidos") as String,"SI","",""))
     }
 
     /**
@@ -348,6 +366,10 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
     override fun onMapClick(p0: LatLng) {
         //Toast.makeText(this, "Estás Aqui", Toast.LENGTH_SHORT).show()-------------------------------------------------------------------------------------
         map.addMarker(MarkerOptions().position(p0!!).title("Nuevo marcador"))
+        val intent=Intent()
+        intent.putExtra("ubica",p0.toString())
+        setResult(Activity.RESULT_OK,intent)
+        finish()
     }
 
     //Investigar los polígonos: triángulos...

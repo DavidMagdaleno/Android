@@ -38,14 +38,14 @@ class MiAdapterAsistentes (var eventos : ArrayList<User>, var  context: Context)
         private val db = FirebaseFirestore.getInstance()
         val nombre = view.findViewById(R.id.lblNom) as TextView
         val apel = view.findViewById(R.id.lblApel) as TextView
-        val asis = view.findViewById(R.id.lblAsis) as TextView
+        //val asis = view.findViewById(R.id.lblAsis) as TextView
         val ubi = view.findViewById(R.id.lblUbi) as TextView
 
         fun bind(pers: User, context: Context, pos: Int, miAdaptadorRecycler: MiAdapterAsistentes){
             nombre.text = "Nombre: "+pers.Nombre
             apel.text="Apellidos: "+pers.Apellidos
-            asis.text="Asistencia: "+pers.Asistencia
-            ubi.text="Ubicacion: "+pers.Ubicacion
+            //asis.text="Asistencia: "+pers.Asistencia
+            ubi.text="Sitio: "+pers.Ubicacion
 
 
             itemView.setOnClickListener(

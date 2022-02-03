@@ -67,7 +67,6 @@ class MiAdapterConsultas (var eventos : ArrayList<String>, var  context: Context
                     else {
                         MiAdapterConsultas.seleccionado = pos
                         titulo=pers
-                        asistir(pers)
                         var intentmais: Intent = Intent(context, Asistentes::class.java)
                         intentmais.putExtra("evento",pers)
                         ContextCompat.startActivity(context, intentmais, null)
@@ -76,33 +75,6 @@ class MiAdapterConsultas (var eventos : ArrayList<String>, var  context: Context
                     miAdaptadorRecycler.notifyDataSetChanged()
 
                 })
-        }
-
-        fun asistir(pers: String){
-            db.collection("eventos").document(pers).get().addOnSuccessListener {
-                //Si encuentra el documento será satisfactorio este listener y entraremos en él.
-                //txtDNI.setText(it.get("DNI") as String?)
-                var asistentes = it.get("asistentes") as ArrayList<User>
-                //asistentes.add(asist)
-
-                //Se guardarán en modo HashMap (clave, valor).
-                var user = hashMapOf(
-                    "asistentes" to asistentes
-                )
-
-                db.collection("eventos")//añade o sebreescribe
-                    .document(titulo) //Será la clave del documento.
-                    .set(user).addOnSuccessListener {
-                        //Toast.makeText(this, "Almacenado", Toast.LENGTH_SHORT).show()
-                    }.addOnFailureListener{
-                        //Toast.makeText(this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show()
-                    }
-
-                //Toast.makeText(this, "Recuperado", Toast.LENGTH_SHORT).show()
-            }.addOnFailureListener{
-                //Toast.makeText(this, "Algo ha ido mal al recuperar", Toast.LENGTH_SHORT).show()
-            }
-
         }
     }
 }
