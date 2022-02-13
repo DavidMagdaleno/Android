@@ -2,6 +2,7 @@ package com.example.desafiofinal
 
 import MiAdaptador.AdaptadorEventos
 import MiAdaptador.AdaptadorFotos
+import Model.Imagenes
 import Model.User
 import android.R.attr
 import android.content.Intent
@@ -43,7 +44,7 @@ class Galeria : AppCompatActivity() {
     //val ref=database.getReference("user")
     val ref2=database.getReference()
     //val desRef = Firebase.storage.reference
-    var miArray2:ArrayList<Bitmap> = ArrayList()
+    var miArray2:ArrayList<Imagenes> = ArrayList()
     lateinit var miRecyclerView : RecyclerView
     val ONE_MEGABYTE: Long = 1024 * 1024
 
@@ -90,7 +91,7 @@ class Galeria : AppCompatActivity() {
 
         try {
             mostarimagenes(object : Galeria.RolCallback {
-                override fun imagenes(imaNuevo: ArrayList<Bitmap>) {
+                override fun imagenes(imaNuevo: ArrayList<Imagenes>) {
                     //var miAdapter = AdaptadorFotos(imaNuevo, this@Galeria)
                     //miRecyclerView.adapter = miAdapter
                 }
@@ -101,13 +102,15 @@ class Galeria : AppCompatActivity() {
     }
 
     interface RolCallback {
-        fun imagenes(ima: ArrayList<Bitmap>)
+        fun imagenes(ima: ArrayList<Imagenes>)
     }
 
     fun mostarimagenes( callback:RolCallback){
         val bundle:Bundle? = intent.extras
         val ev = bundle?.getString("tituloEvento").toString()
         var email = intent.getStringExtra("user")
+        AdaptadorFotos.titulo=ev
+        AdaptadorFotos.email=email!!
         val desRef = Firebase.storage.reference.child(ev+"/")//.child(email+"/")
         miArray2.clear()
 
@@ -120,9 +123,7 @@ class Galeria : AppCompatActivity() {
                                 j.getBytes(ONE_MEGABYTE).addOnCompleteListener() {
                                     if (it.isSuccessful){
                                         val img = getBitmap(it.result)!!
-                                        //prueba.setImageBitmap(img)
-                                        miArray2.add(img)
-                                        Log.e("wtf5 ",img.toString())
+                                        miArray2.add(Imagenes(j.name,img))
                                         var miAdapter = AdaptadorFotos(miArray2, this@Galeria)
                                         miRecyclerView.adapter = miAdapter
                                         //AdaptadorFotos.notifyDataSetChanged()//se debería comentar esta línea en caso de usar el runBlocking
@@ -138,7 +139,6 @@ class Galeria : AppCompatActivity() {
         if (callback != null) {
             callback.imagenes(miArray2);
         }
-        Log.e("wtf8 ","prueba3")
     }
 
 

@@ -1,10 +1,18 @@
 package MiAdaptador
 
+import Model.Imagenes
 import Model.User
+import android.R.attr
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.media.Image
+import android.os.Build
+import android.provider.MediaStore.Images.Media.getBitmap
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,16 +20,30 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.core.graphics.drawable.toAdaptiveIcon
+import androidx.core.graphics.drawable.toDrawable
+import androidx.core.graphics.drawable.toIcon
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.example.desafiofinal.Maps
 import com.example.desafiofinal.R
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import android.R.attr.bitmap
+import android.util.Base64
+import java.io.ByteArrayOutputStream
 
-class AdaptadorFotos (var fotos : ArrayList<Bitmap>, var  context: Context) : RecyclerView.Adapter<AdaptadorFotos.ViewHolder>() {
+
+class AdaptadorFotos (var fotos : ArrayList<Imagenes>, var  context: Context) : RecyclerView.Adapter<AdaptadorFotos.ViewHolder>() {
     companion object {
         var seleccionado:Int = -1
+        var titulo:String=""
+        var email:String=""
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = fotos.get(position)
         holder.bind(item, context, position, this)
@@ -38,21 +60,21 @@ class AdaptadorFotos (var fotos : ArrayList<Bitmap>, var  context: Context) : Re
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val db = FirebaseFirestore.getInstance() //Variable con la que accederemos a Firestore. Será una instancia a la bd.
-        //var croles = ArrayList<Int>()
-
-        //val usDNI = view.findViewById(R.id.lblDni) as TextView
-        //val sistemaPersona = view.findViewById(R.id.txtCard2) as TextView
+        val ONE_MEGABYTE: Long = 1024 * 1024
+        private val db = FirebaseFirestore.getInstance()
         val avatar = view.findViewById(R.id.imgFoto) as ImageView
 
-        fun bind(pers: Bitmap, context: Context, pos: Int, miAdaptadorRecycler: AdaptadorFotos){
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun bind(pers: Imagenes, context: Context, pos: Int, miAdaptadorRecycler: AdaptadorFotos){
 
             //val uri = "@drawable/" +pers
             //Log.e("imagen2",uri)
             //val imageResource: Int = context.getResources().getIdentifier(uri, null, context.getPackageName())
             //var res: Drawable = context.resources.getDrawable(imageResource)
             //avatar.setImageDrawable(res)
-            avatar.setImageBitmap(pers)
+
+            avatar.setImageBitmap(pers.img)
 
 
             if (pos == AdaptadorFotos.seleccionado) {
@@ -73,15 +95,42 @@ class AdaptadorFotos (var fotos : ArrayList<Bitmap>, var  context: Context) : Re
                     }
                     else {
                         AdaptadorFotos.seleccionado = pos
-                        //borrar fotos que solo sean del usuario
-
-
                     }
-                    //Con la siguiente instrucción forzamos a recargar el viewHolder porque han cambiado los datos. Así pintará al seleccionado.
-                    miAdaptadorRecycler.notifyDataSetChanged()
-
                 })
+            itemView.setOnLongClickListener(View.OnLongClickListener{
+                val desRef = Firebase.storage.reference.child(titulo+"/").child(email+"/").child(pers.nombre)
+                Log.e("Sacar el nombre ",desRef.toString())
+                if (desRef.toString()!=""){
+                    val dialogo: AlertDialog.Builder = AlertDialog.Builder(context)
+                    dialogo.setPositiveButton("OK",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            desRef.delete().addOnSuccessListener {
+                                // File deleted successfully--------------------------------------------------------------------------
+                                //quitar de la vista del recicler---------------------------------------------------------------------
+                            }.addOnFailureListener {
+                                // Uh-oh, an error occurred!
+                            }
+                        })
+                    dialogo.setNegativeButton("CANCELAR",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            dialog.dismiss()
+                        })
+                    dialogo.setTitle("¿Borrar Elemento?")
+                    dialogo.setMessage("¿Deseas eliminar este elemento?")
+                    dialogo.show()
+                    miAdaptadorRecycler.notifyDataSetChanged()
+                }
+                miAdaptadorRecycler.notifyDataSetChanged()
+                return@OnLongClickListener true
+            })
+
+
+
+
+        }
+
+        fun getBitmap(image: ByteArray): Bitmap? {
+            return BitmapFactory.decodeByteArray(image, 0, image.size)
         }
     }
-
 }
