@@ -2,6 +2,7 @@ package com.example.desafiofinal
 
 import MiAdaptador.AdaptadorEventos
 import MiAdaptador.AdaptadorFotos
+import Model.Comentario
 import Model.Imagenes
 import Model.User
 import android.R.attr
@@ -29,6 +30,7 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import android.graphics.drawable.Drawable
 import android.media.ImageReader
 import android.provider.ContactsContract
+import android.view.View
 import androidx.core.net.toFile
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.NonCancellable.join
@@ -69,7 +71,7 @@ class Galeria : AppCompatActivity() {
                 var user = hashMapOf(
                     "Ubicacion" to it.get("Ubicacion").toString(),
                     "asistentes" to it.get("asistentes") as ArrayList<User>,
-                    "comentarios" to it.get("comentarios").toString(),
+                    "comentarios" to it.get("comentarios") as ArrayList<Comentario>,
                     "fotos" to ev
                 )
                 db.collection("eventos")//añade o sebreescribe
@@ -198,5 +200,7 @@ class Galeria : AppCompatActivity() {
             }
         }
     }
-
+    fun volver(view:View){
+        finish()
+    }
 }

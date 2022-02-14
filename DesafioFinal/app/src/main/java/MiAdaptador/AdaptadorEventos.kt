@@ -1,7 +1,10 @@
 package MiAdaptador
 
+import Model.Imagenes
 import Model.User
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +19,8 @@ import com.example.desafiofinal.Maps
 import com.example.desafiofinal.OpcionesEventos
 import com.example.desafiofinal.R
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 class AdaptadorEventos (var eventos : ArrayList<String>, var  context: Context) : RecyclerView.Adapter<AdaptadorEventos.ViewHolder>() {
 
@@ -136,12 +141,46 @@ class AdaptadorEventos (var eventos : ArrayList<String>, var  context: Context) 
             itemView.setOnLongClickListener(
                 View.OnLongClickListener
                 {
+                    val desRef = Firebase.storage.reference.child(pers+"/")
+                    val dialogo: AlertDialog.Builder = AlertDialog.Builder(context)
+                    dialogo.setPositiveButton("OK",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            db.collection("eventos").document(pers)
+                                .delete()
+                                .addOnSuccessListener { Log.d("Consegido", "Documento borrado.!") }
+                                .addOnFailureListener { e -> Log.w("No Conseguido", "Error al borrar el documento.", e) }
+
+                            //google no permite borrar la carpeta contenedora directamente en storage, tienes que eliminar todos los archivos recorriendolos
+                            desRef.listAll().addOnCompleteListener() { lista ->
+                                if(lista.isSuccessful){
+                                    for(i in lista.result.prefixes){
+                                        i.listAll().addOnCompleteListener() { jj ->
+                                            if(jj.isSuccessful){
+                                                for(j in jj.result.items){
+                                                    val desRefaux = Firebase.storage.reference.child(pers+"/").child(i.name+"/").child(j.name)
+                                                    desRefaux.delete().addOnSuccessListener {
+                                                        // File deleted successfully
+                                                        //Toast.makeText(context, "Esta foto no es tuya, no lo puedes borrar", Toast.LENGTH_SHORT).show()
+                                                    }.addOnFailureListener {
+                                                        // Uh-oh, an error occurred!
+                                                        //Toast.makeText(context, "Esta foto no es tuya, no lo puedes borrar", Toast.LENGTH_SHORT).show()
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        })
+                    dialogo.setNegativeButton("CANCELAR",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            dialog.dismiss()
+                        })
+                    dialogo.setTitle("¿Borrar Evento?")
+                    dialogo.setMessage("¿Deseas eliminar este evento?")
+                    dialogo.show()
                     miAdaptadorRecycler.eventos.removeAt(pos)
-                    //borrar el evento---------------------------------------------------------------------------------------
-                    db.collection("eventos").document(pers)
-                        .delete()
-                        .addOnSuccessListener { Log.d("Consegido", "Documento borrado.!") }
-                        .addOnFailureListener { e -> Log.w("No Conseguido", "Error al borrar el documento.", e) }
                     miAdaptadorRecycler.notifyDataSetChanged()
                     return@OnLongClickListener true
                 })

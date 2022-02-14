@@ -1,6 +1,7 @@
 package com.example.desafiofinal
 
 import MiAdaptador.AdaptadorEventos
+import Model.Comentario
 import Model.Evento
 import Model.User
 import android.Manifest
@@ -231,6 +232,9 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
             db.collection("eventos").document(evento!!).get().addOnSuccessListener {
                 var miArray: ArrayList<User> = ArrayList()
                 var ev=it.get("Ubicacion")
+                var ft=it.get("fotos").toString()
+                var cm=it.get("comentarios") as ArrayList<Comentario>
+
                 //sacar todos los asistentes
                 var asistentes = it.get("asistentes") as ArrayList<Any>
                 for (i in 0..asistentes.size-1){
@@ -250,7 +254,9 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
                     }
                     var user = hashMapOf(
                         "Ubicacion" to ev,
-                        "asistentes" to miArray
+                        "asistentes" to miArray,
+                        "comentarios" to cm,
+                        "fotos" to ft
                     )
                     db.collection("eventos")//añade o sebreescribe
                         .document(evento!!) //Será la clave del documento.

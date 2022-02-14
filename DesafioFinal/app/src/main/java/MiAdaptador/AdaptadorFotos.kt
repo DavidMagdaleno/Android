@@ -33,6 +33,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import android.R.attr.bitmap
 import android.util.Base64
+import android.widget.Toast
 import java.io.ByteArrayOutputStream
 
 
@@ -60,33 +61,14 @@ class AdaptadorFotos (var fotos : ArrayList<Imagenes>, var  context: Context) : 
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val ONE_MEGABYTE: Long = 1024 * 1024
-        private val db = FirebaseFirestore.getInstance()
         val avatar = view.findViewById(R.id.imgFoto) as ImageView
 
 
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(pers: Imagenes, context: Context, pos: Int, miAdaptadorRecycler: AdaptadorFotos){
 
-            //val uri = "@drawable/" +pers
-            //Log.e("imagen2",uri)
-            //val imageResource: Int = context.getResources().getIdentifier(uri, null, context.getPackageName())
-            //var res: Drawable = context.resources.getDrawable(imageResource)
-            //avatar.setImageDrawable(res)
-
             avatar.setImageBitmap(pers.img)
 
-
-            if (pos == AdaptadorFotos.seleccionado) {
-                //with(avatar) {
-                    //this.setTextColor(resources.getColor(R.color.purple_200))
-                //}
-            }
-            else {
-                //with(avatar) {
-                    //this.setTextColor(resources.getColor(R.color.black))
-                //}
-            }
             itemView.setOnClickListener(
                 View.OnClickListener
                 {
@@ -99,38 +81,29 @@ class AdaptadorFotos (var fotos : ArrayList<Imagenes>, var  context: Context) : 
                 })
             itemView.setOnLongClickListener(View.OnLongClickListener{
                 val desRef = Firebase.storage.reference.child(titulo+"/").child(email+"/").child(pers.nombre)
-                Log.e("Sacar el nombre ",desRef.toString())
-                if (desRef.toString()!=""){
-                    val dialogo: AlertDialog.Builder = AlertDialog.Builder(context)
-                    dialogo.setPositiveButton("OK",
-                        DialogInterface.OnClickListener { dialog, which ->
-                            desRef.delete().addOnSuccessListener {
-                                // File deleted successfully--------------------------------------------------------------------------
-                                //quitar de la vista del recicler---------------------------------------------------------------------
-                            }.addOnFailureListener {
-                                // Uh-oh, an error occurred!
-                            }
-                        })
-                    dialogo.setNegativeButton("CANCELAR",
-                        DialogInterface.OnClickListener { dialog, which ->
-                            dialog.dismiss()
-                        })
-                    dialogo.setTitle("¿Borrar Elemento?")
-                    dialogo.setMessage("¿Deseas eliminar este elemento?")
-                    dialogo.show()
-                    miAdaptadorRecycler.notifyDataSetChanged()
-                }
+
+                val dialogo: AlertDialog.Builder = AlertDialog.Builder(context)
+                dialogo.setPositiveButton("OK",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        desRef.delete().addOnSuccessListener {
+                            // File deleted successfully--------------------------------------------------------------------------
+                            miAdaptadorRecycler.fotos.removeAt(pos)
+                        }.addOnFailureListener {
+                            // Uh-oh, an error occurred!
+                            Toast.makeText(context, "Esta foto no es tuya, no lo puedes borrar", Toast.LENGTH_SHORT).show()
+                        }
+                    })
+                dialogo.setNegativeButton("CANCELAR",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        dialog.dismiss()
+                    })
+                dialogo.setTitle("¿Borrar Elemento?")
+                dialogo.setMessage("¿Deseas eliminar este elemento?")
+                dialogo.show()
+
                 miAdaptadorRecycler.notifyDataSetChanged()
                 return@OnLongClickListener true
             })
-
-
-
-
-        }
-
-        fun getBitmap(image: ByteArray): Bitmap? {
-            return BitmapFactory.decodeByteArray(image, 0, image.size)
         }
     }
 }

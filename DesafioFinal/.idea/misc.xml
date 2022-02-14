@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Raziel/Desktop/Android/DesafioFinal/app/src/main/res/layout/activity_admin_users.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Raziel/Desktop/Android/DesafioFinal/app/src/main/res/layout/activity_comentarios.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Raziel/Desktop/Android/DesafioFinal/app/src/main/res/layout/activity_datos_usuario.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Raziel/Desktop/Android/DesafioFinal/app/src/main/res/layout/activity_eventos.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/Raziel/Desktop/Android/DesafioFinal/app/src/main/res/layout/activity_galeria.xml" value="0.35260416666666666" />
@@ -12,6 +13,7 @@
         <entry key="..\:/Users/Raziel/Desktop/Android/DesafioFinal/app/src/main/res/layout/activity_opciones.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Raziel/Desktop/Android/DesafioFinal/app/src/main/res/layout/activity_opciones_eventos.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Raziel/Desktop/Android/DesafioFinal/app/src/main/res/layout/activity_todos_usuarios.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Raziel/Desktop/Android/DesafioFinal/app/src/main/res/layout/item_comentario.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Raziel/Desktop/Android/DesafioFinal/app/src/main/res/layout/item_dailogo2.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Raziel/Desktop/Android/DesafioFinal/app/src/main/res/layout/item_dialogo.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Raziel/Desktop/Android/DesafioFinal/app/src/main/res/layout/item_dialogo3.xml" value="0.36666666666666664" />

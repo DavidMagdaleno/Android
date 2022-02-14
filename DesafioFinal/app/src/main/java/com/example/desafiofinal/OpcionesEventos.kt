@@ -61,7 +61,12 @@ class OpcionesEventos : AppCompatActivity() {
                 Toast.makeText(this, "Algo ha ido mal al recuperar", Toast.LENGTH_SHORT).show()
             }
         }
-        btnComent.setOnClickListener(){}
+        btnComent.setOnClickListener(){
+            var intentmais: Intent = Intent(this, Comentarios::class.java)
+            intentmais.putExtra("tituloEvento",ev)
+            intentmais.putExtra("user", email)
+            startActivity(intentmais)
+        }
         btnLoca.setOnClickListener(){}
 
 

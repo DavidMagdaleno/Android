@@ -1,6 +1,7 @@
 package com.example.desafiofinal
 
 import MiAdaptador.AdaptadorEventos
+import Model.Comentario
 import Model.Evento
 import Model.User
 import android.app.Activity
@@ -104,7 +105,7 @@ class Eventos : AppCompatActivity() {
             var user = hashMapOf(
                 "Ubicacion" to e,
                 "asistentes" to asistentes,
-                "comentarios" to "",
+                "comentarios" to ArrayList<Comentario>(),//""
                 "fotos" to ""
             )
             db.collection("eventos")//añade o sebreescribe
