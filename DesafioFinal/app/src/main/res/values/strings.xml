@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DesafioFinal</string>
+    <string name="prefs_file">com.example.nuevoproyecfirebase.PREFERENCE_FILE_KEY</string>
+    <string name="request_id_token">350999405956-7vpt7hm1bq673vjbdpsoo1kmcu4bu1b4.apps.googleusercontent.com</string>
+</resources>

@@ -1,37 +1,64 @@
 package com.example.desafiofinal
 
-import MiAdaptador.AdaptadorEventos
+import MiAdaptador.AdaptadorComentarios
 import Model.Comentario
-import Model.Imagenes
 import Model.User
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.Toast
-import androidx.core.content.ContextCompat
+import android.widget.EditText
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_comentarios.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 class Comentarios : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
+    lateinit var miRecyclerView : RecyclerView
     var arrayComent:ArrayList<Comentario> = ArrayList()
+    var arrayComentaux:ArrayList<Comentario> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comentarios)
 
+        miRecyclerView = findViewById(R.id.rvComent) as RecyclerView
+        miRecyclerView.setHasFixedSize(true)
+        miRecyclerView.layoutManager = LinearLayoutManager(this)
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         val bundle:Bundle? = intent.extras
         val ev = bundle?.getString("tituloEvento").toString()
-        val email = bundle?.getString("email").toString()
+        val email = bundle?.getString("user").toString()
+
+        try {
+            mostarcomentarios(object : Comentarios.RolCallback {
+                override fun comenta(cmtNuevo: ArrayList<Comentario>) {
+                    Log.e("wtf ", cmtNuevo.toString())
+                    for(i in 0..cmtNuevo.size-1){
+                        var c= cmtNuevo[i] as Map<String,String>
+                        arrayComentaux.add(Comentario(c.get("em")!!,c.get("comen")!!))
+                        Log.e("wtf ", c.get("em")!!)
+                    }
+                    var miAdapter = AdaptadorComentarios(arrayComentaux, this@Comentarios)
+                    miRecyclerView.adapter = miAdapter
+                }
+            })
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
 
         btnAgreComent.setOnClickListener(){
-            val dialogo: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(this)
+            val dialogo: AlertDialog.Builder = AlertDialog.Builder(this)
             val Myview= RecyclerView.inflate(this,R.layout.item_comentario, null)
-            var comt = Myview.findViewById<Button>(R.id.txtComent)
+            var comt = Myview.findViewById<EditText>(R.id.txtComent)
             dialogo.setView(Myview)
             dialogo.setPositiveButton("OK",
                 DialogInterface.OnClickListener { dialog, which ->
@@ -57,14 +84,12 @@ class Comentarios : AppCompatActivity() {
                         }.addOnFailureListener {
                             //Toast.makeText(this, "Algo ha ido mal al recuperar", Toast.LENGTH_SHORT).show()
                         }
-
+                })
             dialogo.setNegativeButton("CANCELAR",
                 DialogInterface.OnClickListener { dialog, which ->
                     dialog.dismiss()
                 })
             dialogo.show()
-        })
-
         }
     }
 
@@ -72,4 +97,29 @@ class Comentarios : AppCompatActivity() {
         finish()
     }
 
+    interface RolCallback {
+        fun comenta(cmt: ArrayList<Comentario>)
+    }
+
+    fun mostarcomentarios( callback:RolCallback){
+        val bundle:Bundle? = intent.extras
+        val ev = bundle?.getString("tituloEvento").toString()
+        var email = intent.getStringExtra("user")
+        AdaptadorComentarios.titulo=ev
+        AdaptadorComentarios.email=email!!
+        db.collection("eventos").document(ev).get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    if (task.result.data?.get("comentarios").toString()!="null"){
+                        //poner los demas para recuperar todos los datos
+                        var ccmt= task.result.data?.get("comentarios") as ArrayList<Comentario>
+                        if (callback != null) {
+                            callback.comenta(ccmt);
+                        }
+                    }
+                } else {
+                    Log.e("wh", "Error getting documents.", task.exception)
+                }
+            }
+    }
 }

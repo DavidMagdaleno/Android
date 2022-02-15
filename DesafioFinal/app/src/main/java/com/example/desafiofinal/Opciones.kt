@@ -18,6 +18,8 @@ class Opciones : AppCompatActivity() {
         if (rol=="Administrador"){
             btnAdminUser.isVisible=true
             btnAdminUser.isEnabled=true
+            btnBanner.isVisible=true
+            btnBanner.isEnabled=true
         }
 
 
@@ -42,6 +44,12 @@ class Opciones : AppCompatActivity() {
             startActivity(homeIntent)
         }
 
+        btnBanner.setOnClickListener(){
+            val homeIntent = Intent(this, BanUsers::class.java).apply {
+                //putExtra("email",email)
+            }
+            startActivity(homeIntent)
+        }
 
     }
 }

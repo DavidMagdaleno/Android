@@ -86,7 +86,7 @@ class Galeria : AppCompatActivity() {
             }
         }
     }
-    //llamar al recyclerview usando onStart y sacar las imagenes del storage para pasarle el arraylist de images----------------------------------------------------------------
+
 
     override fun onStart() {
         super.onStart()
