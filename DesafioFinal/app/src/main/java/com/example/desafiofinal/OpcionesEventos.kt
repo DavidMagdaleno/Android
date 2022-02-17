@@ -67,8 +67,13 @@ class OpcionesEventos : AppCompatActivity() {
             intentmais.putExtra("user", email)
             startActivity(intentmais)
         }
-        btnLoca.setOnClickListener(){}
-
+        btnLoca.setOnClickListener(){
+            var intentmais: Intent = Intent(this, Maps::class.java)
+            intentmais.putExtra("tituloEvento",ev)
+            intentmais.putExtra("user", email)
+            intentmais.putExtra("loca", "loca")
+            startActivity(intentmais)
+        }
 
     }
 }

@@ -81,6 +81,7 @@ class Eventos : AppCompatActivity() {
 
     fun DialogLogin(): Boolean {
         var intentmais: Intent = Intent(this, Maps::class.java)
+        intentmais.putExtra("titulodeevento",txtEv.text.toString())
         val dialogo: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(this)
         val Myview=layoutInflater.inflate(R.layout.item_dailogo2, null)
         dialogo.setView(Myview)
@@ -103,10 +104,11 @@ class Eventos : AppCompatActivity() {
             var e: Evento =Evento(returString.toString())
             //Se guardarán en modo HashMap (clave, valor).
             var user = hashMapOf(
-                "Ubicacion" to e,
+                "Ubicacion" to e.ubicacion,
                 "asistentes" to asistentes,
                 "comentarios" to ArrayList<Comentario>(),//""
-                "fotos" to ""
+                "fotos" to "",
+                "localizacion" to ArrayList<String>()
             )
             db.collection("eventos")//añade o sebreescribe
                 .document(txtEv.text.toString()) //Será la clave del documento.

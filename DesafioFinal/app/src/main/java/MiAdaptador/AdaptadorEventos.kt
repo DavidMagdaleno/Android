@@ -1,5 +1,6 @@
 package MiAdaptador
 
+import Model.Comentario
 import Model.Imagenes
 import Model.User
 import android.app.AlertDialog
@@ -101,13 +102,12 @@ class AdaptadorEventos (var eventos : ArrayList<String>, var  context: Context) 
                                         usersdelevento.add(e)
                                         db.collection("eventos").document(pers).get()
                                             .addOnSuccessListener {
-                                                var p = it.get("Ubicacion").toString()
-
                                                 var user = hashMapOf(
-                                                    "Ubicacion" to p,
+                                                    "Ubicacion" to it.get("Ubicacion").toString(),
                                                     "asistentes" to usersdelevento,
-                                                    "comentarios" to it.get("cometarios").toString(),
-                                                    "fotos" to it.get("fotos").toString()
+                                                    "comentarios" to it.get("cometarios") as ArrayList<Comentario>,
+                                                    "fotos" to it.get("fotos").toString(),
+                                                    "localizacion" to it.get("localizacion") as ArrayList<String>
                                                 )
                                                 db.collection("eventos")//añade o sebreescribe
                                                     .document(pers) //Será la clave del documento.

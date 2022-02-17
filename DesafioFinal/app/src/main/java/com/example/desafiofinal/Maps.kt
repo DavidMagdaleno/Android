@@ -33,6 +33,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_eventos.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -48,6 +49,7 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
     private val LOCATION_REQUEST_CODE: Int = 0
     private lateinit var map: GoogleMap
     private val db = FirebaseFirestore.getInstance()
+    var locali:ArrayList<String> = ArrayList()
 
     /**
      * Esta función nos devolverá un objeto GoogleMap que será muy útil, es por ello que debemos guardarlo en una variable. ¿Cómo lo
@@ -94,27 +96,47 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
     private fun createMarker() {
         val bundle:Bundle? = intent.extras
         val ev = bundle?.getString("tituloEvento").toString()
+        val loc = bundle?.getString("loca").toString()
+        if (loc!="loca"){
+            db.collection("eventos").document(ev).get().addOnSuccessListener {
+                if(it.get("Ubicacion").toString()!="null"){
+                    //var p=it.get("Ubicacion") as Map<String,String>
+                    var aux=it.get("Ubicacion").toString().substringAfter('(').substringBefore(')')
+                    //var aux2=aux.substringBefore(')')
+                    Log.e("convertir latlang ", aux)
+                    var lat=aux.substringBefore(',')
+                    var longi=aux.substringAfter(',')
+                    val favoritePlace = LatLng(lat.toDouble(),longi.toDouble())
 
-        db.collection("eventos").document(ev).get().addOnSuccessListener {
-            if(it.get("Ubicacion").toString()!="null"){
-                var p=it.get("Ubicacion") as Map<String,String>
-                var aux=p.get("ubicacion").toString().substringAfter('(').substringBefore(')')
-                //var aux2=aux.substringBefore(')')
-                Log.e("convertir latlang ", aux)
-                var lat=aux.substringBefore(',')
-                var longi=aux.substringAfter(',')
-                val favoritePlace = LatLng(lat.toDouble(),longi.toDouble())
+                    map.addMarker(MarkerOptions().position(favoritePlace).title("Lugar del Evento").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)).snippet("Lugar del Evento"))
 
-                map.addMarker(MarkerOptions().position(favoritePlace).title("Lugar del Evento").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)).snippet("Lugar del Evento"))
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(favoritePlace, 18f),4000,null)
 
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(favoritePlace, 18f),4000,null)
-
-                pintarCirculoCentro(favoritePlace)
+                    pintarCirculoCentro(favoritePlace)
+                }
+            }.addOnFailureListener{
+                Toast.makeText(this, "Algo ha ido mal al recuperar", Toast.LENGTH_SHORT).show()
             }
-        }.addOnFailureListener{
-            Toast.makeText(this, "Algo ha ido mal al recuperar", Toast.LENGTH_SHORT).show()
-        }
+        }else{
+            db.collection("eventos").document(ev).get().addOnSuccessListener {
+                var aux=it.get("localizacion") as ArrayList<String>
+                if(aux.isNotEmpty()){
+                    for (loc in aux){
+                        var aux2=loc.substringAfter('(').substringBefore(')')
+                        //var aux2=aux.substringBefore(')')
+                        //Log.e("convertir latlang ", aux)
+                        var lat=aux2.substringBefore(',')
+                        var longi=aux2.substringAfter(',')
+                        val favoritePlace = LatLng(lat.toDouble(),longi.toDouble())
+                        map.addMarker(MarkerOptions().position(favoritePlace).title("Lugar Favorito").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)).snippet("Lugar Favorito"))
+                    }
+                }
 
+            }.addOnFailureListener{
+                Toast.makeText(this, "Algo ha ido mal al recuperar", Toast.LENGTH_SHORT).show()
+            }
+
+        }
     }
 
     /**
@@ -231,9 +253,10 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
 
             db.collection("eventos").document(evento!!).get().addOnSuccessListener {
                 var miArray: ArrayList<User> = ArrayList()
-                var ev=it.get("Ubicacion")
+                var ev=it.get("Ubicacion").toString()
                 var ft=it.get("fotos").toString()
                 var cm=it.get("comentarios") as ArrayList<Comentario>
+                var lc=it.get("localizacion") as ArrayList<String>
 
                 //sacar todos los asistentes
                 var asistentes = it.get("asistentes") as ArrayList<Any>
@@ -256,7 +279,8 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
                         "Ubicacion" to ev,
                         "asistentes" to miArray,
                         "comentarios" to cm,
-                        "fotos" to ft
+                        "fotos" to ft,
+                        "localizacion" to lc
                     )
                     db.collection("eventos")//añade o sebreescribe
                         .document(evento!!) //Será la clave del documento.
@@ -367,10 +391,39 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
 
     override fun onMapClick(p0: LatLng) {
         //Toast.makeText(this, "Estás Aqui", Toast.LENGTH_SHORT).show()-------------------------------------------------------------------------------------
-        map.addMarker(MarkerOptions().position(p0!!).title("Nuevo marcador"))
-        val intent=Intent()
-        intent.putExtra("ubica",p0.toString())
-        setResult(Activity.RESULT_OK,intent)
-        finish()
+        val bundle:Bundle? = intent.extras
+        val ev = bundle?.getString("tituloEvento").toString()
+        val loc = bundle?.getString("loca").toString()
+        if (loc!="loca"){
+            map.addMarker(MarkerOptions().position(p0!!).title("Nuevo marcador"))
+            val intent=Intent()
+            intent.putExtra("ubica",p0.toString())
+            setResult(Activity.RESULT_OK,intent)
+            finish()
+        }else{
+            locali.add(p0.toString())
+            db.collection("eventos").document(ev).get().addOnSuccessListener {
+                //var a=it.get("asistentes") as ArrayList<User>
+                Log.e("wtf ", it.get("asistentes").toString())
+                var user = hashMapOf(
+                    "Ubicacion" to it.get("Ubicacion").toString(),
+                    "asistentes" to it.get("asistentes") as ArrayList<User>,
+                    "comentarios" to it.get("comentarios") as ArrayList<Comentario>,//""
+                    "fotos" to it.get("fotos").toString(),
+                    "localizacion" to locali
+                )
+                db.collection("eventos")//añade o sebreescribe
+                    .document(ev) //Será la clave del documento.
+                    .set(user).addOnSuccessListener {
+                        Toast.makeText(this, "Almacenado", Toast.LENGTH_SHORT).show()
+                    }.addOnFailureListener{
+                        Toast.makeText(this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show()
+                    }
+            }.addOnFailureListener{
+                Toast.makeText(this, "Algo ha ido mal al recuperar", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
     }
 }

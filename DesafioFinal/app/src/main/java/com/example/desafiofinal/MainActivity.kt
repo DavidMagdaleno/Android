@@ -162,6 +162,7 @@ class MainActivity : AppCompatActivity() {
     private fun irRegistro(email:String){
         val homeIntent = Intent(this, DatosUsuario::class.java).apply {
             putExtra("email",email)
+            putExtra("Mod","NONE")
             //putExtra("provider",provider.name)
         }
         startActivity(homeIntent)

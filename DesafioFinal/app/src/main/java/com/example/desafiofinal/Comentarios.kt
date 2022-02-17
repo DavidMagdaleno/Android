@@ -41,11 +41,9 @@ class Comentarios : AppCompatActivity() {
         try {
             mostarcomentarios(object : Comentarios.RolCallback {
                 override fun comenta(cmtNuevo: ArrayList<Comentario>) {
-                    Log.e("wtf ", cmtNuevo.toString())
                     for(i in 0..cmtNuevo.size-1){
                         var c= cmtNuevo[i] as Map<String,String>
                         arrayComentaux.add(Comentario(c.get("em")!!,c.get("comen")!!))
-                        Log.e("wtf ", c.get("em")!!)
                     }
                     var miAdapter = AdaptadorComentarios(arrayComentaux, this@Comentarios)
                     miRecyclerView.adapter = miAdapter
@@ -66,12 +64,12 @@ class Comentarios : AppCompatActivity() {
 
                     db.collection("eventos").document(ev).get()
                         .addOnSuccessListener {
-                            var p = it.get("Ubicacion").toString()
                             var user = hashMapOf(
-                                "Ubicacion" to p,
+                                "Ubicacion" to it.get("Ubicacion").toString(),
                                 "asistentes" to it.get("asistentes") as ArrayList<User>,
                                 "comentarios" to arrayComent,
-                                "fotos" to it.get("fotos").toString()
+                                "fotos" to it.get("fotos").toString(),
+                                "localizacion" to it.get("localizacion") as ArrayList<String>
                             )
                             db.collection("eventos")//añade o sebreescribe
                                 .document(ev) //Será la clave del documento.

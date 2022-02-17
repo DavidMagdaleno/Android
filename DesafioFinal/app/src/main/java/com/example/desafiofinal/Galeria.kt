@@ -72,7 +72,8 @@ class Galeria : AppCompatActivity() {
                     "Ubicacion" to it.get("Ubicacion").toString(),
                     "asistentes" to it.get("asistentes") as ArrayList<User>,
                     "comentarios" to it.get("comentarios") as ArrayList<Comentario>,
-                    "fotos" to ev
+                    "fotos" to ev,
+                    "localizacion" to it.get("localizacion") as ArrayList<String>
                 )
                 db.collection("eventos")//añade o sebreescribe
                     .document(ev) //Será la clave del documento.
