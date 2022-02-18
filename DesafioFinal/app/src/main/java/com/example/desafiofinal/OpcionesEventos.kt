@@ -75,5 +75,16 @@ class OpcionesEventos : AppCompatActivity() {
             startActivity(intentmais)
         }
 
+        btnAsistencia.setOnClickListener(){
+            var intentmais: Intent = Intent(this, Asistencia::class.java)
+            intentmais.putExtra("tituloEvento",ev)
+            intentmais.putExtra("user", email)
+            startActivity(intentmais)
+        }
+
+        btnBack7.setOnClickListener(){
+            finish()
+        }
+
     }
 }

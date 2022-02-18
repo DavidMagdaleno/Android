@@ -1,48 +1,59 @@
 package com.example.desafiofinal
 
 import MiAdaptador.AdaptadorAdminUser
-import MiAdaptador.AdaptadorUsuarioEvento
+import MiAdaptador.AdaptadorAsistencia
+import Model.Comentario
 import Model.User
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
-class TodosUsuarios : AppCompatActivity() {
+class Asistencia : AppCompatActivity() {
     lateinit var miRecyclerView : RecyclerView
     var miArray:ArrayList<User> = ArrayList()
-    private val db = FirebaseFirestore.getInstance() //Variable con la que accederemos a Firestore. Será una instancia a la bd.
-    private val TAG = "David"
+    private val db = FirebaseFirestore.getInstance()
     var context=this
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_todos_usuarios)
+        setContentView(R.layout.activity_asistencia)
 
         val bundle:Bundle? = intent.extras
         val ev = bundle?.getString("tituloEvento").toString()
 
-        var NombreEvento:TextView=findViewById<TextView>(R.id.lblNomEV)
-        NombreEvento.setText(ev.toString())
-
-        miRecyclerView = findViewById(R.id.rvUsuEv)// as RecyclerView
+        miRecyclerView = findViewById(R.id.rvAsistencia)// as RecyclerView
         miRecyclerView.setHasFixedSize(true)
         miRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        try {
-            recuperarDatos(object : TodosUsuarios.RolCallback {
+
+        db.collection("eventos").document(ev).get().addOnSuccessListener {
+            var a=it.get("asistentes") as ArrayList<User>
+            for (i in 0..a.size-1){
+                var asi= a[i] as Map<String,Any>
+                miArray.add(User(asi.get("dni").toString(),asi.get("nombre").toString(),asi.get("apellidos").toString(),asi.get("aceptado").toString(),asi.get("email").toString(),asi.get("ubicacion").toString(),asi.get("hora").toString(),asi.get("roles") as ArrayList<Int>))
+            }
+            var miAdapter = AdaptadorAsistencia(miArray, this)
+            miRecyclerView.adapter = miAdapter
+        }.addOnFailureListener{
+            Toast.makeText(this, "Algo ha ido mal al recuperar", Toast.LENGTH_SHORT).show()
+        }
+
+
+        /*try {
+            recuperarDatos(object : Asistencia.RolCallback {
                 override fun datosRecibidos(datosnuevos: MutableList<DocumentSnapshot>) {
                     obtenerDatos(datosnuevos)
                 }
             })
         } catch (e: InterruptedException) {
             e.printStackTrace()
-        }
+        }*/
+
     }
 
     fun recuperarDatos( callback:RolCallback){
@@ -85,7 +96,7 @@ class TodosUsuarios : AppCompatActivity() {
             //Log.e(TAG, al.toString())
             miArray.add(al)
         }
-        var miAdapter = AdaptadorUsuarioEvento(miArray, this)
+        var miAdapter = AdaptadorAsistencia(miArray, this)
         miRecyclerView.adapter = miAdapter
     }
 

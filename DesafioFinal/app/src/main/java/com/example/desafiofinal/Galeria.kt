@@ -78,7 +78,7 @@ class Galeria : AppCompatActivity() {
                 db.collection("eventos")//añade o sebreescribe
                     .document(ev) //Será la clave del documento.
                     .set(user).addOnSuccessListener {
-                        Toast.makeText(this, "Almacenado", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(this, "Almacenado", Toast.LENGTH_SHORT).show()
                     }.addOnFailureListener{
                         Toast.makeText(this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show()
                     }
@@ -91,7 +91,6 @@ class Galeria : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
         try {
             mostarimagenes(object : Galeria.RolCallback {
                 override fun imagenes(imaNuevo: ArrayList<Imagenes>) {

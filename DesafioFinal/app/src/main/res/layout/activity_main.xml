@@ -16,8 +16,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.058" />
+        app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView8"
+        app:layout_constraintVertical_bias="0.02" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -71,7 +71,9 @@
                 android:layout_width="118dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="LOGIN" />
+                android:backgroundTint="@color/green"
+                android:text="LOGIN"
+                app:icon="@drawable/fui_ic_anonymous_white_24dp" />
 
             <Button
                 android:id="@+id/btRegistro"
@@ -88,6 +90,7 @@
         android:layout_width="327dp"
         android:layout_height="wrap_content"
         android:text="Registro Google"
+        app:icon="@drawable/fui_ic_googleg_color_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -105,5 +108,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btGoogle"
         app:layout_constraintVertical_bias="0.094" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView8"
+        android:name="com.example.desafiofinal.CabeceraFragment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.021" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

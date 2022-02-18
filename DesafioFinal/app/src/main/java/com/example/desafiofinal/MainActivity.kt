@@ -99,19 +99,16 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
 
-        session()
+        //session()
     }
     //******************************** Para la sesión ***************************
-    private fun session(){
+    /*private fun session(){
         val prefs: SharedPreferences = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE) //Aquí no invocamos al edit, es solo para comprobar si tenemos datos en sesión.
         val email:String? = prefs.getString("email",null)
-        val provider:String? = prefs.getString("provider", null)
         if (email != null){
             //Tenemos iniciada la sesión.
-            //irHome(email, ProviderType.valueOf(provider))
-            //irHome(email)----------------------------------------Con la sesion iniciada ir a la venta eventos
         }
-    }
+    }*/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -227,11 +224,13 @@ class MainActivity : AppCompatActivity() {
                 var p = tipoRol.get(pos)
                 if(p.equals("Usuario")){
                     rolEscogido=1
+                    irOpciones(account.email!!,"Usuario")
                     //irHome(account.email?:"")  //Esto de los interrogantes es por si está vacío el email.-----------ir a eventos
                 }
                 if(p.equals("Administrador")){
                     rolEscogido=2
                     //irHome(account.email?:"")  //Esto de los interrogantes es por si está vacío el email.
+                    irOpciones(account.email!!,"Administrador")
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {

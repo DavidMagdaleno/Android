@@ -86,7 +86,7 @@ class AdaptadorFotos (var fotos : ArrayList<Imagenes>, var  context: Context) : 
                 dialogo.setPositiveButton("OK",
                     DialogInterface.OnClickListener { dialog, which ->
                         desRef.delete().addOnSuccessListener {
-                            // File deleted successfully--------------------------------------------------------------------------
+                            // File deleted successfully
                             miAdaptadorRecycler.fotos.removeAt(pos)
                         }.addOnFailureListener {
                             // Uh-oh, an error occurred!

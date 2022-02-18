@@ -234,6 +234,7 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
      */
     override fun onMyLocationButtonClick(): Boolean {
         Toast.makeText(this, "Boton pulsado", Toast.LENGTH_SHORT).show()
+        irubicacioActual()
         return false
     }
 
@@ -265,9 +266,10 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
                     var asist= User(m["dni"].toString(),m["nombre"].toString(),m["apellidos"].toString(),m["aceptado"].toString(),m["email"].toString(),m["ubicacion"].toString(),m["hora"].toString(),m["roles"] as ArrayList<Int>)
                     miArray.add(asist)
                 }
-                db.collection("Usuarios").document(email!!).get().addOnSuccessListener {
+                Log.e("wtf ",email.toString())
+                db.collection("usuarios").document(email!!).get().addOnSuccessListener {
                     //Si encuentra el documento será satisfactorio este listener y entraremos en él
-                    var u: User = User(it.get("DNI") as String,it.get("Nombre") as String,it.get("Apellidos") as String, it.get("Aceptado") as String, it.get("email") as String,p0.latitude.toString()+","+p0.longitude.toString(),currentDate,it.get("roles") as ArrayList<Int>)
+                    var u: User = User(it.get("DNI").toString(),it.get("Nombre").toString(),it.get("Apellidos").toString(), it.get("Aceptado").toString(), it.get("email").toString(),p0.latitude.toString()+","+p0.longitude.toString(),currentDate.toString(),it.get("roles") as ArrayList<Int>)
                     for (i in 0..miArray.size-1){
                         if (miArray[i].DNI.equals(u.DNI)){
                             miArray[i]=u
@@ -382,7 +384,35 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
             Toast.makeText(this, "Estás en ${p0!!.title}, ${p0!!.position}", Toast.LENGTH_SHORT).show()
         }
         btquit.setOnClickListener {
-            //map.clear()
+            val bundle:Bundle? = intent.extras
+            val ev = bundle?.getString("tituloEvento").toString()
+            val loc = bundle?.getString("loca").toString()
+            if (loc!="loca"){
+
+            }else{
+                //Log.e("wtf ",p0.toString())
+                //locali.remove(p0.toString())
+                db.collection("eventos").document(ev).get().addOnSuccessListener {
+                    var a=it.get("localizacion") as ArrayList<String>
+                    a.remove(p0.position.toString())
+                    var user = hashMapOf(
+                        "Ubicacion" to it.get("Ubicacion").toString(),
+                        "asistentes" to it.get("asistentes") as ArrayList<User>,
+                        "comentarios" to it.get("comentarios") as ArrayList<Comentario>,//""
+                        "fotos" to it.get("fotos").toString(),
+                        "localizacion" to a
+                    )
+                    db.collection("eventos")//añade o sebreescribe
+                        .document(ev) //Será la clave del documento.
+                        .set(user).addOnSuccessListener {
+                            Toast.makeText(this, "Almacenado", Toast.LENGTH_SHORT).show()
+                        }.addOnFailureListener{
+                            Toast.makeText(this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show()
+                        }
+                }.addOnFailureListener{
+                    Toast.makeText(this, "Algo ha ido mal al recuperar", Toast.LENGTH_SHORT).show()
+                }
+            }
             p0.remove()
         }
         dialogo.show()
@@ -401,10 +431,10 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
             setResult(Activity.RESULT_OK,intent)
             finish()
         }else{
+            map.addMarker(MarkerOptions().position(p0!!).title("Nuevo marcador"))
             locali.add(p0.toString())
             db.collection("eventos").document(ev).get().addOnSuccessListener {
                 //var a=it.get("asistentes") as ArrayList<User>
-                Log.e("wtf ", it.get("asistentes").toString())
                 var user = hashMapOf(
                     "Ubicacion" to it.get("Ubicacion").toString(),
                     "asistentes" to it.get("asistentes") as ArrayList<User>,

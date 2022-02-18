@@ -4,61 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/evento1"
-    tools:context=".Opciones">
+    android:background="@drawable/evento2"
+    tools:context=".Asistencia">
 
-    <Button
-        android:id="@+id/btnAdminUser"
-        android:layout_width="155dp"
-        android:layout_height="72dp"
-        android:enabled="false"
-        android:text="Administrar Usuarios"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnEventos"
-        app:layout_constraintVertical_bias="0.085" />
-
-    <Button
-        android:id="@+id/btnModificar"
-        android:layout_width="114dp"
-        android:layout_height="77dp"
-        android:text="Mis Datos"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.287" />
-
-    <Button
-        android:id="@+id/btnEventos"
-        android:layout_width="114dp"
-        android:layout_height="77dp"
-        android:text="Eventos"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnModificar"
-        app:layout_constraintVertical_bias="0.058" />
-
-    <Button
-        android:id="@+id/btnBanner"
+    <TextView
+        android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Banear usuarios"
-        android:visibility="invisible"
+        android:text="ASISTENCIA"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAdminUser"
-        app:layout_constraintVertical_bias="0.107" />
+        app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView2"
+        app:layout_constraintVertical_bias="0.021" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAsistencia"
+        android:layout_width="366dp"
+        android:layout_height="437dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        app:layout_constraintVertical_bias="0.217" />
+
+    <Button
+        android:id="@+id/btnBack6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="volver"
+        android:text="REGRESAR"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView9"
+        android:id="@+id/fragmentContainerView2"
         android:name="com.example.desafiofinal.CabeceraFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
