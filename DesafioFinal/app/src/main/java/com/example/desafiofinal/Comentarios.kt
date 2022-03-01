@@ -75,6 +75,20 @@ class Comentarios : AppCompatActivity() {
                                 .document(ev) //Será la clave del documento.
                                 .set(user).addOnSuccessListener {
                                     //Toast.makeText(Context, "Almacenado", Toast.LENGTH_SHORT).show()
+                                    try {
+                                        mostarcomentarios(object : Comentarios.RolCallback {
+                                            override fun comenta(cmtNuevo: ArrayList<Comentario>) {
+                                                for(i in 0..cmtNuevo.size-1){
+                                                    var c= cmtNuevo[i] as Map<String,String>
+                                                    arrayComentaux.add(Comentario(c.get("em")!!,c.get("comen")!!))
+                                                }
+                                                var miAdapter = AdaptadorComentarios(arrayComentaux, this@Comentarios)
+                                                miRecyclerView.adapter = miAdapter
+                                            }
+                                        })
+                                    } catch (e: InterruptedException) {
+                                        e.printStackTrace()
+                                    }
                                 }.addOnFailureListener {
                                     //Toast.makeText(this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show()
                                 }

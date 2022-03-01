@@ -80,6 +80,7 @@ class AdaptadorFotos (var fotos : ArrayList<Imagenes>, var  context: Context) : 
                     }
                 })
             itemView.setOnLongClickListener(View.OnLongClickListener{
+                miAdaptadorRecycler.fotos.removeAt(pos)
                 val desRef = Firebase.storage.reference.child(titulo+"/").child(email+"/").child(pers.nombre)
 
                 val dialogo: AlertDialog.Builder = AlertDialog.Builder(context)
@@ -87,7 +88,7 @@ class AdaptadorFotos (var fotos : ArrayList<Imagenes>, var  context: Context) : 
                     DialogInterface.OnClickListener { dialog, which ->
                         desRef.delete().addOnSuccessListener {
                             // File deleted successfully
-                            miAdaptadorRecycler.fotos.removeAt(pos)
+                            //miAdaptadorRecycler.fotos.removeAt(pos)
                         }.addOnFailureListener {
                             // Uh-oh, an error occurred!
                             Toast.makeText(context, "Esta foto no es tuya, no lo puedes borrar", Toast.LENGTH_SHORT).show()

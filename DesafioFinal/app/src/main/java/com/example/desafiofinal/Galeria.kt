@@ -32,11 +32,14 @@ import android.media.ImageReader
 import android.provider.ContactsContract
 import android.view.View
 import androidx.core.net.toFile
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.*
 import kotlinx.coroutines.NonCancellable.join
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.joinAll
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
+import java.lang.Exception
 
 
 class Galeria : AppCompatActivity() {
@@ -47,6 +50,7 @@ class Galeria : AppCompatActivity() {
     val ref2=database.getReference()
     //val desRef = Firebase.storage.reference
     var miArray2:ArrayList<Imagenes> = ArrayList()
+    var miArray3:ArrayList<Imagenes> = ArrayList()
     lateinit var miRecyclerView : RecyclerView
     val ONE_MEGABYTE: Long = 1024 * 1024
 
@@ -143,8 +147,6 @@ class Galeria : AppCompatActivity() {
         }
     }
 
-
-
     fun fileUpload(){
         val intent= Intent(Intent.ACTION_GET_CONTENT)
         intent.type="*/*"
@@ -193,6 +195,17 @@ class Galeria : AppCompatActivity() {
                     // Handle unsuccessful uploads
                 }.addOnSuccessListener { taskSnapshot ->
                     Log.e("Conseguido","Archivo subido con exito")
+
+                    try {
+                        mostarimagenes(object : Galeria.RolCallback {
+                            override fun imagenes(imaNuevo: ArrayList<Imagenes>) {
+                                //var miAdapter = AdaptadorFotos(imaNuevo, this@Galeria)
+                                //miRecyclerView.adapter = miAdapter
+                            }
+                        })
+                    } catch (e: InterruptedException) {
+                        e.printStackTrace()
+                    }
                     // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
                     // ...
                 }
