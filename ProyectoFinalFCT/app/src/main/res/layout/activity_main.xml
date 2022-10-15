@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="USER"
+            android:hint="User"
             android:inputType="textPersonName" />
 
         <EditText
@@ -54,5 +54,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="LOGIN" />
+
+        <Button
+            android:id="@+id/btnPruebaGuardar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Prueba Registro" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
