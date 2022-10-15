@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceBuilder {
     val client = OkHttpClient.Builder().build()
-    val url = "http://192.168.1.46:5000"
+    val url = "http://192.168.0.12:5000"
     //val url = "http://192.168.209.34:5000"
     /*
     Importante: 127.0.0.1 no permite ser accedido por motivos de seguridad. Sedebe poner la ip de abajo.
