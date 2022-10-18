@@ -1,10 +1,11 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'com.google.gms.google-services'
-    id 'kotlin-android-extensions'
 }
-
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+//Para que no sea necesario usar el findbyID
+apply plugin: 'kotlin-android-extensions'
 android {
     compileSdk 31
 
