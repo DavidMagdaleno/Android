@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         title = "Autenticación"
         btRegistro.setOnClickListener(){
+
             if (txtEmail.text.isNotEmpty() && txtPassw.text.isNotEmpty()){
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(txtEmail.text.toString(),txtPassw.text.toString()).addOnCompleteListener {
                     if (it.isSuccessful){
