@@ -65,7 +65,7 @@
                 android:id="@+id/btnSfoto"
                 android:layout_width="116dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40"
+                android:layout_marginTop="40dp"
                 android:layout_weight="1"
                 android:text="Upload Image" />
 
@@ -87,14 +87,15 @@
                 android:id="@+id/btnAcept"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50"
-                android:layout_marginBottom="40"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="40dp"
                 android:text="Save" />
 
             <Button
                 android:id="@+id/btnVolver"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="volver"
                 android:text="Back" />
         </LinearLayout>
 

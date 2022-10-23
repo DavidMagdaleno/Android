@@ -6,20 +6,24 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils.isEmpty
 import androidx.appcompat.app.AlertDialog
+import androidx.core.text.toHtml
 import androidx.core.text.trimmedLength
+import com.example.proyectofinalfct.databinding.ActivityMainBinding
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_main.*
+//import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
-
+    lateinit var binding: ActivityMainBinding
     private val db = FirebaseFirestore.getInstance() //Variable con la que accederemos a Firestore. Será una instancia a la bd.
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding= ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         //Con esto lanzamos eventos personalizados a GoogleAnalytics que podemos ver en nuestra consola de FireBase.
         val analy: FirebaseAnalytics = FirebaseAnalytics.getInstance(this)
@@ -28,42 +32,62 @@ class MainActivity : AppCompatActivity() {
         analy.logEvent("InitScreen",bundle)
 
         title = "Autenticación"
-        btnPruebaGuardar.setOnClickListener(){
-
-            if (txtUser.text.trimmedLength()!=0 && (!isEmpty(txtUser.text.toString())) && txtPwd.text.trimmedLength()!=0 && (!isEmpty(txtPwd.text.toString()))){
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(txtUser.text.trim().toString(),txtPwd.text.trim().toString()).addOnCompleteListener {
+        binding.btnPruebaGuardar.setOnClickListener(){
+            if (!binding.txtUser.text.trim().isNullOrEmpty() && !binding.txtPwd.text.trim().isNullOrEmpty()){
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(binding.txtUser.text.trim().toString(),binding.txtPwd.text.trim().toString()).addOnCompleteListener {
                     if (it.isSuccessful){
                         irRegistro(it.result?.user?.email?:"")  //Esto de los interrogantes es por si está vacío el email. se envia a recoger los datos del usuario
                     } else {
-                        showAlert()
+                        showAlert("Se ha producido un error registrando al usuario")
+                    }
+                }
+            }else{
+                showAlert("Hay campos en blanco")
+            }
+        }
+
+        binding.btnLogin.setOnClickListener(){
+            if (!binding.txtPwd.text.trim().isNullOrEmpty() && !binding.txtUser.text.trim().isNullOrEmpty()){
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(binding.txtUser.text.trim().toString(),binding.txtPwd.text.trim().toString()).addOnCompleteListener {
+                    if (it.isSuccessful){
+                        //irMenu()
+                        //irHome(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
+                    } else {
+                        showAlert("Se ha producido un error autenticando al usuario")
                     }
                 }
             }
         }
+
+
+
     }
 
-    /*private fun isEmpty(s:String):Boolean{
-
-        for (i in 0..s.length){
-            if (s[i]==' '){}
+    /*private fun irMenu(){
+        val homeIntent = Intent(this,MenuUsuario::class.java).apply {
+            //putExtra("email",email)
+            //putExtra("Mod","NONE")
+            //putExtra("provider",provider.name)
         }
+        startActivity(homeIntent)
     }*/
 
     private fun irRegistro(email:String){
-        val homeIntent = Intent(this, DatosUsuario::class.java).apply {
+        val homeIntent = Intent(this,DatosUsuario::class.java).apply {
             putExtra("email",email)
-            putExtra("Mod","NONE")
-            //putExtra("provider",provider.name)
+            putExtra("Mod","None")
         }
         startActivity(homeIntent)
     }
 
-    private fun showAlert(){
+    private fun showAlert(t:String){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Error")
-        builder.setMessage("Se ha producido un error autenticando al usuario")
+        builder.setMessage(t)
         builder.setPositiveButton("Aceptar",null)
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
+
+
 }
