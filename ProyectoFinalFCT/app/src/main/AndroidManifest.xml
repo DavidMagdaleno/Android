@@ -10,6 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoFinalFCT">
         <activity
+            android:name=".Menu"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".DatosUsuario"
             android:exported="true" />
         <activity

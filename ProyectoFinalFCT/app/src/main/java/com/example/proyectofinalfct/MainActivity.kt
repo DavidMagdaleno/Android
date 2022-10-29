@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             if (!binding.txtPwd.text.trim().isNullOrEmpty() && !binding.txtUser.text.trim().isNullOrEmpty()){
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(binding.txtUser.text.trim().toString(),binding.txtPwd.text.trim().toString()).addOnCompleteListener {
                     if (it.isSuccessful){
-                        //irMenu()
+                        irMenu()
                         //irHome(it.result?.user?.email?:"",ProviderType.BASIC)  //Esto de los interrogantes es por si está vacío el email.
                     } else {
                         showAlert("Se ha producido un error autenticando al usuario")
@@ -63,14 +63,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    /*private fun irMenu(){
-        val homeIntent = Intent(this,MenuUsuario::class.java).apply {
+    private fun irMenu(){
+        val homeIntent = Intent(this,Menu::class.java).apply {
             //putExtra("email",email)
             //putExtra("Mod","NONE")
             //putExtra("provider",provider.name)
         }
         startActivity(homeIntent)
-    }*/
+    }
 
     private fun irRegistro(email:String){
         val homeIntent = Intent(this,DatosUsuario::class.java).apply {
