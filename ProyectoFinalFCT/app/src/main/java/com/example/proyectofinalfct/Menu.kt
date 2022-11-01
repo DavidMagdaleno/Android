@@ -13,6 +13,9 @@ class Menu : AppCompatActivity() {
         binding= ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val bundle:Bundle? = intent.extras
+        val email = bundle?.getString("email").toString()
+
         binding.imgCalendario.setOnClickListener {
             /*val calendarIntent = Intent(this,Calendario::class.java).apply {
                 putExtra("email",email)

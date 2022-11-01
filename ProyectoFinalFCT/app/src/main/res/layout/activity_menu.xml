@@ -6,74 +6,89 @@
     android:layout_height="match_parent"
     tools:context=".Menu">
 
-    <TableLayout
-        android:layout_width="243dp"
-        android:layout_height="389dp"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="com.example.proyectofinalfct.HeadFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout="@layout/fragment_head" />
+
+    <LinearLayout
+        android:layout_width="260dp"
+        android:layout_height="390dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="260dp"
+            android:layout_height="130dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imgCalendario"
                 android:layout_width="122dp"
                 android:layout_height="130dp"
-                android:scaleType="centerInside"
-                tools:srcCompat="@drawable/calendario" />
+                android:layout_weight="1"
+                app:srcCompat="@drawable/calendario" />
 
             <ImageView
                 android:id="@+id/imgVaca"
                 android:layout_width="122dp"
                 android:layout_height="130dp"
-                android:scaleType="centerInside"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:layout_weight="1"
+                app:srcCompat="@drawable/solicitud" />
 
-        </TableRow>
+        </LinearLayout>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="260dp"
+            android:layout_height="130dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imgHextra"
                 android:layout_width="122dp"
                 android:layout_height="130dp"
-                android:scaleType="centerInside"
-                tools:srcCompat="@drawable/horasextras" />
+                android:layout_weight="1"
+                app:srcCompat="@drawable/horasextra2" />
 
             <ImageView
                 android:id="@+id/imgFichar"
-                android:layout_width="122dp"
+                android:layout_width="122sp"
                 android:layout_height="130dp"
-                android:scaleType="centerInside"
-                tools:srcCompat="@drawable/horariotrabajo" />
+                android:layout_weight="1"
+                app:srcCompat="@drawable/pcfichar2" />
+        </LinearLayout>
 
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="87dp">
+        <LinearLayout
+            android:layout_width="260dp"
+            android:layout_height="130dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imgNotifi"
                 android:layout_width="122dp"
                 android:layout_height="130dp"
-                android:scaleType="centerInside"
-                tools:srcCompat="@drawable/notificacion" />
+                android:layout_weight="1"
+                app:srcCompat="@drawable/notificacion" />
 
             <ImageView
                 android:id="@+id/imgMedico"
                 android:layout_width="122dp"
                 android:layout_height="130dp"
-                android:scaleType="centerInside"
-                tools:srcCompat="@drawable/juslaboral" />
+                android:layout_weight="1"
+                app:srcCompat="@drawable/justificante" />
+        </LinearLayout>
 
-        </TableRow>
-
-    </TableLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

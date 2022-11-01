@@ -39,7 +39,8 @@ class DatosUsuario : AppCompatActivity() {
                 binding.txtApe.setText(it.get("Apellidos").toString())
                 binding.txtDire.setText(it.get("Direccion").toString())
                 binding.txtNac.setText(it.get("FechaNac").toString())
-                binding.imgFoto.setImageBitmap(it.get("Foto") as Bitmap)//----------------------------------------??????
+
+                binding.imgFoto.setImageBitmap(it.get("Foto").toString() as Bitmap)//----------------------------------------??????
                 //Toast.makeText(this, "Recuperado",Toast.LENGTH_SHORT).show()
             }.addOnFailureListener{
                 Toast.makeText(this, "Algo ha ido mal al recuperar",Toast.LENGTH_SHORT).show()
