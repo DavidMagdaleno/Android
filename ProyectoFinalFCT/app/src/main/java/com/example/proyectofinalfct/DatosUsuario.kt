@@ -1,6 +1,7 @@
 package com.example.proyectofinalfct
 
 import Model.ImgPerfil
+import Model.RegistroL
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -14,9 +15,11 @@ import com.example.proyectofinalfct.databinding.ActivityDatosUsuarioBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import java.util.ArrayList
 
 class DatosUsuario : AppCompatActivity() {
     private val File=1
+    var rhoras = ArrayList<RegistroL>()
     private val database= Firebase.storage
     val ref2=database.reference
     //private val cameraRequest=1888
@@ -43,6 +46,8 @@ class DatosUsuario : AppCompatActivity() {
                 binding.txtApe.setText(it.get("Apellidos").toString())
                 binding.txtDire.setText(it.get("Direccion").toString())
                 binding.txtNac.setText(it.get("FechaNac").toString())
+                if (it.get("Foto").toString()!=""){perfil.nombre=it.get("Foto").toString()}
+                rhoras=it.get("Registro") as ArrayList<RegistroL>
                 //Toast.makeText(this, "Recuperado",Toast.LENGTH_SHORT).show()
             }.addOnFailureListener{
                 Toast.makeText(this, "Algo ha ido mal al recuperar",Toast.LENGTH_SHORT).show()
@@ -61,7 +66,8 @@ class DatosUsuario : AppCompatActivity() {
                 "Apellidos" to binding.txtApe.text.toString(),
                 "Direccion" to binding.txtDire.text.toString(),
                 "FechaNac" to binding.txtNac.text.toString(),
-                "Foto" to perfil.nombre
+                "Foto" to perfil.nombre,
+                "Registro" to rhoras
             )
 
             db.collection("usuarios")//añade o sebreescribe
@@ -161,15 +167,17 @@ class DatosUsuario : AppCompatActivity() {
     fun mostarimagenes( callback:RolCallback) {
         val bundle: Bundle? = intent.extras
         val email = bundle?.getString("email").toString()
-        val desRef = Firebase.storage.reference.child("Perfiles/").child(email + "/")//.child(perfil.nombre)
-        desRef.listAll().addOnCompleteListener { lista ->
-            if (lista.isSuccessful){
-                for (i in lista.result.items) {
-                    i.getBytes(ONE_MEGABYTE).addOnCompleteListener() {
-                        if (it.isSuccessful) {
-                            val img = getBitmap(it.result)!!
-                            perfil.img = img
-                            binding.imgFoto.setImageBitmap(img)
+        if(perfil.nombre!=""){
+            val desRef = Firebase.storage.reference.child("Perfiles/").child(email + "/")//.child(perfil.nombre)
+            desRef.listAll().addOnCompleteListener { lista ->
+                if (lista.isSuccessful){
+                    for (i in lista.result.items) {
+                        i.getBytes(ONE_MEGABYTE).addOnCompleteListener() {
+                            if (it.isSuccessful) {
+                                val img = getBitmap(it.result)!!
+                                perfil.img = img
+                                binding.imgFoto.setImageBitmap(img)
+                            }
                         }
                     }
                 }
@@ -181,6 +189,6 @@ class DatosUsuario : AppCompatActivity() {
     }
 
     fun volver(view: View){
-        finish()
+        this.finish()
     }
 }

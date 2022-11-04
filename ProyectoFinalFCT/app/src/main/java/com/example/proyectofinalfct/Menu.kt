@@ -25,11 +25,11 @@ class Menu : AppCompatActivity() {
         }
 
         binding.imgFichar.setOnClickListener {
-            /*val ficharIntent = Intent(this,Fichar::class.java).apply {
+            val ficharIntent = Intent(this,RegistroLaboral::class.java).apply {
                 putExtra("email",email)
-                putExtra("Mod","None")
+                //putExtra("Mod","None")
             }
-            startActivity(ficharIntent)*/
+            startActivity(ficharIntent)
         }
 
         binding.imgHextra.setOnClickListener {
