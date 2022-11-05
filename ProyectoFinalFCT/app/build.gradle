@@ -78,5 +78,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-play-services
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4'
 
+    implementation 'com.journeyapps:zxing-android-embedded:4.2.0'
+
+
+
 
 }

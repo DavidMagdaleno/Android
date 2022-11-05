@@ -1,18 +1,21 @@
 package com.example.proyectofinalfct
 
 import Model.RegistroL
+import android.graphics.Bitmap
+import android.nfc.tech.NfcBarcode
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import com.example.proyectofinalfct.databinding.ActivityRegistroLaboralBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.zxing.BarcodeFormat
+import com.journeyapps.barcodescanner.BarcodeEncoder
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
+
 
 class RegistroLaboral : AppCompatActivity() {
     lateinit var binding: ActivityRegistroLaboralBinding
@@ -48,6 +51,11 @@ class RegistroLaboral : AppCompatActivity() {
         binding.btnRegistro.setOnClickListener {
             RegistroOnline()
         }
+
+        binding.btnQr.setOnClickListener {
+            sacarRegistroQr()
+        }
+
     }
 
 
@@ -82,8 +90,6 @@ class RegistroLaboral : AppCompatActivity() {
                         if (rhoras.isNotEmpty()){
                             x.forEach { (key,value) ->
                                 if (key.equals("fecha") && value.equals(currentdate.toString())){
-                                    Log.e("local","la fecha")
-                                        Log.e("local","la hora ini")
                                         x.replace("horaFin", currenthour.toString())
                                     contiene=true
                                     guardado(em)
@@ -92,7 +98,6 @@ class RegistroLaboral : AppCompatActivity() {
                             }
                         }
                     }
-
                     if (!contiene){
                         rhoras.add(RegistroL(currentdate.toString(),currenthour.toString(),""))
                         guardado(em)
@@ -103,6 +108,48 @@ class RegistroLaboral : AppCompatActivity() {
             e.printStackTrace()
         }
     }
+
+    fun sacarRegistroQr(){
+        var contiene:Boolean=false
+        try {
+            recuperarRegistro(object : RolCallback {
+                @RequiresApi(Build.VERSION_CODES.N)
+                override fun horasRecibido(horasNuevo: ArrayList<RegistroL>) {
+                    rhoras = horasNuevo
+                    for (i in 0..rhoras.size-1){
+                        var x=rhoras[i] as kotlin.collections.HashMap<String, String>
+                        if (rhoras.isNotEmpty()){
+                            x.forEach { (key,value) ->
+                                if (key.equals("fecha") && value.equals(currentdate.toString())){
+                                    x.replace("horaFin", currenthour.toString())
+                                    contiene=true
+                                    GenerarQr("horaIni:"+x.getValue("horaIni"),"horaFin:"+currenthour.toString())
+                                }
+                            }
+                        }
+                    }
+                    if (!contiene){
+                        //rhoras.add(RegistroL(currentdate.toString(),currenthour.toString(),""))
+                        GenerarQr("horaIni:"+currenthour.toString(),"horaFin:"+"")
+                    }
+                }
+            })
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
+    }
+
+    fun GenerarQr(hi:String,hf:String){
+        var texto:String="Fecha:"+em+"-----"+hi+"-----"+hf
+        try {
+            var barcodeEncoder:BarcodeEncoder = BarcodeEncoder()
+            var bitmap = barcodeEncoder.encodeBitmap(texto,BarcodeFormat.QR_CODE,227,227)
+            binding.imgQr.setImageBitmap(bitmap)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
+
 
     interface RolCallback {
         fun horasRecibido(h: ArrayList<RegistroL>)
@@ -122,7 +169,6 @@ class RegistroLaboral : AppCompatActivity() {
                 }
             }
     }
-
 
     fun guardado(email:String){
         //Se guardarán en modo HashMap (clave, valor).
