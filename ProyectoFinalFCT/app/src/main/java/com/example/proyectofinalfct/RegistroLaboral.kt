@@ -1,14 +1,17 @@
 package com.example.proyectofinalfct
 
 import Model.RegistroL
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.example.proyectofinalfct.databinding.ActivityRegistroLaboralBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class RegistroLaboral : AppCompatActivity() {
@@ -20,7 +23,7 @@ class RegistroLaboral : AppCompatActivity() {
     var dire:String=""
     var nac:String=""
     var f:String=""
-    private var nveces:Int=0
+    var em:String=""
     var rhoras = ArrayList<RegistroL>()
 
     val sdf = SimpleDateFormat("dd/MM/yyyy", Locale("es", "ES"))
@@ -37,13 +40,7 @@ class RegistroLaboral : AppCompatActivity() {
 
         val bundle:Bundle? = intent.extras
         val email = bundle?.getString("email").toString()
-
-
-        //val sdf = SimpleDateFormat("dd/MM/yyyy", Locale("es", "ES"))
-        //val sdf2 = SimpleDateFormat("HH:mm:ss", Locale("es", "ES"))
-        //val currentdate = sdf.format(Date())
-        //val currenthour = sdf2.format(Date())
-        //val fechaactual = sdf.parse(currentdate)
+        em=email
 
         binding.txtFecha.text=currentdate.toString()
         binding.txtHora.text=currenthour.toString()
@@ -66,34 +63,68 @@ class RegistroLaboral : AppCompatActivity() {
             dire=(it.get("Direccion").toString())
             nac=(it.get("FechaNac").toString())
             if (it.get("Foto").toString()!=""){f=it.get("Foto").toString()}
-            rhoras=it.get("Registro") as ArrayList<RegistroL>
+            sacarRegistro()
             //Toast.makeText(this, "Recuperado",Toast.LENGTH_SHORT).show()
-
-            //--------------------------------------------------------comprobar esta parte para luego restar horas------------------------------
-            var contiene:Boolean=false
-            if (rhoras.isNotEmpty()){
-                for (i in 0..rhoras.size){
-                    Log.e("Prueba",rhoras[i].HoraFin)
-                    if (rhoras[i].HoraFin.equals("")){
-                        if (rhoras[i].Fecha.equals(currentdate.toString())){
-                            if (rhoras[i].HoraIni.isNotEmpty()){
-                                rhoras[i].HoraFin=currenthour.toString()
-                            }
-                            contiene=true
-                        }
-                    }
-                }
-            }
-            if (!contiene){
-                rhoras.add(RegistroL(currentdate.toString(),currenthour.toString(),""))
-            }
 
         }.addOnFailureListener{
             Toast.makeText(this, "Algo ha ido mal al recuperar",Toast.LENGTH_SHORT).show()
         }
+    }
+    fun sacarRegistro(){
+        var contiene:Boolean=false
+        try {
+            recuperarRegistro(object : RolCallback {
+                @RequiresApi(Build.VERSION_CODES.N)
+                override fun horasRecibido(horasNuevo: ArrayList<RegistroL>) {
+                    rhoras = horasNuevo
+                    for (i in 0..rhoras.size-1){
+                        var x=rhoras[i] as kotlin.collections.HashMap<String, String>
+                        if (rhoras.isNotEmpty()){
+                            x.forEach { (key,value) ->
+                                if (key.equals("fecha") && value.equals(currentdate.toString())){
+                                    Log.e("local","la fecha")
+                                        Log.e("local","la hora ini")
+                                        x.replace("horaFin", currenthour.toString())
+                                    contiene=true
+                                    guardado(em)
+                                }
+
+                            }
+                        }
+                    }
+
+                    if (!contiene){
+                        rhoras.add(RegistroL(currentdate.toString(),currenthour.toString(),""))
+                        guardado(em)
+                    }
+                }
+            })
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
+    }
+
+    interface RolCallback {
+        fun horasRecibido(h: ArrayList<RegistroL>)
+    }
+
+    fun recuperarRegistro( callback:RolCallback){
+        db.collection("usuarios").document(em).get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    //poner los demas para recuperar todos los datos
+                    var x= task.result.data?.get("Registro") as ArrayList<RegistroL>
+                    if (callback != null) {
+                        callback.horasRecibido(x);
+                    }
+                } else {
+                    Log.e("wh", "Error getting documents.", task.exception)
+                }
+            }
+    }
 
 
-        //---------------------------------------------------------Realiza esto antes que lo anterior------------------------------------------------------
+    fun guardado(email:String){
         //Se guardarán en modo HashMap (clave, valor).
         var user = hashMapOf(
             "DNI" to dni,
@@ -113,7 +144,6 @@ class RegistroLaboral : AppCompatActivity() {
             }.addOnFailureListener{
                 Toast.makeText(this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show()
             }
-
     }
 
 }
