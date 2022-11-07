@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.proyectofinalfct.databinding.ActivityRegistroLaboralBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -89,12 +90,14 @@ class RegistroLaboral : AppCompatActivity() {
                         var x=rhoras[i] as kotlin.collections.HashMap<String, String>
                         if (rhoras.isNotEmpty()){
                             x.forEach { (key,value) ->
+                                if ((key.equals("horaFin") && value.equals("")) && (key.equals("fecha") && !value.equals(currentdate.toString())) ){
+                                    showAlert()
+                                }
                                 if (key.equals("fecha") && value.equals(currentdate.toString())){
                                         x.replace("horaFin", currenthour.toString())
                                     contiene=true
                                     guardado(em)
                                 }
-
                             }
                         }
                     }
@@ -190,6 +193,15 @@ class RegistroLaboral : AppCompatActivity() {
             }.addOnFailureListener{
                 Toast.makeText(this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun showAlert(){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("NOTIFICACION")
+        builder.setMessage("Una jornada laboral anterior esta sin cerrar, por favor pongase en contacto con RRHH")
+        builder.setPositiveButton("Aceptar",null)
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 
 }
