@@ -1,42 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.proyectofinalfct">
-
-    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:allowBackup="true"
-        android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher3"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher3_round"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ProyectoFinalFCT">
-        <activity
-            android:name=".HorasExtra"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".RegistroLaboral"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Menu"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".DatosUsuario"
-            android:exported="true" />
+        android:theme="@style/Theme.ProyectoFinalFCT"
+        tools:targetApi="31">
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -45,6 +20,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
     </application>
 
