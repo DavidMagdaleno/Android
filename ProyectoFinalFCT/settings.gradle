@@ -4,6 +4,9 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         //jcenter() // Warning: this repository is going to shut down soon
+        maven { url "https://jitpack.io" }
+        //Plugin para ejecutar el lint de detekt
+        maven { url "https://maven.scijava.org/content/repositories/public/" }
     }
 }
 rootProject.name = "ProyectoFinalFCT"
