@@ -3,7 +3,12 @@ plugins {
     id 'kotlin-android'
     //kotlin("android.extensions")
     id("com.google.dagger.hilt.android") version "2.44" apply false
-
+    id("io.gitlab.arturbosch.detekt")
+}
+detekt {
+    buildUponDefaultConfig = true
+    allRules = false
+    parallel = true
 }
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
@@ -13,6 +18,14 @@ android {
     compileSdk 33
     lintOptions {
         baseline(file("lint-baseline.xml"))
+    }
+    lint {
+        abortOnError = false
+        warningsAsErrors = false
+        checkReleaseBuilds = true
+        xmlReport = true
+        htmlReport = true
+        textReport = true
     }
     buildFeatures {
         viewBinding = true

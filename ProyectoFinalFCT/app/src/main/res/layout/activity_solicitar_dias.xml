@@ -58,13 +58,13 @@ tools:openDrawer="start">
 
                 <TextView
                     android:id="@+id/textView8"
-                    android:layout_width="29dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
                 <CheckBox
                     android:id="@+id/chAsuntos"
-                    android:layout_width="116dp"
+                    android:layout_width="141dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/a_propios"
@@ -79,7 +79,7 @@ tools:openDrawer="start">
 
                 <TextView
                     android:id="@+id/textView11"
-                    android:layout_width="wrap_content"
+                    android:layout_width="34dp"
                     android:layout_height="wrap_content"
                     android:text="             " />
 

@@ -27,7 +27,6 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
     private val db = FirebaseFirestore.getInstance()
     var sDias = ArrayList<Dias>()
     var em=""
-    var context=this
 
 
     @RequiresApi(Build.VERSION_CODES.P)

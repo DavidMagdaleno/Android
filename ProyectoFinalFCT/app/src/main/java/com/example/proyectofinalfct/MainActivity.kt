@@ -66,8 +66,6 @@ class MainActivity : AppCompatActivity() {
     private fun irMenu(){
         val homeIntent = Intent(this,Menu::class.java).apply {
             putExtra("email",binding.txtUser.text.trim().toString())
-            //putExtra("Mod","NONE")
-            //putExtra("provider",provider.name)
             HeadFragment.email=binding.txtUser.text.trim().toString()
         }
         startActivity(homeIntent)

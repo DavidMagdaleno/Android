@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- Seguridad -->
+    <issue id="HardcodedText" severity="warning" />
+    <issue id="LogConditional" severity="warning" />
+    <issue id="TrustAllX509TrustManager" severity="error" />
+    <issue id="AllowAllHostnameVerifier" severity="error" />
+    <issue id="SetJavaScriptEnabled" severity="warning" />
+
+    <!-- Android lifecycle / calidad -->
+    <issue id="StaticFieldLeak" severity="error" />
+    <issue id="HandlerLeak" severity="error" />
+    <issue id="Recycle" severity="error" />
+    <issue id="ObsoleteSdkInt" severity="warning" />
+    <issue id="UnusedResources" severity="warning" />
+    <issue id="UnusedIds" severity="warning" />
+
+    <!-- Rendimiento -->
+    <issue id="DrawAllocation" severity="warning" />
+    <issue id="UseSparseArrays" severity="warning" />
+
+    <!-- Gradle / dependencias -->
+    <issue id="GradleDependency" severity="warning" />
+</lint>
