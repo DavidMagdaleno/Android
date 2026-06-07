@@ -14,6 +14,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 //Para que no sea necesario usar el findbyID
 //apply plugin: 'kotlin-android-extensions'
+apply plugin: 'io.gitlab.arturbosch.detekt'
 android {
     compileSdk 33
     lintOptions {
