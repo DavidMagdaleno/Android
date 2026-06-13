@@ -22,6 +22,7 @@ import com.example.proyectofinalfct.databinding.ActivityRegistroLaboralBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.WriterException
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import java.text.SimpleDateFormat
 import java.util.*
@@ -181,26 +182,35 @@ class RegistroLaboral : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 @RequiresApi(Build.VERSION_CODES.N)
                 override fun horasRecibido(h: ArrayList<RegistroL>) {
                     rhoras = h
-                    for (i in 0 until rhoras.size){
-                        val x=rhoras[i] as kotlin.collections.HashMap<String, String>
-                        if (rhoras.isNotEmpty()){
-                            x.forEach { (key,value) ->
-                                if (key.equals("fecha") && value.equals(currentdate.toString())){
+                    for (i in 0 until rhoras.size) {
+                        val x = rhoras[i] as kotlin.collections.HashMap<String, String>
+                        if (rhoras.isNotEmpty()) {
+                            x.forEach { (key, value) ->
+                                if (key.equals("fecha") && value.equals(currentdate.toString())) {
                                     x.replace("horaFin", currenthour.toString())
-                                    contiene=true
-                                    GenerarQr("horaIni:"+x.getValue("horaIni"),"horaFin:"+currenthour.toString())
+                                    contiene = true
+                                    GenerarQr(
+                                        "horaIni:" + x.getValue("horaIni"),
+                                        "horaFin:" + currenthour.toString()
+                                    )
                                 }
                             }
                         }
                     }
-                    if (!contiene){
-                        GenerarQr("horaIni:"+currenthour.toString(),"horaFin:"+"")
+                    if (!contiene) {
+                        GenerarQr("horaIni:" + currenthour.toString(), "horaFin:" + "")
                     }
                 }
             })
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
+        }catch (e: WriterException) {
+            Log.e("QR_ERROR", "Fallo al codificar QR", e)
+        } catch (e: IllegalArgumentException) {
+            Log.e("QR_ERROR", "Parámetros QR inválidos", e)
+            showAlert(R.string.qr_error)
         }
+        //} catch (e: InterruptedException) {
+            //e.printStackTrace()
+        //}
     }
 
     fun GenerarQr(hi:String,hf:String){

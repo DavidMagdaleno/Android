@@ -29,6 +29,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.util.ArrayList
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class DatosUsuario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private val File=1
@@ -137,47 +140,54 @@ class DatosUsuario : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         binding.btnAcept.setOnClickListener {
             //utilizado para evitar errores al guardar debido a los tiempos de la coroutinas de cambiar foto de perfil
-            Thread.sleep(1000)
-            if ((!binding.cbUser.isChecked && !binding.cbAdmin.isChecked) || (binding.cbUser.isChecked && binding.cbAdmin.isChecked)){
-                //Log.e("ERROR","No has seleccionado un perfil o has seleccionado demasiados")
-                showAlert(R.string.userError_1)
-            }else{
-                if (puesto.equals("")){
-                    //Log.e("ERROR","El trabajador no tiene asignado un puesto")
-                    showAlert(R.string.userError_2)
-                }else{
-                    //se guardan o sobreescriben los nuevos datos de usuario
-                    if (binding.cbUser.isChecked){ p="Usuario" }
-                    if (binding.cbAdmin.isChecked){ p="Admin" }
+            //Thread.sleep(1000)
+            lifecycleScope.launch {
+                delay(1000)
+                if ((!binding.cbUser.isChecked && !binding.cbAdmin.isChecked) || (binding.cbUser.isChecked && binding.cbAdmin.isChecked)) {
+                    //Log.e("ERROR","No has seleccionado un perfil o has seleccionado demasiados")
+                    showAlert(R.string.userError_1)
+                } else {
+                    if (puesto.equals("")) {
+                        //Log.e("ERROR","El trabajador no tiene asignado un puesto")
+                        showAlert(R.string.userError_2)
+                    } else {
+                        //se guardan o sobreescriben los nuevos datos de usuario
+                        if (binding.cbUser.isChecked) {
+                            p = "Usuario"
+                        }
+                        if (binding.cbAdmin.isChecked) {
+                            p = "Admin"
+                        }
 
-                    if (binding.txtName.text.isNullOrEmpty() || binding.txtApe.text.isNullOrEmpty() || binding.txtNac.text.isNullOrEmpty() || binding.txtDire.text.isNullOrEmpty()){
-                        showAlert(R.string.Login_Error_2)
-                    }else{
-                        //Se guardarán en modo HashMap (clave, valor).
-                        var user = hashMapOf(
-                            "DNI" to binding.txtDNI.text.trim().toString(),
-                            "Nombre" to binding.txtName.text.toString(),
-                            "Apellidos" to binding.txtApe.text.toString(),
-                            "Direccion" to binding.txtDire.text.toString(),
-                            "FechaNac" to binding.txtNac.text.toString(),
-                            "Foto" to perfil.nombre,
-                            "Registro" to rhoras,
-                            "Justificante" to NJustifi,
-                            "Dias" to Sdias,
-                            "Perfil" to p,
-                            "Puesto" to puesto,
-                            "Notificacion" to Notifi
-                        )
+                        if (binding.txtName.text.isNullOrEmpty() || binding.txtApe.text.isNullOrEmpty() || binding.txtNac.text.isNullOrEmpty() || binding.txtDire.text.isNullOrEmpty()) {
+                            showAlert(R.string.Login_Error_2)
+                        } else {
+                            //Se guardarán en modo HashMap (clave, valor).
+                            var user = hashMapOf(
+                                "DNI" to binding.txtDNI.text.trim().toString(),
+                                "Nombre" to binding.txtName.text.toString(),
+                                "Apellidos" to binding.txtApe.text.toString(),
+                                "Direccion" to binding.txtDire.text.toString(),
+                                "FechaNac" to binding.txtNac.text.toString(),
+                                "Foto" to perfil.nombre,
+                                "Registro" to rhoras,
+                                "Justificante" to NJustifi,
+                                "Dias" to Sdias,
+                                "Perfil" to p,
+                                "Puesto" to puesto,
+                                "Notificacion" to Notifi
+                            )
 
-                        db.collection("usuarios")//añade o sebreescribe
-                            .document(email) //Será la clave del documento.
-                            .set(user).addOnSuccessListener {
-                                showAlert(R.string.personal_data_msg_1)
-                                //Toast.makeText(this, "Almacenado", Toast.LENGTH_SHORT).show()
-                            }.addOnFailureListener{
-                                showAlert(R.string.personal_data_msg_2)
-                                //Toast.makeText(this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show()
-                            }
+                            db.collection("usuarios")//añade o sebreescribe
+                                .document(email) //Será la clave del documento.
+                                .set(user).addOnSuccessListener {
+                                    showAlert(R.string.personal_data_msg_1)
+                                    //Toast.makeText(this, "Almacenado", Toast.LENGTH_SHORT).show()
+                                }.addOnFailureListener {
+                                    showAlert(R.string.personal_data_msg_2)
+                                    //Toast.makeText(this, "Ha ocurrido un error", Toast.LENGTH_SHORT).show()
+                                }
+                        }
                     }
                 }
             }

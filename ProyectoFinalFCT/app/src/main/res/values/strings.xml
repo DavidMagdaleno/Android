@@ -63,4 +63,5 @@
     <string name="dni">DNI:</string>
     <string name="personal_data_msg_1">Changes saved successfully</string>
     <string name="personal_data_msg_2">Something went wrong</string>
+    <string name="qr_error">Error generating QR code. Please try again.</string>
 </resources>

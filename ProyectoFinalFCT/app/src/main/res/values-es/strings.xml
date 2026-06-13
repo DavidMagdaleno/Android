@@ -60,4 +60,5 @@
     <string name="personal_data_msg_1">Cambios guardados correctamente</string>
     <string name="personal_data_msg_2">Ha ha salido mal</string>
     <string name="Jornada_msg_4">La jornada laboral está completa</string>
+    <string name="qr_error">Error al generar código QR. Por favor, inténtelo de nuevo.</string>
 </resources>
