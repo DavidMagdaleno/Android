@@ -1,0 +1,461 @@
+﻿# Contexto mÃ­nimo para revisiÃ³n Android
+
+## Rama actual
+feature/master-update-with-copilot
+
+## Estado de Git
+ M app/build.gradle
+ M app/src/main/AndroidManifest.xml
+ M app/src/main/java/com/example/proyectofinalfct/Calendario.kt
+ M app/src/main/res/layout/activity_calendario.xml
+AM app/src/main/res/layout/calendar_day_layout.xml
+ M build.gradle
+?? ../ClienteAndroidServicioPython/ServicioWEB/__pycache__/
+?? ../ClienteApiRest/
+?? ../ConsultasFirestore/
+?? ../DesafioFinal.rar
+?? ../DesafioFinal/.gitignore
+?? ../DesafioFinal/app/.gitignore
+?? ../DesafioFinal/app/build.gradle
+?? ../DesafioFinal/app/proguard-rules.pro
+?? ../DesafioFinal/app/src/androidTest/
+?? ../DesafioFinal/app/src/main/res/mipmap-anydpi-v26/
+?? ../DesafioFinal/app/src/main/res/mipmap-hdpi/
+?? ../DesafioFinal/app/src/main/res/mipmap-mdpi/
+?? ../DesafioFinal/app/src/main/res/mipmap-xhdpi/
+?? ../DesafioFinal/app/src/main/res/mipmap-xxhdpi/
+?? ../DesafioFinal/app/src/main/res/mipmap-xxxhdpi/
+?? ../DesafioFinal/app/src/main/res/values-night/
+?? ../DesafioFinal/app/src/main/res/values/themes.xml
+?? ../DesafioFinal/app/src/test/
+?? ../DesafioFinal/build.gradle
+?? ../DesafioFinal/gradle.properties
+?? ../DesafioFinal/gradle/
+?? ../DesafioFinal/gradlew
+?? ../DesafioFinal/gradlew.bat
+?? ../DesafioFinal/settings.gradle
+?? ../EjemploAutenticacionFirebase/
+?? ../EjemploFirebase1/
+?? ../EjemploMaps.zip
+?? ../EventosMaps.rar
+?? ../GatosWeb/.gitignore
+?? ../GatosWeb/.idea/compiler.xml
+?? ../GatosWeb/.idea/gradle.xml
+?? ../GatosWeb/.idea/misc.xml
+?? ../GatosWeb/.idea/vcs.xml
+?? ../GatosWeb/app/.gitignore
+?? ../GatosWeb/app/build.gradle
+?? ../GatosWeb/app/proguard-rules.pro
+?? ../GatosWeb/app/src/androidTest/
+?? ../GatosWeb/app/src/main/AndroidManifest.xml
+?? ../GatosWeb/app/src/main/java/Api/MainActivityViewModel.kt
+?? ../GatosWeb/app/src/main/java/Api/UserNetwork.kt
+?? ../GatosWeb/app/src/main/java/Modelo/Dog.kt
+?? ../GatosWeb/app/src/main/java/com/example/gatosweb/PrincipalActivity.kt
+?? ../GatosWeb/app/src/main/res/drawable-v24/
+?? ../GatosWeb/app/src/main/res/drawable/
+?? ../GatosWeb/app/src/main/res/layout/activity_principal.xml
+?? ../GatosWeb/app/src/main/res/mipmap-anydpi-v26/
+?? ../GatosWeb/app/src/main/res/mipmap-hdpi/
+?? ../GatosWeb/app/src/main/res/mipmap-mdpi/
+?? ../GatosWeb/app/src/main/res/mipmap-xhdpi/
+?? ../GatosWeb/app/src/main/res/mipmap-xxhdpi/
+?? ../GatosWeb/app/src/main/res/mipmap-xxxhdpi/
+?? ../GatosWeb/app/src/main/res/values-night/
+?? ../GatosWeb/app/src/main/res/values/
+?? ../GatosWeb/app/src/test/
+?? ../GatosWeb/build.gradle
+?? ../GatosWeb/gradle.properties
+?? ../GatosWeb/gradle/
+?? ../GatosWeb/gradlew
+?? ../GatosWeb/gradlew.bat
+?? ../GatosWeb/settings.gradle
+?? ../LanzarDados/.idea/
+?? ../Notas/.gitignore
+?? ../Notas/.idea/misc.xml
+?? ../Notas/build.gradle
+?? ../Notas/gradle.properties
+?? ../Notas/gradle/
+?? ../Notas/gradlew
+?? ../Notas/gradlew.bat
+?? ../Notas/settings.gradle
+?? ../NuevoProyecFirebase.rar
+?? ../NuevoProyecFirebase1.rar
+?? ../ProbandoListas/.idea/vcs.xml
+?? .idea/AndroidProjectSystem.xml
+?? .idea/appInsightsSettings.xml
+?? .idea/deploymentTargetDropDown.xml
+?? .idea/deploymentTargetSelector.xml
+?? .idea/kotlinc.xml
+?? .idea/markdown.xml
+?? .idea/migrations.xml
+?? .idea/runConfigurations.xml
+?? ai-review-context.txt
+
+## Archivos modificados
+ProyectoFinalFCT/app/build.gradle
+ProyectoFinalFCT/app/src/main/AndroidManifest.xml
+ProyectoFinalFCT/app/src/main/java/com/example/proyectofinalfct/Calendario.kt
+ProyectoFinalFCT/app/src/main/res/layout/activity_calendario.xml
+ProyectoFinalFCT/app/src/main/res/layout/calendar_day_layout.xml
+ProyectoFinalFCT/build.gradle
+
+## Diff actual
+diff --git a/ProyectoFinalFCT/app/build.gradle b/ProyectoFinalFCT/app/build.gradle
+index 65476a2..973c76e 100644
+--- a/ProyectoFinalFCT/app/build.gradle
++++ b/ProyectoFinalFCT/app/build.gradle
+@@ -5,10 +5,17 @@ plugins {
+     id("com.google.dagger.hilt.android") version "2.44" apply false
+     id("io.gitlab.arturbosch.detekt")
+ }
++configurations.all {
++    resolutionStrategy {
++        force 'androidx.core:core:1.9.0'
++        force 'androidx.core:core-ktx:1.9.0'
++    }
++}
+ detekt {
+     buildUponDefaultConfig = true
+     allRules = false
+     parallel = true
++    ignoreFailures = true
+ }
+ apply plugin: 'com.android.application'
+ apply plugin: 'com.google.gms.google-services'
+@@ -16,6 +23,7 @@ apply plugin: 'com.google.gms.google-services'
+ //apply plugin: 'kotlin-android-extensions'
+ apply plugin: 'io.gitlab.arturbosch.detekt'
+ android {
++    namespace 'com.example.proyectofinalfct'
+     compileSdk 33
+     lintOptions {
+         baseline(file("lint-baseline.xml"))
+@@ -51,6 +59,7 @@ android {
+     compileOptions {
+         sourceCompatibility JavaVersion.VERSION_1_8
+         targetCompatibility JavaVersion.VERSION_1_8
++        coreLibraryDesugaringEnabled true
+     }
+     kotlinOptions {
+         jvmTarget = '1.8'
+@@ -62,7 +71,6 @@ android {
+ }
+ 
+ dependencies {
+-
+     implementation 'androidx.core:core-ktx:1.9.0'
+     implementation 'androidx.appcompat:appcompat:1.5.1'
+     implementation 'com.google.android.material:material:1.7.0'
+@@ -82,7 +90,6 @@ dependencies {
+     implementation 'com.google.firebase:firebase-analytics-ktx'
+ 
+     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+-
+     // Add the dependency for the Firebase Authentication library
+     // When using the BoM, you don't specify versions in Firebase library dependencies
+     implementation 'com.google.firebase:firebase-auth-ktx'
+@@ -103,10 +110,16 @@ dependencies {
+     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4'
+     //QR
+     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+-    //Calendario personalizado
+-    implementation 'sun.bob:mcalendarview:1.0.0'
++    // Calendario personalizado
++    // implementation 'sun.bob:mcalendarview:1.0.0'
++    //implementation 'com.github.SpongeBobSun:mCalendarView:master-SNAPSHOT'
++    //implementation 'com.github.SpongeBobSun.mCalendarView:mcalendarview:master-SNAPSHOT'
++    implementation 'com.kizitonwose.calendar:view:2.4.0'
++    //coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
++    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
+ 
+ 
++    //TESTING
+     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.0'
+     androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.5.0'
+     androidTestImplementation 'org.hamcrest:hamcrest:2.2'
+diff --git a/ProyectoFinalFCT/app/src/main/AndroidManifest.xml b/ProyectoFinalFCT/app/src/main/AndroidManifest.xml
+index 6558837..bac5e4d 100644
+--- a/ProyectoFinalFCT/app/src/main/AndroidManifest.xml
++++ b/ProyectoFinalFCT/app/src/main/AndroidManifest.xml
+@@ -13,13 +13,7 @@
+         android:roundIcon="@mipmap/ic_launcher3_round"
+         android:supportsRtl="true"
+         android:theme="@style/Theme.ProyectoFinalFCT">
+-        <activity
+-            android:name=".MainActivity2"
+-            android:exported="false">
+-            <meta-data
+-                android:name="android.app.lib_name"
+-                android:value="" />
+-        </activity>
++
+         <activity
+             android:name=".Notificacion"
+             android:exported="false">
+diff --git a/ProyectoFinalFCT/app/src/main/java/com/example/proyectofinalfct/Calendario.kt b/ProyectoFinalFCT/app/src/main/java/com/example/proyectofinalfct/Calendario.kt
+index 9c9a673..73e9da6 100644
+--- a/ProyectoFinalFCT/app/src/main/java/com/example/proyectofinalfct/Calendario.kt
++++ b/ProyectoFinalFCT/app/src/main/java/com/example/proyectofinalfct/Calendario.kt
+@@ -16,10 +16,20 @@ import androidx.core.view.GravityCompat
+ import com.example.proyectofinalfct.databinding.ActivityCalendarioBinding
+ import com.google.android.material.navigation.NavigationView
+ import com.google.firebase.firestore.FirebaseFirestore
+-import sun.bob.mcalendarview.MarkStyle
++//import sun.bob.mcalendarview.MarkStyle
++import java.time.LocalDate
+ import java.text.SimpleDateFormat
+ import java.util.*
++//
+ 
++import android.view.View
++import android.widget.TextView
++import com.kizitonwose.calendar.core.CalendarDay
++import com.kizitonwose.calendar.core.DayPosition
++import com.kizitonwose.calendar.view.MonthDayBinder
++import com.kizitonwose.calendar.view.ViewContainer
++import java.time.DayOfWeek
++import java.time.YearMonth
+ 
+ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+     lateinit var binding:ActivityCalendarioBinding
+@@ -27,6 +37,7 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
+     private val db = FirebaseFirestore.getInstance()
+     var sDias = ArrayList<Dias>()
+     var em=""
++    private val markedDates = mutableMapOf<LocalDate, Int>()
+ 
+ 
+     @RequiresApi(Build.VERSION_CODES.P)
+@@ -50,6 +61,7 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
+         em=email
+         val per = bundle?.getString("perfil").toString()
+ 
++        setupCalendar()
+         sacarRegistro()
+ 
+         binding.btnVolve.setOnClickListener {
+@@ -77,13 +89,22 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
+                                 y=x.get("fechaIni")!!.substringAfterLast("/")
+                                 d=x.get("fechaIni")!!.substringBefore("/")
+                                 if (x.getValue("estado").equals("Pendiente")){
+-                                    binding.calendar.markDate(y.toInt(), me.toInt(), d.toInt()).setMarkedStyle(MarkStyle.BACKGROUND,Color.YELLOW)
++                                    //binding.calendar.markDate(y.toInt(), me.toInt(), d.toInt()).setMarkedStyle(MarkStyle.BACKGROUND,Color.YELLOW)
++                                    val fecha = LocalDate.of(y.toInt(), me.toInt(), d.toInt())
++                                    markedDates[fecha] = Color.YELLOW
++                                    binding.calendar.notifyCalendarChanged()
+                                 }
+                                 if (x.getValue("estado").equals("Aprobado")){
+-                                    binding.calendar.markDate(y.toInt(), me.toInt(), d.toInt()).setMarkedStyle(MarkStyle.BACKGROUND,Color.GREEN)
++                                    //binding.calendar.markDate(y.toInt(), me.toInt(), d.toInt()).setMarkedStyle(MarkStyle.BACKGROUND,Color.GREEN)
++                                    val fecha = LocalDate.of(y.toInt(), me.toInt(), d.toInt())
++                                    markedDates[fecha] = Color.GREEN
++                                    binding.calendar.notifyCalendarChanged()
+                                 }
+                                 if (x.getValue("estado").equals("Denegado")){
+-                                    binding.calendar.markDate(y.toInt(), me.toInt(), d.toInt()).setMarkedStyle(MarkStyle.BACKGROUND,Color.RED)
++                                    //binding.calendar.markDate(y.toInt(), me.toInt(), d.toInt()).setMarkedStyle(MarkStyle.BACKGROUND,Color.RED)
++                                    val fecha = LocalDate.of(y.toInt(), me.toInt(), d.toInt())
++                                    markedDates[fecha] = Color.RED
++                                    binding.calendar.notifyCalendarChanged()
+                                 }
+                             }
+                             if (x.getValue("tipo").equals("Vacaciones")){
+@@ -94,17 +115,26 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
+                                 if (x.getValue("estado").equals("Pendiente")){
+                                     for (i in 0..dias){
+                                         //showAlert("p: "+(d.toInt()+i))
+-                                        binding.calendar.markDate(y.toInt(), pasarMes(me,d.toInt()+i).toInt(), d.toInt()+i).setMarkedStyle(MarkStyle.BACKGROUND,Color.YELLOW)
++                                        //binding.calendar.markDate(y.toInt(), pasarMes(me,d.toInt()+i).toInt(), d.toInt()+i).setMarkedStyle(MarkStyle.BACKGROUND,Color.YELLOW)
++                                        val fecha = LocalDate.of(y.toInt(), me.toInt(), d.toInt())
++                                        markedDates[fecha] = Color.YELLOW
++                                        binding.calendar.notifyCalendarChanged()
+                                     }
+                                 }
+                                 if (x.getValue("estado").equals("Aprobado")){
+                                     for (i in 0..dias){
+-                                        binding.calendar.markDate(y.toInt(), pasarMes(me,d.toInt()+i).toInt(), d.toInt()+i).setMarkedStyle(MarkStyle.BACKGROUND,Color.GREEN)
++                                        //binding.calendar.markDate(y.toInt(), pasarMes(me,d.toInt()+i).toInt(), d.toInt()+i).setMarkedStyle(MarkStyle.BACKGROUND,Color.GREEN)
++                                        val fecha = LocalDate.of(y.toInt(), me.toInt(), d.toInt())
++                                        markedDates[fecha] = Color.GREEN
++                                        binding.calendar.notifyCalendarChanged()
+                                     }
+                                 }
+                                 if (x.getValue("estado").equals("Denegado")){
+                                     for (i in 0..dias){
+-                                        binding.calendar.markDate(y.toInt(), pasarMes(me,d.toInt()+i).toInt(), d.toInt()+i).setMarkedStyle(MarkStyle.BACKGROUND,Color.RED)
++                                        //binding.calendar.markDate(y.toInt(), pasarMes(me,d.toInt()+i).toInt(), d.toInt()+i).setMarkedStyle(MarkStyle.BACKGROUND,Color.RED)
++                                        val fecha = LocalDate.of(y.toInt(), me.toInt(), d.toInt())
++                                        markedDates[fecha] = Color.RED
++                                        binding.calendar.notifyCalendarChanged()
+                                     }
+                                 }
+                             }
+@@ -117,6 +147,43 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
+         }
+     }
+ 
++    private fun setupCalendar() {
++        val currentMonth = YearMonth.now()
++        val startMonth = currentMonth.minusMonths(12)
++        val endMonth = currentMonth.plusMonths(12)
++
++        binding.calendar.dayBinder = object : MonthDayBinder<DayViewContainer> {
++            override fun create(view: View): DayViewContainer {
++                return DayViewContainer(view)
++            }
++            override fun bind(container: DayViewContainer, data: CalendarDay) {
++                val textView = container.textView
++
++                textView.text = data.date.dayOfMonth.toString()
++
++                if (data.position == DayPosition.MonthDate) {
++                    textView.visibility = View.VISIBLE
++
++                    val markedColor = markedDates[data.date]
++
++                    if (markedColor != null) {
++                        textView.setBackgroundColor(markedColor)
++                    } else {
++                        textView.background = null
++                    }
++                } else {
++                    textView.visibility = View.INVISIBLE
++                }
++            }
++        }
++        binding.calendar.setup(
++            startMonth,
++            endMonth,
++            DayOfWeek.MONDAY
++        )
++        binding.calendar.scrollToMonth(currentMonth)
++    }
++
+     interface RolCallback {
+         fun diasRecibido(DiasNuevo: ArrayList<Dias>)
+     }
+@@ -210,5 +277,8 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
+         return true
+     }
+ 
++    class DayViewContainer(view: View) : ViewContainer(view) {
++        val textView: TextView = view.findViewById(R.id.calendarDayText)
++    }
+ 
+-}
+\ No newline at end of file
++}
+diff --git a/ProyectoFinalFCT/app/src/main/res/layout/activity_calendario.xml b/ProyectoFinalFCT/app/src/main/res/layout/activity_calendario.xml
+index 09fb205..93f9e19 100644
+--- a/ProyectoFinalFCT/app/src/main/res/layout/activity_calendario.xml
++++ b/ProyectoFinalFCT/app/src/main/res/layout/activity_calendario.xml
+@@ -40,7 +40,7 @@ tools:openDrawer="start">
+             app:layout_constraintVertical_bias="0.0"
+             tools:layout="@layout/fragment_head" />
+ 
+-        <sun.bob.mcalendarview.MCalendarView
++        <!--<sun.bob.mcalendarview.MCalendarView
+             android:id="@+id/calendar"
+             android:layout_width="361dp"
+             android:layout_height="404dp"
+@@ -48,6 +48,16 @@ tools:openDrawer="start">
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView6"
++            app:layout_constraintVertical_bias="0.0" />-->
++        <com.kizitonwose.calendar.view.CalendarView
++            android:id="@+id/calendar"
++            android:layout_width="361dp"
++            android:layout_height="404dp"
++            app:cv_dayViewResource="@layout/calendar_day_layout"
++            app:layout_constraintBottom_toBottomOf="parent"
++            app:layout_constraintEnd_toEndOf="parent"
++            app:layout_constraintStart_toStartOf="parent"
++            app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView6"
+             app:layout_constraintVertical_bias="0.0" />
+ 
+         <Button
+diff --git a/ProyectoFinalFCT/app/src/main/res/layout/calendar_day_layout.xml b/ProyectoFinalFCT/app/src/main/res/layout/calendar_day_layout.xml
+index e69de29..2b5ef3b 100644
+--- a/ProyectoFinalFCT/app/src/main/res/layout/calendar_day_layout.xml
++++ b/ProyectoFinalFCT/app/src/main/res/layout/calendar_day_layout.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:id="@+id/dayContainer"
++    android:layout_width="48dp"
++    android:layout_height="48dp">
++
++    <TextView
++        android:id="@+id/calendarDayText"
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:gravity="center"
++        android:textSize="16sp" />
++
++</FrameLayout>
+\ No newline at end of file
+diff --git a/ProyectoFinalFCT/build.gradle b/ProyectoFinalFCT/build.gradle
+index 19f0e92..acaecf1 100644
+--- a/ProyectoFinalFCT/build.gradle
++++ b/ProyectoFinalFCT/build.gradle
+@@ -9,8 +9,8 @@ buildscript {
+     }
+     dependencies {
+         classpath 'com.android.tools.build:gradle:7.3.1'
+-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20'
+-
++        //classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20'
++        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10'
+         // NOTE: Do not place your application dependencies here; they belong
+         // in the individual module build.gradle files
+         classpath 'com.google.gms:google-services:4.3.14'
+
+## docs/AI_CONTEXT.md
+# Contexto del proyecto Android
+
+## Objetivo de la app
+
+La aplicaciÃ³n sirve para gestionar la hora de entrada y salida de los empleados asi como para tener un control del calendario y diversas capacidades mas.
+Esta descripcion se actualizara segun se vaya prograsando mas en la aplicaciÃ³n.
+
+## Arquitectura
+
+Indicar lo que aplique:
+
+- MVVM
+- Clean Architecture
+- Repository Pattern
+- Use Cases
+- Room
+- Retrofit
+- Hilt/Dagger
+- Coroutines
+- Flow/LiveData
+- Jetpack Compose o XML Views
+
+## MÃ³dulos
+
+- app: mÃ³dulo principal
+- core: lÃ³gica comÃºn, si existe
+- data: acceso a red/base de datos, si existe
+- domain: casos de uso, si existe
+- feature-x: pantallas funcionales, si existen
+
+## Reglas importantes
+
+- No modificar APIs pÃºblicas sin avisar.
+- Mantener compatibilidad con minSdk configurado.
+- Evitar cambios masivos.
+- Preferir soluciones simples.
+- Toda correcciÃ³n debe compilar.
+- No aÃ±adir dependencias salvo que sea imprescindible.
+
+## Comandos de validaciÃ³n
+
+```bash
+./gradlew clean
+./gradlew lintDebug
+./gradlew testDebugUnitTest
+./gradlew assembleDebug

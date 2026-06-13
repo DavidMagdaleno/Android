@@ -16,10 +16,20 @@ import androidx.core.view.GravityCompat
 import com.example.proyectofinalfct.databinding.ActivityCalendarioBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.firestore.FirebaseFirestore
-import sun.bob.mcalendarview.MarkStyle
+//import sun.bob.mcalendarview.MarkStyle
+import java.time.LocalDate
 import java.text.SimpleDateFormat
 import java.util.*
+//
 
+import android.view.View
+import android.widget.TextView
+import com.kizitonwose.calendar.core.CalendarDay
+import com.kizitonwose.calendar.core.DayPosition
+import com.kizitonwose.calendar.view.MonthDayBinder
+import com.kizitonwose.calendar.view.ViewContainer
+import java.time.DayOfWeek
+import java.time.YearMonth
 
 class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var binding:ActivityCalendarioBinding
@@ -27,6 +37,7 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
     private val db = FirebaseFirestore.getInstance()
     var sDias = ArrayList<Dias>()
     var em=""
+    private val markedDates = mutableMapOf<LocalDate, Int>()
 
 
     @RequiresApi(Build.VERSION_CODES.P)
@@ -50,6 +61,7 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         em=email
         val per = bundle?.getString("perfil").toString()
 
+        setupCalendar()
         sacarRegistro()
 
         binding.btnVolve.setOnClickListener {
@@ -77,13 +89,22 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                                 y=x.get("fechaIni")!!.substringAfterLast("/")
                                 d=x.get("fechaIni")!!.substringBefore("/")
                                 if (x.getValue("estado").equals("Pendiente")){
-                                    binding.calendar.markDate(y.toInt(), me.toInt(), d.toInt()).setMarkedStyle(MarkStyle.BACKGROUND,Color.YELLOW)
+                                    //binding.calendar.markDate(y.toInt(), me.toInt(), d.toInt()).setMarkedStyle(MarkStyle.BACKGROUND,Color.YELLOW)
+                                    val fecha = LocalDate.of(y.toInt(), me.toInt(), d.toInt())
+                                    markedDates[fecha] = Color.YELLOW
+                                    binding.calendar.notifyCalendarChanged()
                                 }
                                 if (x.getValue("estado").equals("Aprobado")){
-                                    binding.calendar.markDate(y.toInt(), me.toInt(), d.toInt()).setMarkedStyle(MarkStyle.BACKGROUND,Color.GREEN)
+                                    //binding.calendar.markDate(y.toInt(), me.toInt(), d.toInt()).setMarkedStyle(MarkStyle.BACKGROUND,Color.GREEN)
+                                    val fecha = LocalDate.of(y.toInt(), me.toInt(), d.toInt())
+                                    markedDates[fecha] = Color.GREEN
+                                    binding.calendar.notifyCalendarChanged()
                                 }
                                 if (x.getValue("estado").equals("Denegado")){
-                                    binding.calendar.markDate(y.toInt(), me.toInt(), d.toInt()).setMarkedStyle(MarkStyle.BACKGROUND,Color.RED)
+                                    //binding.calendar.markDate(y.toInt(), me.toInt(), d.toInt()).setMarkedStyle(MarkStyle.BACKGROUND,Color.RED)
+                                    val fecha = LocalDate.of(y.toInt(), me.toInt(), d.toInt())
+                                    markedDates[fecha] = Color.RED
+                                    binding.calendar.notifyCalendarChanged()
                                 }
                             }
                             if (x.getValue("tipo").equals("Vacaciones")){
@@ -94,17 +115,26 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                                 if (x.getValue("estado").equals("Pendiente")){
                                     for (i in 0..dias){
                                         //showAlert("p: "+(d.toInt()+i))
-                                        binding.calendar.markDate(y.toInt(), pasarMes(me,d.toInt()+i).toInt(), d.toInt()+i).setMarkedStyle(MarkStyle.BACKGROUND,Color.YELLOW)
+                                        //binding.calendar.markDate(y.toInt(), pasarMes(me,d.toInt()+i).toInt(), d.toInt()+i).setMarkedStyle(MarkStyle.BACKGROUND,Color.YELLOW)
+                                        val fecha = LocalDate.of(y.toInt(), me.toInt(), d.toInt())
+                                        markedDates[fecha] = Color.YELLOW
+                                        binding.calendar.notifyCalendarChanged()
                                     }
                                 }
                                 if (x.getValue("estado").equals("Aprobado")){
                                     for (i in 0..dias){
-                                        binding.calendar.markDate(y.toInt(), pasarMes(me,d.toInt()+i).toInt(), d.toInt()+i).setMarkedStyle(MarkStyle.BACKGROUND,Color.GREEN)
+                                        //binding.calendar.markDate(y.toInt(), pasarMes(me,d.toInt()+i).toInt(), d.toInt()+i).setMarkedStyle(MarkStyle.BACKGROUND,Color.GREEN)
+                                        val fecha = LocalDate.of(y.toInt(), me.toInt(), d.toInt())
+                                        markedDates[fecha] = Color.GREEN
+                                        binding.calendar.notifyCalendarChanged()
                                     }
                                 }
                                 if (x.getValue("estado").equals("Denegado")){
                                     for (i in 0..dias){
-                                        binding.calendar.markDate(y.toInt(), pasarMes(me,d.toInt()+i).toInt(), d.toInt()+i).setMarkedStyle(MarkStyle.BACKGROUND,Color.RED)
+                                        //binding.calendar.markDate(y.toInt(), pasarMes(me,d.toInt()+i).toInt(), d.toInt()+i).setMarkedStyle(MarkStyle.BACKGROUND,Color.RED)
+                                        val fecha = LocalDate.of(y.toInt(), me.toInt(), d.toInt())
+                                        markedDates[fecha] = Color.RED
+                                        binding.calendar.notifyCalendarChanged()
                                     }
                                 }
                             }
@@ -115,6 +145,43 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }
+    }
+
+    private fun setupCalendar() {
+        val currentMonth = YearMonth.now()
+        val startMonth = currentMonth.minusMonths(12)
+        val endMonth = currentMonth.plusMonths(12)
+
+        binding.calendar.dayBinder = object : MonthDayBinder<DayViewContainer> {
+            override fun create(view: View): DayViewContainer {
+                return DayViewContainer(view)
+            }
+            override fun bind(container: DayViewContainer, data: CalendarDay) {
+                val textView = container.textView
+
+                textView.text = data.date.dayOfMonth.toString()
+
+                if (data.position == DayPosition.MonthDate) {
+                    textView.visibility = View.VISIBLE
+
+                    val markedColor = markedDates[data.date]
+
+                    if (markedColor != null) {
+                        textView.setBackgroundColor(markedColor)
+                    } else {
+                        textView.background = null
+                    }
+                } else {
+                    textView.visibility = View.INVISIBLE
+                }
+            }
+        }
+        binding.calendar.setup(
+            startMonth,
+            endMonth,
+            DayOfWeek.MONDAY
+        )
+        binding.calendar.scrollToMonth(currentMonth)
     }
 
     interface RolCallback {
@@ -210,5 +277,8 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
         return true
     }
 
+    class DayViewContainer(view: View) : ViewContainer(view) {
+        val textView: TextView = view.findViewById(R.id.calendarDayText)
+    }
 
 }

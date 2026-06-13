@@ -40,10 +40,20 @@ tools:openDrawer="start">
             app:layout_constraintVertical_bias="0.0"
             tools:layout="@layout/fragment_head" />
 
-        <sun.bob.mcalendarview.MCalendarView
+        <!--<sun.bob.mcalendarview.MCalendarView
             android:id="@+id/calendar"
             android:layout_width="361dp"
             android:layout_height="404dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView6"
+            app:layout_constraintVertical_bias="0.0" />-->
+        <com.kizitonwose.calendar.view.CalendarView
+            android:id="@+id/calendar"
+            android:layout_width="361dp"
+            android:layout_height="404dp"
+            app:cv_dayViewResource="@layout/calendar_day_layout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

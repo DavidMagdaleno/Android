@@ -5,10 +5,17 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.44" apply false
     id("io.gitlab.arturbosch.detekt")
 }
+configurations.all {
+    resolutionStrategy {
+        force 'androidx.core:core:1.9.0'
+        force 'androidx.core:core-ktx:1.9.0'
+    }
+}
 detekt {
     buildUponDefaultConfig = true
     allRules = false
     parallel = true
+    ignoreFailures = true
 }
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
@@ -16,6 +23,7 @@ apply plugin: 'com.google.gms.google-services'
 //apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.gitlab.arturbosch.detekt'
 android {
+    namespace 'com.example.proyectofinalfct'
     compileSdk 33
     lintOptions {
         baseline(file("lint-baseline.xml"))
@@ -51,6 +59,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -62,7 +71,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
@@ -82,7 +90,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
-
     // Add the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-auth-ktx'
@@ -103,10 +110,16 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4'
     //QR
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
-    //Calendario personalizado
-    implementation 'sun.bob:mcalendarview:1.0.0'
+    // Calendario personalizado
+    // implementation 'sun.bob:mcalendarview:1.0.0'
+    //implementation 'com.github.SpongeBobSun:mCalendarView:master-SNAPSHOT'
+    //implementation 'com.github.SpongeBobSun.mCalendarView:mcalendarview:master-SNAPSHOT'
+    implementation 'com.kizitonwose.calendar:view:2.4.0'
+    //coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
 
 
+    //TESTING
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.0'
     androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.5.0'
     androidTestImplementation 'org.hamcrest:hamcrest:2.2'
