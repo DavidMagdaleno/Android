@@ -116,7 +116,7 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                                     for (i in 0..dias){
                                         //showAlert("p: "+(d.toInt()+i))
                                         //binding.calendar.markDate(y.toInt(), pasarMes(me,d.toInt()+i).toInt(), d.toInt()+i).setMarkedStyle(MarkStyle.BACKGROUND,Color.YELLOW)
-                                        val fecha = LocalDate.of(y.toInt(), me.toInt(), d.toInt())
+                                        val fecha = LocalDate.of(y.toInt(), me.toInt(), (d.toInt()+ i))
                                         markedDates[fecha] = Color.YELLOW
                                         binding.calendar.notifyCalendarChanged()
                                     }
@@ -124,7 +124,7 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                                 if (x.getValue("estado").equals("Aprobado")){
                                     for (i in 0..dias){
                                         //binding.calendar.markDate(y.toInt(), pasarMes(me,d.toInt()+i).toInt(), d.toInt()+i).setMarkedStyle(MarkStyle.BACKGROUND,Color.GREEN)
-                                        val fecha = LocalDate.of(y.toInt(), me.toInt(), d.toInt())
+                                        val fecha = LocalDate.of(y.toInt(), me.toInt(), (d.toInt()+ i))
                                         markedDates[fecha] = Color.GREEN
                                         binding.calendar.notifyCalendarChanged()
                                     }
@@ -132,7 +132,7 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                                 if (x.getValue("estado").equals("Denegado")){
                                     for (i in 0..dias){
                                         //binding.calendar.markDate(y.toInt(), pasarMes(me,d.toInt()+i).toInt(), d.toInt()+i).setMarkedStyle(MarkStyle.BACKGROUND,Color.RED)
-                                        val fecha = LocalDate.of(y.toInt(), me.toInt(), d.toInt())
+                                        val fecha = LocalDate.of(y.toInt(), me.toInt(), (d.toInt()+ i))
                                         markedDates[fecha] = Color.RED
                                         binding.calendar.notifyCalendarChanged()
                                     }
@@ -228,7 +228,7 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
     }
 
     //dado que la fechas estan en string es necesario este metodo para evitar errores al pasar de mes
-    private fun pasarMes(m:String, d:Int):String{
+    /*private fun pasarMes(m:String, d:Int):String{
         var me:String=""
         if ((m.toInt())%2==0){
             me = if (m.toInt()==2){
@@ -246,7 +246,7 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
             }else{ m }
         }
         return me
-    }
+    }*/
 
 
 

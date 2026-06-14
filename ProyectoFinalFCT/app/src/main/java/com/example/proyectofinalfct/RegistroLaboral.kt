@@ -130,7 +130,8 @@ class RegistroLaboral : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 override fun horasRecibido(h: ArrayList<RegistroL>) {
                     rhoras = h
                     for (i in 0 until rhoras.size){
-                        val x=rhoras[i] as HashMap<String, String>
+                        //val x=rhoras[i] as HashMap<String, String>
+                        val x=rhoras.getOrNull(i) as? HashMap<String, String> ?: return
                         if (rhoras.isNotEmpty()){
                             x.forEach { (key,value) ->
                                 //comprueba que no hay ningun registro anterior sin cerrar en caso contrario muestra una notificacion
