@@ -135,7 +135,7 @@ class RegistroLaboral : AppCompatActivity(), NavigationView.OnNavigationItemSele
                         if (rhoras.isNotEmpty()){
                             x.forEach { (key,value) ->
                                 //comprueba que no hay ningun registro anterior sin cerrar en caso contrario muestra una notificacion
-                                if ((key.equals("horaFin") && value.equals("")) && (key.equals("fecha") && value.equals(currentdate.toString())) ){
+                                if ((key.equals("horaFin") && value.equals("")) && (key.equals("fecha") && !value.equals(currentdate.toString())) ){
                                     showAlert(R.string.Jornada_msg_3)
                                 }
                                 //si hay un registro existente en la fecha actual pone la fecha de finalizacion
