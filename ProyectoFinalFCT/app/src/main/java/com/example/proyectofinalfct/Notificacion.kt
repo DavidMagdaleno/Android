@@ -88,7 +88,8 @@ class Notificacion : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             })
         } catch (e: InterruptedException) {
-            e.printStackTrace()
+            //e.printStackTrace()
+            Log.e("TAG", "Excepción de interrupción", e)
         }
     }
 

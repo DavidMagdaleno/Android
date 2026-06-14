@@ -135,7 +135,7 @@ class RegistroLaboral : AppCompatActivity(), NavigationView.OnNavigationItemSele
                         if (rhoras.isNotEmpty()){
                             x.forEach { (key,value) ->
                                 //comprueba que no hay ningun registro anterior sin cerrar en caso contrario muestra una notificacion
-                                if ((key.equals("horaFin") && value.equals("")) && (key.equals("fecha") && !value.equals(currentdate.toString())) ){
+                                if ((key.equals("horaFin") && value.equals("")) && (key.equals("fecha") && value.equals(currentdate.toString())) ){
                                     showAlert(R.string.Jornada_msg_3)
                                 }
                                 //si hay un registro existente en la fecha actual pone la fecha de finalizacion
@@ -172,7 +172,8 @@ class RegistroLaboral : AppCompatActivity(), NavigationView.OnNavigationItemSele
                 }
             })
         } catch (e: InterruptedException) {
-            e.printStackTrace()
+            //e.printStackTrace()
+            Log.e("TAG", "Excepción de interrupción", e)
         }
     }
     //genera qr con el registro de inicio o finalizacion segun corresponda
@@ -220,8 +221,12 @@ class RegistroLaboral : AppCompatActivity(), NavigationView.OnNavigationItemSele
             val barcodeEncoder:BarcodeEncoder = BarcodeEncoder()
             val bitmap = barcodeEncoder.encodeBitmap(texto,BarcodeFormat.QR_CODE,227,227)
             binding.imgQr.setImageBitmap(bitmap)
-        }catch (e:Exception){
-            e.printStackTrace()
+        }catch (e: WriterException) {
+            Log.e("QR_ERROR", "Fallo al codificar QR", e)
+            showAlert(R.string.qr_error)
+        }catch (e: IllegalArgumentException) {
+            Log.e("QR_ERROR", "Parámetros QR inválidos", e)
+            showAlert(R.string.qr_error)
         }
     }
 

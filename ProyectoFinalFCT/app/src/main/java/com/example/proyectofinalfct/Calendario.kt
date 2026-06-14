@@ -143,7 +143,8 @@ class Calendario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedL
                 }
             })
         } catch (e: InterruptedException) {
-            e.printStackTrace()
+            //e.printStackTrace()
+            Log.e("TAG", "Excepción de interrupción", e)
         }
     }
 

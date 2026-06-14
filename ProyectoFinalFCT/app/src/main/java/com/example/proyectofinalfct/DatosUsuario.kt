@@ -261,13 +261,16 @@ class DatosUsuario : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             })
         } catch (e: InterruptedException) {
-            e.printStackTrace()
+            //e.printStackTrace()
+            Log.e("TAG", "Excepción de interrupción", e)
         }
     }
-
-
-
-
+    override fun onDestroy() {
+        rhoras.clear()
+        Sdias.clear()
+        Notifi.clear()
+        super.onDestroy()
+    }
     interface RolCallback {
         fun imagenes(ima: ImgPerfil)
     }
